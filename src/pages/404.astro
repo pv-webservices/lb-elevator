@@ -1,0 +1,37 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<MainLayout
+  title="Page Not Found"
+  description="This page could not be found. Return to the LB Elevators homepage or contact our Siliguri team."
+  noindex
+>
+  <section class="inner-hero notfound">
+    <div class="inner-hero-media">
+      <img src="/images/hero.webp" width="1536" height="1024" alt="" />
+    </div>
+    <div class="wrap">
+      <div class="inner-hero-copy">
+        <p class="notfound-number" aria-hidden="true">404</p>
+        <h1>
+          This floor isn’t <em class="serif">on our route.</em>
+        </h1>
+        <p>
+          The page you’re looking for may have moved. Let’s get you back on the
+          right level.
+        </p>
+        <div class="inner-hero-actions">
+          <a class="btn btn-primary" href="/">
+            <span>Return Home</span>
+            <Icon size={17} />
+          </a>
+          <a class="btn btn-ghost-light" href="/contact-us/">
+            <span>Contact Our Team</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>

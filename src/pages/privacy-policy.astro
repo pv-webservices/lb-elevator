@@ -1,0 +1,45 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import InnerHero from '../components/InnerHero.astro';
+---
+
+<MainLayout
+  title="Privacy Information — Pending Review"
+  description="Privacy information for the LB Elevators website. Final policy is pending business review."
+  noindex
+>
+  <InnerHero
+    title="Privacy information"
+    crumb="Privacy Policy"
+    eyebrow="Website information"
+    description="Policy content pending business review and approval."
+  />
+  <section class="section">
+    <div class="wrap legal">
+      <p class="note">
+        A final privacy policy has not been supplied or approved. This page must
+        be reviewed before the public website launches.
+      </p>
+      <h2>Current enquiry options</h2>
+      <p>
+        The default enquiry form prepares an email draft in your email
+        application after you choose the email link. You review and send that
+        draft yourself. Direct telephone and email links are also available.
+      </p>
+      <h2>Before enabling direct submissions</h2>
+      <p>
+        The business must approve the form provider and explain the handling of
+        enquiry data, retention, sharing and privacy requests in its final
+        policy.
+      </p>
+      <h2>Questions about your enquiry</h2>
+      <p>
+        Contact{' '}
+        <a class="link-arrow" href="mailto:liftsbazar2025@gmail.com">
+          liftsbazar2025@gmail.com
+        </a>{' '}
+        to discuss the information you share with LB Elevators.
+      </p>
+    </div>
+  </section>
+</MainLayout>

@@ -1,0 +1,83 @@
+{
+  "$comment": "Assets created by scripts/images/generate.mjs. Each has one placement. Until a generated file exists in public/images/gen/, the site uses `fallback` (an existing project image).",
+  "style": "Premium architectural photography for an Indian elevator company website. Realistic materials, believable elevator proportions, straight verticals, deep navy blue and warm brushed-steel palette with a restrained warm golden-yellow accent light. No text, no letters, no numbers, no logos, no signage, no watermark, no collage, no frames.",
+  "assets": [
+    {
+      "id": "hero-lobby",
+      "placement": "hero",
+      "importance": "high",
+      "orientation": "landscape",
+      "traits": ["photoreal-architecture", "interior-space", "complex-lighting"],
+      "fallback": "hero",
+      "alt": "Contemporary lobby with a glass panoramic lift and stainless steel elevator doors at dusk",
+      "use": "Homepage hero, full-bleed background behind headline",
+      "prompt": "Wide cinematic interior photograph of a refined contemporary commercial lobby at blue hour. On the right two-thirds: a cylindrical glass panoramic elevator with slim polished steel frame rising through a double-height atrium, warm interior cabin glow, next to a pair of brushed stainless steel elevator landing doors set in dark stone. Left third of the frame is calmer and darker (deep navy shadows and tall glazing with dusk city lights) leaving clean negative space for a headline. Polished stone floor with soft reflections, warm golden accent lighting, one tasteful indoor plant. Eye-level camera, 24mm lens, crisp verticals. No people."
+    },
+    {
+      "id": "showcase-atrium",
+      "placement": "banner",
+      "importance": "high",
+      "orientation": "landscape",
+      "traits": ["photoreal-architecture", "complex-lighting"],
+      "fallback": "panoramic",
+      "alt": "Glass capsule lift travelling through a tall illuminated atrium",
+      "use": "Full-width scroll-expanding showcase banner on the homepage",
+      "prompt": "Dramatic upward architectural view of a tall multi-storey atrium in a modern Indian hotel at night, a glass capsule elevator with polished steel ribs and warm lit cabin travelling up a sleek steel guide structure in the centre of the frame, layered balconies with warm cove lighting, deep navy night sky through a glazed roof. Symmetrical composition, strong verticals, wide landscape framing with darker edges. No people."
+    },
+    {
+      "id": "service-installation",
+      "placement": "service",
+      "importance": "standard",
+      "orientation": "portrait",
+      "traits": ["industrial-machinery", "people-at-work"],
+      "fallback": "home",
+      "alt": "Lift technician in safety gear aligning guide rails inside an elevator shaft",
+      "use": "Services showcase panel: Installation",
+      "prompt": "Inside a clean concrete elevator shaft under construction, a lift technician seen from behind wearing a white hard hat, safety harness and navy work uniform, carefully aligning steel guide rails with a spirit level. Bright work lights, vertical composition looking slightly upward along the shaft, organised and safe professional site, realistic industrial detail. Face not visible."
+    },
+    {
+      "id": "service-maintenance",
+      "placement": "service",
+      "importance": "standard",
+      "orientation": "portrait",
+      "traits": ["industrial-machinery", "people-at-work"],
+      "fallback": "passenger",
+      "alt": "Technician inspecting a lift traction machine and controller in a machine room",
+      "use": "Services showcase panel: Maintenance",
+      "prompt": "Clean, well-lit elevator machine room with a modern gearless traction machine and a grey control cabinet. A technician in navy work uniform and gloves, seen in profile from a distance with face turned away, inspects the machine with a flashlight. Tidy cable trays, safety-yellow guard rails, realistic industrial materials, calm professional mood."
+    },
+    {
+      "id": "service-modernization",
+      "placement": "service",
+      "importance": "standard",
+      "orientation": "portrait",
+      "traits": ["interior-space"],
+      "fallback": "panoramic",
+      "alt": "Modernised elevator cabin with warm lighting and a sleek steel button panel",
+      "use": "Services showcase panel: Modernization",
+      "prompt": "Close, elegant view inside a freshly modernised passenger elevator cabin: brushed stainless steel and warm wood-tone wall panels, slim LED ceiling light, mirror on the rear wall, and a sleek vertical car operating panel with round illuminated buttons without any numbers or characters. Soft warm light, premium but realistic finishes. No people."
+    },
+    {
+      "id": "service-amc",
+      "placement": "service",
+      "importance": "standard",
+      "orientation": "portrait",
+      "traits": [],
+      "fallback": "hospital",
+      "alt": "Service technician with a tablet beside closed stainless steel lift doors",
+      "use": "Services showcase panel: AMC / Service",
+      "prompt": "A tidy building lobby with closed brushed stainless steel elevator doors; in the foreground the hands of a service technician in navy uniform holding a tablet showing an abstract checklist made only of simple shapes and ticks with no readable text, a small toolbag on the polished floor. Shallow depth of field, soft daylight, calm and reliable mood."
+    },
+    {
+      "id": "process-shaft",
+      "placement": "background",
+      "importance": "standard",
+      "orientation": "landscape",
+      "traits": [],
+      "fallback": "goods",
+      "alt": "",
+      "use": "Darkened background behind the homepage process section (decorative)",
+      "prompt": "Abstract low-light view looking up an empty elevator shaft, parallel steel guide rails and hoist ropes converging toward a soft warm light at the top, deep navy shadows, subtle golden highlights on the steel, minimal and atmospheric, lots of dark negative space."
+    }
+  ]
+}

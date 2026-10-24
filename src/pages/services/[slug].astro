@@ -1,0 +1,136 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import InnerHero from '../../components/InnerHero.astro';
+import ServiceCards from '../../components/ServiceCards.astro';
+import Icon from '../../components/Icon.astro';
+import { services } from '../../data/site';
+import { media } from '../../data/media';
+export function getStaticPaths() {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+const { service: s } = Astro.props;
+const m = media(s.media);
+const quote = `/request-a-quote/?interest=${encodeURIComponent('Guidance on the right solution')}&service=${encodeURIComponent(s.name)}`;
+const stepText = [
+  'Start with your building, equipment and the outcome you have in mind.',
+  'Discuss the options and information needed for a suitable recommendation.',
+  'Review the proposed work and terms before the project moves forward.',
+];
+---
+
+<MainLayout
+  title={`Elevator ${s.name}`}
+  description={`${s.description} Discuss elevator ${s.name.toLowerCase()} with LB Elevators in Siliguri.`}
+>
+  <InnerHero
+    title={`Elevator ${s.name}`}
+    eyebrow="Service that moves with you"
+    description={s.description}
+    mediaId={s.media}
+    alt={m.alt}
+    parent="Services"
+    parentHref="/services/"
+  >
+    <a class="btn btn-primary" href={quote}>
+      <span>Discuss Your Requirements</span>
+      <Icon size={17} />
+    </a>
+    <a class="btn btn-ghost-light" href="/contact-us/?request=callback#enquiry">
+      <Icon name="phone" size={16} />
+      <span>Request a Callback</span>
+    </a>
+  </InnerHero>
+
+  <section class="section" data-floor="Approach">
+    <div class="wrap detail-layout">
+      <div class="copy">
+        <p class="eyebrow">A considered approach</p>
+        <h2>
+          Support built <em class="serif">around your lift.</em>
+        </h2>
+        <p>{s.overview}</p>
+        <ul class="tick-list">
+          {
+            s.points.map((p) => (
+              <li>
+                <Icon name="check" size={16} />
+                {p}
+              </li>
+            ))
+          }
+        </ul>
+        <div class="actions">
+          <a class="btn btn-dark" href={quote}>
+            <span>Discuss Your Requirements</span>
+            <Icon size={17} />
+          </a>
+        </div>
+      </div>
+      <aside class="sidebar-card reveal">
+        <h2>Tell us about your building</h2>
+        <p>
+          We work with residential, commercial, industrial and institutional
+          building requirements. Share your lift type, location and the support
+          you need.
+        </p>
+        <p>
+          The final work, schedule and contract terms are agreed for your
+          specific equipment.
+        </p>
+        <a class="link-arrow" href="/contact-us/?request=callback#enquiry">
+          Request a callback <Icon size={16} />
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="process" data-floor="Steps" data-progress>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow light">Your next steps</p>
+          <h2 class="h-display">
+            Let’s work through it <em class="serif">together.</em>
+          </h2>
+        </div>
+        <div class="section-head-side">
+          <p>
+            An illustrative guide to the conversation. Project arrangements are
+            confirmed with our team.
+          </p>
+        </div>
+      </div>
+      <div class="steps-wrap three">
+        <span class="steps-line" aria-hidden="true"><i></i></span>
+        <ol class="steps">
+          {
+            s.process.map((step, i) => (
+              <li class="step reveal" style={`--delay:${i * 90}ms`}>
+                <span class="step-num">0{i + 1}</span>
+                <h3>{step}</h3>
+                <p>{stepText[i]}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark" data-floor="More">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow light">Beyond a single service</p>
+          <h2 class="h-display">
+            Support for <em class="serif">every stage.</em>
+          </h2>
+        </div>
+      </div>
+      <ServiceCards exclude={s.slug} />
+    </div>
+  </section>
+</MainLayout>

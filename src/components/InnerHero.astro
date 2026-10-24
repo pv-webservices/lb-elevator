@@ -1,0 +1,74 @@
+---
+import { media } from '../data/media';
+interface Props {
+  title: string;
+  accent?: string;
+  eyebrow?: string;
+  description: string;
+  image?: string;
+  mediaId?: string;
+  alt?: string;
+  parent?: string;
+  parentHref?: string;
+  crumb?: string;
+}
+const {
+  title,
+  accent,
+  eyebrow = 'LB Elevators',
+  description,
+  image = 'hero',
+  mediaId,
+  alt = '',
+  parent,
+  parentHref,
+  crumb,
+} = Astro.props;
+const m = mediaId ? media(mediaId) : undefined;
+const src = m?.src ?? `/images/${image}.webp`;
+const srcset = m?.srcset ?? (image === 'hero' ? '/images/hero-mobile.webp 768w, /images/hero.webp 1536w' : undefined);
+---
+
+<section class="inner-hero" data-progress data-floor="Intro">
+  <div class="inner-hero-media">
+    <img
+      src={src}
+      srcset={srcset}
+      sizes="100vw"
+      width="1536"
+      height="1024"
+      alt={alt}
+      fetchpriority="high"
+    />
+  </div>
+  <div class="wrap">
+    <nav aria-label="Breadcrumb" class="breadcrumbs hero-anim" style="--i:0">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      {
+        parent && (
+          <>
+            <a href={parentHref}>{parent}</a>
+            <span aria-hidden="true">/</span>
+          </>
+        )
+      }
+      <span aria-current="page">{crumb ?? (accent ? `${title} ${accent}` : title)}</span>
+    </nav>
+    <div class="inner-hero-copy">
+      <p class="eyebrow light hero-anim" style="--i:1">{eyebrow}</p>
+      <h1 class="hero-anim" style="--i:2">
+        {title}{accent && ' '}
+        {accent && <em class="serif">{accent}</em>}
+      </h1>
+      <p class="hero-anim" style="--i:3">{description}</p>
+      {
+        Astro.slots.has('default') && (
+          <div class="inner-hero-actions hero-anim" style="--i:4">
+            <slot />
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>

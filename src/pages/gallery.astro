@@ -1,0 +1,122 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import InnerHero from '../components/InnerHero.astro';
+import Icon from '../components/Icon.astro';
+import { products, doors, applications } from '../data/site';
+import manifest from '../data/generated-images.json';
+import { media } from '../data/media';
+// Generated visuals join the gallery only once they exist.
+const generated = manifest.assets
+  .filter((a) => a.alt)
+  .map((a) => ({ m: media(a.id), orientation: a.orientation }))
+  .filter((a) => a.m.generated)
+  .map((a) => ({ name: a.m.alt, src: a.m.src, full: a.m.src, category: 'architecture', door: false, w: 900, h: a.orientation === 'portrait' ? 1350 : 600 }));
+const images = [
+  ...products.map((p) => ({
+    name: p.name,
+    src: `/images/${p.image}-small.webp`,
+    full: `/images/${p.image}.webp`,
+    category: p.image,
+    door: false,
+    w: 420,
+    h: 525,
+  })),
+  ...doors.map((d) => ({
+    name: d.name,
+    src: `/images/${d.image}-2x.webp`,
+    full: `/images/${d.image}-2x.webp`,
+    category: 'doors',
+    door: true,
+    w: 336,
+    h: 232,
+  })),
+  {
+    name: 'Contemporary elevator lobby',
+    src: '/images/hero-mobile.webp',
+    full: '/images/hero.webp',
+    category: 'architecture',
+    door: false,
+    w: 768,
+    h: 512,
+  },
+  ...applications.map((a) => ({
+    name: `${a.name} — architecture concept`,
+    src: `/images/${a.image}-small.webp`,
+    full: `/images/${a.image}.webp`,
+    category: 'architecture',
+    door: false,
+    w: 420,
+    h: 280,
+  })),
+  ...generated,
+];
+const filters = [
+  { id: 'all', name: 'All Visuals' },
+  ...products.map((p) => ({ id: p.image, name: p.name })),
+  { id: 'doors', name: 'Door Types' },
+  { id: 'architecture', name: 'Architecture' },
+];
+---
+
+<MainLayout
+  title="Product & Door Visual Gallery"
+  description="Browse representative elevator and door visuals from the LB Elevators catalogue. These images are not a completed-project portfolio."
+>
+  <InnerHero
+    title="A closer look at"
+    accent="the possibilities."
+    eyebrow="Visual gallery"
+    description="Explore representative solution visuals, from cabin interiors to the finishing details."
+    image="panoramic"
+    crumb="Gallery"
+  />
+  <section class="section" data-floor="Gallery">
+    <div class="wrap">
+      <p class="note">
+        These are representative product and architecture visuals, not verified
+        installations or completed LB Elevators projects. Door images come from
+        the supplied brochure. Elevator category, lobby and architecture images
+        are AI-generated representative concepts.
+      </p>
+      <div class="gallery-filters" aria-label="Filter gallery">
+        {
+          filters.map((f) => (
+            <button
+              class="filter-button"
+              data-filter={f.id}
+              aria-pressed={f.id === 'all' ? 'true' : 'false'}
+            >
+              {f.name}
+            </button>
+          ))
+        }
+      </div>
+      <p class="gallery-count" data-gallery-count role="status">
+        {images.length} representative visuals
+      </p>
+      <div class="gallery-grid">
+        {
+          images.map((i) => (
+            <button
+              class:list={['gallery-item', i.door && 'is-door']}
+              data-category={i.category}
+              data-lightbox
+              data-full={i.full}
+              aria-label={`Enlarge ${i.name}`}
+            >
+              <img src={i.src} width={i.w} height={i.h} loading="lazy" alt={i.name} />
+              <span>{i.name}</span>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <dialog class="lightbox" aria-label="Enlarged representative visual">
+    <button class="lightbox-close" aria-label="Close image">
+      <Icon name="close" />
+    </button>
+    <img src="/images/hero.webp" alt="Representative elevator visual" width="1536" height="1024" />
+    <p class="lightbox-caption"></p>
+  </dialog>
+</MainLayout>

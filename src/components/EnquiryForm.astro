@@ -1,0 +1,161 @@
+---
+import { business, products, services } from '../data/site';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+interface Props {
+  quote?: boolean;
+  id?: string;
+}
+const { quote = false, id = 'enquiry' } = Astro.props;
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || '';
+---
+
+<form
+  class="enquiry-form"
+  data-enquiry
+  data-endpoint={endpoint}
+  data-whatsapp={business.whatsapp}
+>
+  <div class="form-grid">
+    <label for={`${id}-name`}>
+      Full name <span>*</span>
+      <input
+        id={`${id}-name`}
+        name="name"
+        autocomplete="name"
+        required
+        minlength="2"
+        maxlength="100"
+        placeholder="Your full name"
+      />
+    </label>
+    <label for={`${id}-phone`}>
+      Phone number <span>*</span>
+      <input
+        id={`${id}-phone`}
+        name="phone"
+        type="tel"
+        autocomplete="tel"
+        required
+        pattern="[+0-9\s()-]{10,20}"
+        maxlength="20"
+        title="Enter 10–20 characters using digits, spaces, +, brackets or hyphens."
+        placeholder="Your phone number"
+      />
+    </label>
+    <label class:list={[!quote && 'full']} for={`${id}-email`}>
+      Email address <small>(optional)</small>
+      <input
+        id={`${id}-email`}
+        name="email"
+        type="email"
+        autocomplete="email"
+        maxlength="150"
+        placeholder="you@example.com"
+      />
+    </label>
+    {quote && (
+      <label for={`${id}-city`}>
+        City / location <span>*</span>
+        <input
+          id={`${id}-city`}
+          name="location"
+          required
+          autocomplete="address-level2"
+          maxlength="150"
+          placeholder="Project location"
+        />
+      </label>
+    )}
+    <label for={`${id}-building`}>
+      Building type <span>*</span>
+      <select id={`${id}-building`} name="building" required>
+        <option value="">Select building type</option>
+        {[
+          'Residential',
+          'Commercial',
+          'Industrial',
+          'Healthcare',
+          'Hospitality',
+          'Educational / Institutional',
+          'Other',
+        ].map((x) => (
+          <option>{x}</option>
+        ))}
+      </select>
+    </label>
+    <label for={`${id}-interest`}>
+      Interested in <span>*</span>
+      <select id={`${id}-interest`} name="interest" required>
+        <option value="">Select a solution</option>
+        {products.map((p) => (
+          <option>{p.name}</option>
+        ))}
+        {!quote && services.map((s) => <option>{s.name}</option>)}
+        <option>Guidance on the right solution</option>
+      </select>
+    </label>
+    {quote && (
+      <>
+        <label for={`${id}-service`}>
+          Service required
+          <select id={`${id}-service`} name="service">
+            <option value="">Please advise me</option>
+            {services.map((s) => (
+              <option>{s.name}</option>
+            ))}
+          </select>
+        </label>
+        <label for={`${id}-method`}>
+          Preferred contact method
+          <select id={`${id}-method`} name="contact-method">
+            <option>Phone call</option>
+            <option>Email</option>
+          </select>
+        </label>
+      </>
+    )}
+    <label class="full" for={`${id}-message`}>
+      {quote ? 'Project details' : 'How can we help?'} <span>*</span>
+      <textarea
+        id={`${id}-message`}
+        name="message"
+        required
+        minlength="10"
+        maxlength="3000"
+        rows="3"
+        placeholder="Tell us a little about your building and requirements…"
+      ></textarea>
+    </label>
+  </div>
+  <div class="honeypot" aria-hidden="true">
+    <label>
+      Leave this empty
+      <input name="website" tabindex="-1" autocomplete="off" />
+    </label>
+  </div>
+  <p class="form-note">
+    {endpoint
+      ? 'Send your details to our enquiry service.'
+      : 'Choose email or WhatsApp — your message opens ready to review and send. You can also call us directly.'}
+  </p>
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit" data-channel="email">
+      <span>{endpoint ? 'Send Enquiry' : 'Prepare Email Enquiry'}</span>
+      <span aria-hidden="true">→</span>
+    </button>
+    <button class="btn btn-whatsapp" type="submit" data-channel="whatsapp">
+      <WhatsAppIcon size={19} />
+      <span>Send via WhatsApp</span>
+    </button>
+  </div>
+  <p class="form-status" role="status" aria-live="polite"></p>
+  <a class="email-draft" hidden>
+    Email draft ready — open your email app ↗
+  </a>
+  <noscript>
+    <p>
+      Please enable JavaScript to prepare a structured enquiry, or email{' '}
+      <a href="mailto:liftsbazar2025@gmail.com">liftsbazar2025@gmail.com</a>.
+    </p>
+  </noscript>
+</form>

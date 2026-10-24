@@ -1,0 +1,49 @@
+---
+interface Props {
+  name?: string;
+  size?: number;
+}
+const { name = 'arrow', size = 24 } = Astro.props;
+const paths: Record<string, string> = {
+  arrow: 'M4 12h15m-6-6 6 6-6 6',
+  phone:
+    'M7 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-3l-5-2-2 2a15 15 0 0 1-7-7l2-2-2-5Z',
+  mail: 'M3 5h18v14H3z M3 6l9 7 9-7',
+  pin: 'M12 22s8-8 8-14a8 8 0 1 0-16 0c0 6 8 14 8 14Z M15 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0',
+  shield: 'm12 2 9 4v6c0 6-9 10-9 10S3 18 3 12V6l9-4Z m-5 10 3 3 7-7',
+  gear: 'm9 3 1-2h4l1 2 3 2 3 1v4l-2 2v3l1 3-3 3-3-1h-3l-2 2H7l-1-3-3-2v-4l2-2V8L4 5l3-2h2Z M16 11a4 4 0 1 1-8 0 4 4 0 0 1 8 0',
+  users:
+    'M16 21v-3a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v3 M13 6a4 4 0 1 1-8 0 4 4 0 0 1 8 0 M22 21v-3a4 4 0 0 0-4-4 M17 2a4 4 0 0 1 0 8',
+  leaf: 'M20 3c-1 7 2 14-7 17C3 23 1 12 7 8c3-2 9-2 13-5Z M5 21 17 8',
+  tools:
+    'm3 21 9-9 M14 4a6 6 0 0 0 7 7l-4-4 1-4a6 6 0 0 0-4 1Z M4 3l6 6-2 2-6-6 2-2Z m11 12 6 6',
+  chart: 'M3 21h19 M6 17v-5h3v5 M12 17V9h3v8 M18 17V5h3v12 M4 8 20 2m-5 0h5v5',
+  document: 'M6 2h9l5 5v14H6V2Z M14 2v6h6 M9 12h8 M9 16h5',
+  diamond: 'm3 8 4-5h10l4 5-9 13L3 8Z M3 8h18 M7 3l5 18 5-18',
+  lift: 'M5 2h14v20H5z M12 6v12 M8 9l2-2 2 2 M12 15l2 2 2-2',
+  check: 'm5 12 4 4L20 5',
+  chevron: 'm6 9 6 6 6-6',
+  close: 'm6 6 12 12 M6 18 18 6',
+  menu: 'M3 6h18 M3 12h18 M3 18h18',
+  external: 'M7 17 17 7 M8 7h9v9',
+  up: 'm6 15 6-6 6 6',
+  door: 'M4 21V3h16v18 M12 3v18 M2 21h20',
+  building: 'M4 21V5l8-3v19 M12 8l8 3v10 M2 21h20 M7 8h2 M7 12h2 M7 16h2 M15 13h2 M15 17h2',
+  clock: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z M12 6v6l4 2',
+  plus: 'M12 5v14 M5 12h14',
+};
+---
+
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.7"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  <path d={paths[name] || paths.arrow} />
+</svg>

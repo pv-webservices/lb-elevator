@@ -1,0 +1,77 @@
+---
+import { business } from '../data/site';
+import Icon from './Icon.astro';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+interface Props {
+  map?: boolean;
+}
+const { map = true } = Astro.props;
+const tel = (p: string) => `tel:${p.replaceAll(' ', '')}`;
+---
+
+<div class="contact-panel reveal">
+  <p class="eyebrow light">Let’s talk</p>
+  <h2>
+    A conversation is a <em class="serif">good place to start.</em>
+  </h2>
+  <ul class="contact-list">
+    <li>
+      <span class="contact-icon"><Icon name="phone" size={20} /></span>
+      <div>
+        <small>Call us</small>
+        {business.phones.map((p) => <a href={tel(p)}>{p}</a>)}
+      </div>
+    </li>
+    <li>
+      <span class="contact-icon wa">
+        <WhatsAppIcon size={21} />
+      </span>
+      <div>
+        <small>WhatsApp</small>
+        <a
+          href={`https://wa.me/${business.whatsapp}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Chat with our team
+        </a>
+      </div>
+    </li>
+    <li>
+      <span class="contact-icon"><Icon name="mail" size={20} /></span>
+      <div>
+        <small>Email</small>
+        <a href={`mailto:${business.email}`}>{business.email}</a>
+      </div>
+    </li>
+    <li>
+      <span class="contact-icon"><Icon name="pin" size={20} /></span>
+      <div>
+        <small>Visit</small>
+        <a href={business.map} target="_blank" rel="noopener noreferrer">
+          {business.address}
+        </a>
+      </div>
+    </li>
+  </ul>
+  {
+    map && (
+      <div class="map-frame">
+        <iframe
+          src={business.mapEmbed}
+          title="Map of Champasari Main Road, Siliguri"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        />
+        <a
+          class="map-open"
+          href={business.map}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open in Google Maps <Icon name="external" size={14} />
+        </a>
+      </div>
+    )
+  }
+</div>

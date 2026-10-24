@@ -1,0 +1,76 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import InnerHero from '../components/InnerHero.astro';
+import Icon from '../components/Icon.astro';
+import { applications, products } from '../data/site';
+---
+
+<MainLayout
+  title="Building Applications"
+  description="Elevator solutions for residential, commercial, hospital, hotel, educational and industrial building requirements in Siliguri."
+>
+  <InnerHero
+    title="Built for the places"
+    accent="that matter."
+    eyebrow="Application areas"
+    description="The right solution begins with understanding how your building is used."
+    image="commercial"
+    crumb="Applications"
+  />
+
+  <section class="section" data-floor="Buildings">
+    <div class="wrap">
+      <p class="note">
+        Architecture images are AI-generated representative concepts and do not
+        identify completed LB Elevators projects.
+      </p>
+      <div class="app-rows">
+        {
+          applications.map((a, i) => {
+            const product = products.find((p) => p.slug === a.product)!;
+            return (
+              <article
+                id={a.image}
+                class:list={['split app-row', i % 2 && 'reverse']}
+              >
+                <div class="media-frame reveal">
+                  <img
+                    src={`/images/${a.image}.webp`}
+                    srcset={`/images/${a.image}-small.webp 420w, /images/${a.image}.webp 1200w`}
+                    sizes="(max-width: 1100px) 90vw, 44vw"
+                    width="1200"
+                    height="800"
+                    loading="lazy"
+                    alt={`${a.name} — representative architecture concept`}
+                  />
+                </div>
+                <div class="copy reveal">
+                  <p class="eyebrow">
+                    {String(i + 1).padStart(2, '0')} / Spaces we help connect
+                  </p>
+                  <h2>{a.name}</h2>
+                  <p>
+                    {a.text} Our team can discuss building usage, available
+                    space and a suitable lift category for your requirements.
+                  </p>
+                  <div class="actions">
+                    <a class="btn btn-dark" href={`/elevators/${product.slug}/`}>
+                      <span>Explore {product.name}</span>
+                      <Icon size={17} />
+                    </a>
+                    <a
+                      class="link-arrow"
+                      href={`/request-a-quote/?interest=${encodeURIComponent(product.name)}`}
+                    >
+                      Request a quote
+                    </a>
+                  </div>
+                </div>
+              </article>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+</MainLayout>

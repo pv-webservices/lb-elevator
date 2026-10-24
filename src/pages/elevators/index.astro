@@ -1,0 +1,132 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import InnerHero from '../../components/InnerHero.astro';
+import Icon from '../../components/Icon.astro';
+import { products, doors } from '../../data/site';
+---
+
+<MainLayout
+  title="Our Elevator Solutions"
+  description="Explore passenger, goods, home, hospital and capsule lift solutions from LB Elevators in Siliguri."
+>
+  <InnerHero
+    title="A lift for every"
+    accent="kind of space."
+    eyebrow="Our elevator solutions"
+    description="Different buildings. Different journeys. Find a solution shaped around the way your space works."
+    mediaId="hero-lobby"
+    crumb="Elevators"
+  >
+    <a class="btn btn-primary" href="/request-a-quote/">
+      <span>Get a Quote</span>
+      <Icon size={17} />
+    </a>
+  </InnerHero>
+
+  <section class="section soft" data-floor="Range">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Good design begins with the right fit</p>
+          <h2 class="h-display">
+            Explore our <em class="serif">five categories.</em>
+          </h2>
+        </div>
+        <div class="section-head-side">
+          <p>
+            From the comfort of a home to the demands of a working building.
+            Our team will help you discuss the right configuration for your
+            project.
+          </p>
+        </div>
+      </div>
+      <div class="app-rows">
+        {
+          products.map((p, i) => (
+            <article
+              class:list={['split app-row', i % 2 && 'reverse']}
+              id={p.slug}
+            >
+              <a
+                class="media-frame wide reveal"
+                href={`/elevators/${p.slug}/`}
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                <img
+                  src={`/images/${p.image}.webp`}
+                  srcset={`/images/${p.image}-small.webp 420w, /images/${p.image}.webp 960w`}
+                  sizes="(max-width: 1100px) 90vw, 44vw"
+                  width="960"
+                  height="1200"
+                  loading="lazy"
+                  alt=""
+                />
+              </a>
+              <div class="copy reveal">
+                <p class="eyebrow">
+                  {String(i + 1).padStart(2, '0')} / {p.short}
+                </p>
+                <h2>{p.name}</h2>
+                <p>{p.overview}</p>
+                <ul class="tick-list">
+                  {p.highlights.map((h) => (
+                    <li>
+                      <Icon name="check" size={16} />
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+                <div class="actions">
+                  <a class="btn btn-dark" href={`/elevators/${p.slug}/`}>
+                    <span>Explore {p.name}</span>
+                    <Icon size={17} />
+                  </a>
+                  <a
+                    class="link-arrow"
+                    href={`/request-a-quote/?interest=${encodeURIComponent(p.name)}`}
+                  >
+                    Request a quote
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-floor="Doors">
+    <div class="wrap split">
+      <div class="copy">
+        <p class="eyebrow">The finishing details</p>
+        <h2>
+          The door is part <em class="serif">of the design.</em>
+        </h2>
+        <p>
+          Explore solid, vision, automatic and manual door options from our
+          catalogue — eight types to suit your building design, space and
+          budget.
+        </p>
+        <a class="btn btn-dark" href="/elevator-door-types/">
+          <span>Explore Door Types</span>
+          <Icon size={17} />
+        </a>
+      </div>
+      <div class="door-mosaic reveal">
+        {
+          doors.slice(0, 4).map((d) => (
+            <img
+              src={`/images/${d.image}-2x.webp`}
+              width="336"
+              height="232"
+              loading="lazy"
+              alt={`${d.name} — brochure illustration`}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</MainLayout>

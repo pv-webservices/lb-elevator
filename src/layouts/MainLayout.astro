@@ -1,0 +1,402 @@
+---
+import '@fontsource/manrope/latin-400.css';
+import '@fontsource/manrope/latin-600.css';
+import '@fontsource/manrope/latin-700.css';
+import '@fontsource/manrope/latin-800.css';
+import '@fontsource/source-sans-3/latin-400.css';
+import '@fontsource/source-sans-3/latin-600.css';
+import '@fontsource/instrument-serif/latin-400-italic.css';
+import '../styles/global.css';
+import { business, products, services } from '../data/site';
+import Icon from '../components/Icon.astro';
+import WhatsAppIcon from '../components/WhatsAppIcon.astro';
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  preload?: { src: string; srcset?: string };
+}
+const {
+  title = 'Elevator Solutions in Siliguri',
+  description = 'LB Elevators, a unit of Lifts Bazar Private Limited. Passenger, goods, home, hospital and panoramic lifts, installation, maintenance and AMC in Siliguri.',
+  noindex = false,
+  preload,
+} = Astro.props;
+const path = Astro.url.pathname;
+const origin = import.meta.env.PUBLIC_SITE_URL;
+const canonical = origin ? new URL(path, origin).href : undefined;
+const tel = (p: string) => `tel:${p.replaceAll(' ', '')}`;
+const whatsapp = `https://wa.me/${business.whatsapp}?text=${encodeURIComponent('Hello LB Elevators, I would like to discuss a lift requirement.')}`;
+const nav = [
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about-us/' },
+  {
+    name: 'Elevators',
+    href: '/elevators/',
+    children: products
+      .map((p) => ({ name: p.name, href: `/elevators/${p.slug}/`, note: p.short }))
+      .concat([
+        {
+          name: 'Elevator Door Types',
+          href: '/elevator-door-types/',
+          note: 'Eight door options',
+        },
+      ]),
+  },
+  {
+    name: 'Services',
+    href: '/services/',
+    children: services.map((s) => ({
+      name: s.name,
+      href: `/services/${s.slug}/`,
+      note: s.description,
+    })),
+  },
+  { name: 'Applications', href: '/applications/' },
+  { name: 'Gallery', href: '/gallery/' },
+  { name: 'Contact', href: '/contact-us/' },
+];
+const active = (href: string) =>
+  href === '/'
+    ? path === '/'
+    : path.startsWith(href) ||
+      (href === '/elevators/' && path === '/elevator-door-types/');
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: business.name,
+  legalName: 'Lifts Bazar Private Limited',
+  description,
+  telephone: business.phones,
+  email: business.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress:
+      'Shivaji Nagar, Champasari Main Road, Near Gulam View Hotel, Behind Bata Showroom',
+    addressLocality: 'Siliguri',
+    addressRegion: 'West Bengal',
+    postalCode: '734003',
+    addressCountry: 'IN',
+  },
+  ...(origin
+    ? { url: origin, image: new URL('/images/hero.webp', origin).href }
+    : {}),
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#041634" />
+    <title>{title} | LB Elevators</title>
+    <meta name="description" content={description} />
+    <meta
+      name="robots"
+      content={noindex || !origin ? 'noindex, nofollow' : 'index, follow'}
+    />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={`${title} | LB Elevators`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="LB Elevators" />
+    {canonical && (
+      <>
+        <meta property="og:url" content={canonical} />
+        <meta
+          property="og:image"
+          content={new URL('/images/hero.webp', origin).href}
+        />
+      </>
+    )}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {preload && (
+      <link
+        rel="preload"
+        as="image"
+        href={preload.src}
+        imagesrcset={preload.srcset}
+        imagesizes="100vw"
+        fetchpriority="high"
+      />
+    )}
+    <script is:inline>
+      // Show the brief door-opening intro once per session, never for reduced motion.
+      try {
+        if (
+          !sessionStorage.getItem('lb-intro') &&
+          !matchMedia('(prefers-reduced-motion: reduce)').matches
+        ) {
+          document.documentElement.classList.add('has-intro');
+          sessionStorage.setItem('lb-intro', '1');
+        }
+      } catch (e) {}
+      document.documentElement.classList.add('js');
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </head>
+  <body>
+    <div class="intro" aria-hidden="true">
+      <div class="intro-door left"></div>
+      <div class="intro-door right"></div>
+      <div class="intro-core">
+        <img src="/images/logo-mark.webp" width="80" height="80" alt="" />
+        <div class="intro-floor"><span>▲</span><b data-intro-floor>G</b></div>
+      </div>
+    </div>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" data-header>
+      <div class="topbar">
+        <div class="wrap topbar-inner">
+          <a
+            class="top-address"
+            href={business.map}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon name="pin" size={14} />
+            <span>Champasari Main Road, Siliguri, West Bengal – 734003</span>
+          </a>
+          <div class="top-links">
+            {business.phones.map((p) => (
+              <a href={tel(p)}>
+                <Icon name="phone" size={13} />
+                {p}
+              </a>
+            ))}
+            <a class="top-email" href={`mailto:${business.email}`}>
+              <Icon name="mail" size={14} />
+              {business.email}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="wrap header-inner">
+        <a class="brand" href="/" aria-label="LB Elevators home">
+          <img
+            class="brand-light"
+            src="/images/logo-light.webp"
+            width="220"
+            height="70"
+            alt=""
+          />
+          <img
+            class="brand-color"
+            src="/images/logo-color.webp"
+            width="220"
+            height="70"
+            alt=""
+          />
+        </a>
+        <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
+          <ul class="nav-list">
+            {nav.map((n) => (
+              <li class:list={['nav-li', n.children && 'has-dropdown']}>
+                <div class="nav-item">
+                  <a
+                    href={n.href}
+                    class:list={['nav-link', active(n.href) && 'active']}
+                    aria-current={path === n.href ? 'page' : undefined}
+                  >
+                    {n.name}
+                  </a>
+                  {n.children && (
+                    <button
+                      class="dropdown-toggle"
+                      aria-expanded="false"
+                      aria-label={`Show ${n.name.toLowerCase()} menu`}
+                    >
+                      <Icon name="chevron" size={14} />
+                    </button>
+                  )}
+                </div>
+                {n.children && (
+                  <div class="dropdown">
+                    <ul>
+                      {n.children.map((c) => (
+                        <li>
+                          <a
+                            href={c.href}
+                            aria-current={path === c.href ? 'page' : undefined}
+                          >
+                            <strong>{c.name}</strong>
+                            <small>{c.note}</small>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                    <a class="dropdown-all" href={n.href}>
+                      View all {n.name.toLowerCase()} <Icon size={15} />
+                    </a>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+          <div class="nav-mobile-contact">
+            {business.phones.map((p) => (
+              <a href={tel(p)}>
+                <Icon name="phone" size={16} />
+                {p}
+              </a>
+            ))}
+            <a href={`mailto:${business.email}`}>
+              <Icon name="mail" size={16} />
+              {business.email}
+            </a>
+          </div>
+        </nav>
+        <a class="btn btn-primary btn-sm header-quote" href="/request-a-quote/">
+          <span>Get a Quote</span>
+          <Icon size={16} />
+        </a>
+        <button
+          class="menu-toggle"
+          aria-expanded="false"
+          aria-controls="primary-nav"
+          aria-label="Open navigation"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+    <aside class="floor-indicator" aria-hidden="true">
+      <div class="floor-display">
+        <span class="floor-arrow">▲</span>
+        <b data-floor-number>G</b>
+      </div>
+      <span class="floor-label" data-floor-label>Lobby</span>
+      <div class="floor-track"><i data-floor-progress></i></div>
+    </aside>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap footer-cta">
+        <div>
+          <p class="eyebrow light">Building a higher tomorrow</p>
+          <h2>
+            Let’s take your building <em class="serif">higher.</em>
+          </h2>
+        </div>
+        <div class="footer-cta-actions">
+          <a class="btn btn-primary" href="/request-a-quote/">
+            <span>Request a Quote</span>
+            <Icon size={18} />
+          </a>
+          <a class="btn btn-ghost-light" href={tel(business.phones[0])}>
+            <Icon name="phone" size={17} />
+            <span>Call {business.phones[0]}</span>
+          </a>
+        </div>
+      </div>
+      <div class="wrap footer-grid">
+        <div class="footer-brand">
+          <a href="/" aria-label="LB Elevators home">
+            <img
+              src="/images/logo-light.webp"
+              width="220"
+              height="70"
+              loading="lazy"
+              alt=""
+            />
+          </a>
+          <p>
+            Leading the way in innovative vertical mobility — passenger, goods,
+            home, hospital and panoramic lifts with installation, maintenance,
+            modernization and AMC support from Siliguri.
+          </p>
+          <div class="brand-rule" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+        <div>
+          <h2>Explore</h2>
+          <ul>
+            <li><a href="/about-us/">Our Company</a></li>
+            <li><a href="/elevators/">Elevator Solutions</a></li>
+            <li><a href="/services/">Our Services</a></li>
+            <li><a href="/elevator-door-types/">Door Types</a></li>
+            <li><a href="/applications/">Applications</a></li>
+            <li><a href="/gallery/">Visual Gallery</a></li>
+            <li><a href="/contact-us/">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Elevators</h2>
+          <ul>
+            {products.map((p) => (
+              <li>
+                <a href={`/elevators/${p.slug}/`}>{p.name}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h2>Services</h2>
+          <ul>
+            {services.map((s) => (
+              <li>
+                <a href={`/services/${s.slug}/`}>{s.name}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="footer-contact-col">
+          <h2>Get in touch</h2>
+          <div class="footer-contact">
+            <Icon name="phone" size={17} />
+            <div>
+              {business.phones.map((p) => <a href={tel(p)}>{p}</a>)}
+            </div>
+          </div>
+          <div class="footer-contact">
+            <Icon name="mail" size={17} />
+            <a href={`mailto:${business.email}`}>{business.email}</a>
+          </div>
+          <div class="footer-contact">
+            <Icon name="pin" size={17} />
+            <a href={business.map} target="_blank" rel="noopener noreferrer">
+              {business.address}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="wrap footer-bottom">
+        <p>
+          © {new Date().getFullYear()} LB Elevators. A Unit of Lifts Bazar
+          Private Limited.
+        </p>
+        <div>
+          <a href="/privacy-policy/">Privacy Policy</a>
+          <a href="/terms-and-conditions/">Terms &amp; Conditions</a>
+        </div>
+      </div>
+    </footer>
+    <div class="float-actions">
+      <a
+        class="float-call"
+        href={tel(business.phones[0])}
+        aria-label={`Call LB Elevators on ${business.phones[0]}`}
+      >
+        <Icon name="phone" size={20} />
+      </a>
+      <a
+        class="float-whatsapp"
+        href={whatsapp}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat with LB Elevators on WhatsApp"
+      >
+        <span class="float-whatsapp-label">Chat with us</span>
+        <span class="float-whatsapp-icon">
+          <WhatsAppIcon size={30} />
+        </span>
+      </a>
+    </div>
+    <script>
+      import '../scripts/interactions';
+    </script>
+  </body>
+</html>

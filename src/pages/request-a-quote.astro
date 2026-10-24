@@ -1,0 +1,53 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import InnerHero from '../components/InnerHero.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import ContactPanel from '../components/ContactPanel.astro';
+const checklist = [
+  'A floor plan or sketch of the building',
+  'The number of floors to be served',
+  'Expected usage and who will travel',
+  'Your preferred lift location',
+];
+---
+
+<MainLayout
+  title="Request an Elevator Quote"
+  description="Discuss your elevator project with LB Elevators. Share your building, lift and service requirements for a project-specific quotation."
+>
+  <InnerHero
+    title="Your space."
+    accent="The right solution."
+    eyebrow="Request a quote"
+    description="Tell us about your project so we can understand your requirements and discuss the next steps."
+    image="passenger"
+    crumb="Request a Quote"
+  />
+  <section class="section enquiry" data-floor="Quote">
+    <div class="wrap contact-layout quote-layout">
+      <div class="form-card reveal">
+        <p class="eyebrow">Let’s get the details right</p>
+        <h2>Tell us what you’re planning</h2>
+        <p>
+          Share the information you have. Product suitability and pricing follow
+          a project-specific discussion. Required fields are marked with an
+          asterisk.
+        </p>
+        <EnquiryForm quote id="quote" />
+      </div>
+      <div class="quote-side">
+        <div class="sidebar-card reveal">
+          <h2>Useful to have</h2>
+          <ul>
+            {checklist.map((c) => <li>{c}</li>)}
+          </ul>
+          <p>
+            Don’t have everything yet? That’s fine — our team can discuss what
+            further information is needed.
+          </p>
+        </div>
+        <ContactPanel map={false} />
+      </div>
+    </div>
+  </section>
+</MainLayout>

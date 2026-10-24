@@ -1,0 +1,29 @@
+---
+import { services } from '../data/site';
+import Icon from './Icon.astro';
+interface Props {
+  exclude?: string;
+}
+const items = services.filter((s) => s.slug !== Astro.props.exclude);
+---
+
+<div class="service-grid">
+  {
+    items.map((s, i) => (
+      <a
+        class="service-card reveal"
+        style={`--delay:${i * 70}ms`}
+        href={`/services/${s.slug}/`}
+      >
+        <span class="service-icon">
+          <Icon name={s.icon} size={26} />
+        </span>
+        <h3>{s.name}</h3>
+        <p>{s.description}</p>
+        <span class="link-arrow">
+          Learn more <Icon size={16} />
+        </span>
+      </a>
+    ))
+  }
+</div>

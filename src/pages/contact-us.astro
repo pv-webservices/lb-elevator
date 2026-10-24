@@ -1,0 +1,43 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import InnerHero from '../components/InnerHero.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import ContactPanel from '../components/ContactPanel.astro';
+import Icon from '../components/Icon.astro';
+import { business } from '../data/site';
+---
+
+<MainLayout
+  title="Contact Our Siliguri Team"
+  description="Contact LB Elevators in Siliguri. Call +91 9679112375 or +91 9102595785, or email liftsbazar2025@gmail.com for lift enquiries."
+>
+  <InnerHero
+    title="Let’s talk about"
+    accent="your building."
+    eyebrow="Get in touch"
+    description="A new lift, an upgrade or ongoing care. Start a conversation with our Siliguri team."
+    crumb="Contact Us"
+  >
+    <a class="btn btn-primary" href={`tel:${business.phones[0].replaceAll(' ', '')}`}>
+      <Icon name="phone" size={16} />
+      <span>Call {business.phones[0]}</span>
+    </a>
+    <a class="btn btn-ghost-light" href="#enquiry">
+      <span>Send an Enquiry</span>
+    </a>
+  </InnerHero>
+  <section class="section enquiry" id="enquiry" data-floor="Enquiry">
+    <div class="wrap contact-layout">
+      <ContactPanel />
+      <div class="form-card reveal">
+        <p class="eyebrow">Your next level starts here</p>
+        <h2>Send us an enquiry</h2>
+        <p>
+          Share your requirements or request a callback. Required fields are
+          marked with an asterisk.
+        </p>
+        <EnquiryForm id="contact" />
+      </div>
+    </div>
+  </section>
+</MainLayout>

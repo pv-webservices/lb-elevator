@@ -1,0 +1,188 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import InnerHero from '../../components/InnerHero.astro';
+import ProductCards from '../../components/ProductCards.astro';
+import Icon from '../../components/Icon.astro';
+import { products, doors } from '../../data/site';
+export function getStaticPaths() {
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+const { product: p } = Astro.props;
+const quote = `/request-a-quote/?interest=${encodeURIComponent(p.name)}`;
+// Set the last two words of the product line in the accent serif.
+const words = p.short.split(' ');
+const shortHead = words.slice(0, -2).join(' ');
+const shortTail = words.slice(-2).join(' ');
+---
+
+<MainLayout
+  title={p.name}
+  description={`${p.description} Discuss your building requirements with LB Elevators, Siliguri.`}
+>
+  <InnerHero
+    title={p.name}
+    eyebrow={p.short}
+    description={p.description}
+    image={p.image}
+    alt={`${p.name} — representative concept visual`}
+    parent="Elevators"
+    parentHref="/elevators/"
+  >
+    <a class="btn btn-primary" href={quote}>
+      <span>Request a Quote</span>
+      <Icon size={17} />
+    </a>
+    <a class="btn btn-ghost-light" href="/contact-us/?request=callback#enquiry">
+      <Icon name="phone" size={16} />
+      <span>Request a Callback</span>
+    </a>
+  </InnerHero>
+
+  <section class="section" data-floor="Overview">
+    <div class="wrap split">
+      <div class="media-frame reveal">
+        <img
+          src={`/images/${p.image}.webp`}
+          srcset={`/images/${p.image}-small.webp 420w, /images/${p.image}.webp 960w`}
+          sizes="(max-width: 1100px) 90vw, 44vw"
+          width="960"
+          height="1200"
+          loading="lazy"
+          alt={`${p.name} — representative concept visual`}
+        />
+      </div>
+      <div class="copy">
+        <p class="eyebrow">Purpose in every detail</p>
+        <h2>
+          {shortHead} <em class="serif">{shortTail}</em>
+        </h2>
+        <p>{p.overview}</p>
+        <ul class="tick-list">
+          {
+            [...p.highlights, ...p.features].map((f) => (
+              <li>
+                <Icon name="check" size={16} />
+                {f}
+              </li>
+            ))
+          }
+        </ul>
+        <div class="actions">
+          <a class="btn btn-dark" href={quote}>
+            <span>Request a Quote</span>
+            <Icon size={17} />
+          </a>
+          <a class="link-arrow" href="/elevator-door-types/">
+            Explore door types <Icon size={16} />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft" data-floor="Planning">
+    <div class="wrap detail-layout">
+      <div class="copy">
+        <p class="eyebrow">Planned around your needs</p>
+        <h2>
+          Start with <em class="serif">your building.</em>
+        </h2>
+        <p>{p.advice}</p>
+        <div class="card-grid compact">
+          {
+            [
+              { icon: 'building', title: 'Your building', text: 'Floors, structure and the available space for the lift.' },
+              { icon: 'users', title: 'Its users', text: 'Who travels, how often and any accessibility needs.' },
+              { icon: 'door', title: 'Door & finish', text: 'A door type and finishes that suit your interiors.' },
+            ].map((c, i) => (
+              <div class="info-card reveal" style={`--delay:${i * 70}ms`}>
+                <span class="shaft-icon">
+                  <Icon name={c.icon} size={24} />
+                </span>
+                <h3>{c.title}</h3>
+                <p>{c.text}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <aside class="sidebar-card reveal">
+        <h2>Suitable applications</h2>
+        <ul>
+          {p.applications.map((a) => <li>{a}</li>)}
+        </ul>
+        <p>
+          Capacity, speed, dimensions and finishes are confirmed for each
+          project after assessment.
+        </p>
+        <a class="btn btn-primary" href={quote}>
+          <span>Get a Quote</span>
+          <Icon size={17} />
+        </a>
+        <a class="link-arrow" href="/contact-us/">
+          Talk to our team <Icon size={16} />
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section" data-floor="Doors">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Complete the look</p>
+          <h2 class="h-display">
+            Door options <em class="serif">to match.</em>
+          </h2>
+        </div>
+        <div class="section-head-side">
+          <p>
+            Door choice depends on the lift configuration and building needs.
+            Discuss suitability with our team.
+          </p>
+          <a class="btn btn-outline" href="/elevator-door-types/">
+            <span>All Door Types</span>
+            <Icon size={17} />
+          </a>
+        </div>
+      </div>
+      <div class="door-strip">
+        {
+          doors.map((d, i) => (
+            <a
+              class="door-chip reveal"
+              style={`--delay:${i * 50}ms`}
+              href="/elevator-door-types/"
+            >
+              <img
+                src={`/images/${d.image}-2x.webp`}
+                width="336"
+                height="232"
+                loading="lazy"
+                alt=""
+              />
+              <span>{d.name}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft" data-floor="More">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Keep exploring</p>
+          <h2 class="h-display">
+            More elevator <em class="serif">solutions.</em>
+          </h2>
+        </div>
+      </div>
+      <ProductCards exclude={p.slug} />
+    </div>
+  </section>
+</MainLayout>

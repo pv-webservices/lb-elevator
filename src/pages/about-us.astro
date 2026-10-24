@@ -1,0 +1,149 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import InnerHero from '../components/InnerHero.astro';
+import Icon from '../components/Icon.astro';
+import ProductCards from '../components/ProductCards.astro';
+import { business, values, promises, services } from '../data/site';
+---
+
+<MainLayout
+  title="About Our Company"
+  description="Meet LB Elevators, a unit of Lifts Bazar Private Limited in Siliguri, led by Managing Director Binod Yadav."
+>
+  <InnerHero
+    title="Built around people."
+    accent="Designed for buildings."
+    eyebrow="About LB Elevators"
+    description="Leading the way in innovative vertical mobility, from our base on Champasari Main Road, Siliguri."
+    mediaId="showcase-atrium"
+    crumb="About Us"
+  >
+    <a class="btn btn-primary" href="/request-a-quote/">
+      <span>Discuss Your Project</span>
+      <Icon size={17} />
+    </a>
+    <a class="btn btn-ghost-light" href="#story">
+      <span>Our Story</span>
+    </a>
+  </InnerHero>
+
+  <section class="section" id="story" data-floor="Story">
+    <div class="wrap split">
+      <div class="media-frame reveal">
+        <img
+          src="/images/panoramic.webp"
+          srcset="/images/panoramic-small.webp 420w, /images/panoramic.webp 960w"
+          sizes="(max-width: 1100px) 90vw, 44vw"
+          width="960"
+          height="1200"
+          loading="lazy"
+          alt="Representative panoramic glass lift in a contemporary atrium"
+        />
+        <div class="statement-badge">
+          <span>A unit of</span>
+          <em class="serif">Lifts Bazar Pvt. Ltd.</em>
+        </div>
+      </div>
+      <div class="copy">
+        <p class="eyebrow">Who we are</p>
+        <h2>
+          Every building deserves <em class="serif">a thoughtful solution.</em>
+        </h2>
+        <p>
+          <strong>LB Elevators</strong>, a unit of Lifts Bazar Private Limited,
+          is a trusted name in the vertical mobility industry. We provide
+          innovative, safe and reliable lift solutions for residential,
+          commercial, industrial and institutional buildings.
+        </p>
+        <p>
+          With a focus on quality, customized solutions and modern technology,
+          we aim to make every building smarter, safer and more accessible —
+          from passenger, goods, home, hospital and panoramic lifts to
+          installation, maintenance, modernization and AMC services.
+        </p>
+        <div class="statement-foot">
+          <div class="signature">
+            <strong>{business.director}</strong>
+            <span>Managing Director</span>
+          </div>
+          <a class="link-arrow" href="/contact-us/">
+            Talk to our team <Icon size={17} />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      {
+        [0, 1].map(() => (
+          <div class="marquee-group">
+            {[...promises, ...services.map((s) => s.name)].map((o) => (
+              <span>
+                {o}
+                <i />
+              </span>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <section class="section soft" data-floor="Values">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">What guides us</p>
+          <h2 class="h-display">
+            Care in the details. <em class="serif">Purpose in the approach.</em>
+          </h2>
+        </div>
+        <div class="section-head-side">
+          <p>
+            We start with the building and the people who use it. A considered
+            conversation helps us understand what matters for your project.
+          </p>
+        </div>
+      </div>
+      <div class="card-grid">
+        {
+          values.map((v, i) => (
+            <div class="info-card reveal" style={`--delay:${i * 70}ms`}>
+              <span class="shaft-icon">
+                <Icon name={v.icon} size={26} />
+              </span>
+              <h3>{v.title}</h3>
+              <p>{v.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-floor="Solutions">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">From homes to working environments</p>
+          <h2 class="h-display">
+            Five lift categories. <em class="serif">One partner.</em>
+          </h2>
+        </div>
+        <div class="section-head-side">
+          <p>
+            Our elevator categories support residential, commercial, healthcare,
+            hospitality, education and industrial environments.
+          </p>
+          <a class="btn btn-outline" href="/applications/">
+            <span>Explore Applications</span>
+            <Icon size={17} />
+          </a>
+        </div>
+      </div>
+      <ProductCards />
+    </div>
+  </section>
+</MainLayout>

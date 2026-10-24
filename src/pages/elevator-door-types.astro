@@ -1,0 +1,57 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import InnerHero from '../components/InnerHero.astro';
+import Icon from '../components/Icon.astro';
+import { doors } from '../data/site';
+---
+
+<MainLayout
+  title="Elevator Door Types"
+  description="Explore eight elevator door types from the LB Elevators brochure, including automatic, solid, vision, telescopic, IFD, collapsible and swing doors."
+>
+  <InnerHero
+    title="The details make"
+    accent="the difference."
+    eyebrow="Elevator door types"
+    description="Privacy, visibility and everyday access. Explore the eight door options in our catalogue."
+    crumb="Elevator Door Types"
+  />
+
+  <section class="section soft" data-floor="Doors">
+    <div class="wrap">
+      <p class="note">
+        Door illustrations are from the supplied brochure. Final suitability,
+        operation and specifications depend on the chosen lift and the building
+        assessment.
+      </p>
+      <div class="door-grid">
+        {
+          doors.map((d, i) => (
+            <article class="door-card reveal" style={`--delay:${(i % 3) * 70}ms`}>
+              <div class="door-card-media">
+                <img
+                  src={`/images/${d.image}-2x.webp`}
+                  width="336"
+                  height="232"
+                  loading="lazy"
+                  alt={`${d.name} — brochure illustration`}
+                />
+                <span class="card-number">{String(i + 1).padStart(2, '0')}</span>
+              </div>
+              <div class="door-card-body">
+                <h2>{d.name}</h2>
+                <p>{d.description}</p>
+                <a
+                  class="link-arrow"
+                  href={`/contact-us/?interest=Guidance%20on%20the%20right%20solution&door=${encodeURIComponent(d.name)}#enquiry`}
+                >
+                  Enquire about this door <Icon size={16} />
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</MainLayout>

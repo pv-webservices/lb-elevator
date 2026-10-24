@@ -1,0 +1,557 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Icon from '../components/Icon.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import ContactPanel from '../components/ContactPanel.astro';
+import {
+  business,
+  products,
+  services,
+  doors,
+  applications,
+  promises,
+  values,
+} from '../data/site';
+import { media } from '../data/media';
+const hero = media('hero-lobby');
+const showcase = media('showcase-atrium');
+const shaft = media('process-shaft');
+const offerings = [
+  ...products.map((p) => p.name),
+  ...services.map((s) => s.name),
+  'Elevator Door Types',
+];
+const steps = [
+  {
+    title: 'Share your requirements',
+    text: 'Call, WhatsApp or send an enquiry with your building type, floors and the lift you have in mind.',
+  },
+  {
+    title: 'Site assessment',
+    text: 'Our team reviews the available space, building structure and expected usage.',
+  },
+  {
+    title: 'Tailored recommendation',
+    text: 'Discuss the lift category, door type and finishes, followed by a project-specific quotation.',
+  },
+  {
+    title: 'Professional installation',
+    text: 'Installation planned around your building and carried out by an experienced team.',
+  },
+  {
+    title: 'Maintenance & AMC',
+    text: 'Regular maintenance and Annual Maintenance Contracts for long-term reliability.',
+  },
+];
+const appProduct = (slug: string) => products.find((p) => p.slug === slug)!;
+---
+
+<MainLayout preload={{ src: hero.src, srcset: hero.srcset }}>
+  <section class="hero" data-floor="Lobby" data-progress>
+    <div class="hero-media">
+      <img
+        src={hero.src}
+        srcset={hero.srcset}
+        sizes="100vw"
+        width="1536"
+        height="1024"
+        fetchpriority="high"
+        alt={hero.alt}
+      />
+    </div>
+    <div class="hero-shade"></div>
+    <div class="hero-stripes" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="wrap hero-content">
+      <p class="eyebrow light hero-anim" style="--i:0">
+        Engineered for every rise
+      </p>
+      <h1>
+        <span class="line"><span class="hero-anim" style="--i:1">Elevating Spaces.</span></span>
+        <span class="line"
+          ><span class="hero-anim" style="--i:2"
+            >Enriching <em class="serif">Everyday Life.</em></span
+          ></span
+        >
+      </h1>
+      <p class="hero-lead hero-anim" style="--i:3">
+        Reliable and innovative elevator solutions for residential, commercial,
+        industrial and institutional buildings across Siliguri and beyond.
+      </p>
+      <div class="hero-actions hero-anim" style="--i:4">
+        <a class="btn btn-primary btn-lg" href="#elevators">
+          <span>Explore Our Elevators</span>
+          <Icon size={18} />
+        </a>
+        <a
+          class="btn btn-ghost-light btn-lg"
+          href="/contact-us/?request=callback#enquiry"
+        >
+          <Icon name="phone" size={17} />
+          <span>Request a Callback</span>
+        </a>
+      </div>
+      <ul class="hero-promises hero-anim" style="--i:5" aria-label="Our promise">
+        {promises.map((p) => <li>{p}</li>)}
+      </ul>
+    </div>
+    <div class="hero-card hero-anim" style="--i:6">
+      <img src="/images/logo-mark.webp" width="48" height="48" alt="" />
+      <div>
+        <strong>A unit of Lifts Bazar Private Limited</strong>
+        <span>Sales · Installation · Service · AMC · Modernization</span>
+      </div>
+    </div>
+    <a class="hero-scroll" href="#about" aria-label="Scroll to about LB Elevators">
+      <span>Scroll</span><i></i>
+    </a>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      {[0, 1].map(() => (
+        <div class="marquee-group">
+          {offerings.map((o) => (
+            <span>
+              {o}
+              <i></i>
+            </span>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <section class="statement section" id="about" data-floor="About">
+    <div class="wrap statement-grid">
+      <div class="statement-visual reveal" data-parallax>
+        <img
+          src="/images/panoramic.webp"
+          srcset="/images/panoramic-small.webp 420w, /images/panoramic.webp 960w"
+          sizes="(max-width: 900px) 90vw, 34vw"
+          width="960"
+          height="1200"
+          loading="lazy"
+          alt="Representative panoramic glass lift in a contemporary atrium"
+        />
+        <div class="statement-badge">
+          <span>Building a</span>
+          <em class="serif">higher tomorrow</em>
+        </div>
+      </div>
+      <div class="statement-copy">
+        <p class="eyebrow">About LB Elevators</p>
+        <p class="statement-text" data-words>
+          LB Elevators, a unit of Lifts Bazar Private Limited, is a trusted name
+          in vertical mobility — providing innovative, safe and reliable lift
+          solutions for residential, commercial, industrial and institutional
+          buildings.
+        </p>
+        <p class="statement-sub reveal">
+          With a focus on quality, customized solutions and modern technology,
+          we aim to make every building smarter, safer and more accessible.
+        </p>
+        <div class="statement-foot reveal">
+          <div class="signature">
+            <strong>{business.director}</strong>
+            <span>Managing Director</span>
+          </div>
+          <a class="link-arrow" href="/about-us/">
+            Discover our company <Icon size={18} />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stack-section section" id="elevators" data-floor="Elevators">
+    <div class="wrap stack-grid">
+      <div class="stack-intro">
+        <p class="eyebrow">Our elevator solutions</p>
+        <h2 class="h-display">
+          Elevator solutions for <em class="serif">every space.</em>
+        </h2>
+        <p class="lede">
+          Modern, safe and efficient elevators designed to meet the diverse
+          needs of residential, commercial and institutional buildings.
+        </p>
+        <ol class="stack-index">
+          {products.map((p, i) => (
+            <li>
+              <a href={`#lift-${p.slug}`} data-stack-link={i}>
+                <span>0{i + 1}</span>
+                {p.name}
+              </a>
+            </li>
+          ))}
+        </ol>
+        <a class="btn btn-dark" href="/elevators/">
+          <span>View All Elevators</span>
+          <Icon size={17} />
+        </a>
+      </div>
+      <div class="stack-cards">
+        {products.map((p, i) => (
+          <article
+            class="stack-card"
+            id={`lift-${p.slug}`}
+            style={`--i:${i}`}
+            data-stack-card={i}
+          >
+            <a class="stack-media" href={`/elevators/${p.slug}/`} tabindex="-1">
+              <img
+                src={`/images/${p.image}-small.webp`}
+                srcset={`/images/${p.image}-small.webp 420w, /images/${p.image}.webp 960w`}
+                sizes="(max-width: 700px) 92vw, (max-width: 1100px) 40vw, 26vw"
+                width="960"
+                height="1200"
+                loading="lazy"
+                alt={`${p.name} — representative concept visual`}
+              />
+            </a>
+            <div class="stack-body">
+              <span class="stack-num">
+                0{i + 1} <i>/ 0{products.length}</i>
+              </span>
+              <h3>{p.name}</h3>
+              <p class="stack-short serif">{p.short}</p>
+              <p>{p.description}</p>
+              <ul class="tick-list">
+                {p.highlights.map((h) => (
+                  <li>
+                    <Icon name="check" size={16} />
+                    {h}
+                  </li>
+                ))}
+              </ul>
+              <div class="stack-actions">
+                <a class="btn btn-dark btn-sm" href={`/elevators/${p.slug}/`}>
+                  <span>Explore {p.name.split(' /')[0]}</span>
+                  <Icon size={16} />
+                </a>
+                <a
+                  class="link-arrow"
+                  href={`/request-a-quote/?interest=${encodeURIComponent(p.name)}`}
+                >
+                  Get a quote
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="showcase" data-floor="Panoramic" data-progress>
+    <div class="showcase-sticky">
+      <div class="showcase-media">
+        <img
+          src={showcase.src}
+          srcset={showcase.srcset}
+          sizes="100vw"
+          width="1600"
+          height="1067"
+          loading="lazy"
+          alt={showcase.alt}
+        />
+      </div>
+      <div class="showcase-copy">
+        <p class="eyebrow light">Capsule / Panoramic Lifts</p>
+        <h2>
+          Make movement <em class="serif">a statement.</em>
+        </h2>
+        <p>
+          Glass-led panoramic lifts that turn every journey between floors into
+          part of the architecture.
+        </p>
+        <a class="btn btn-primary" href="/elevators/capsule-panoramic-lifts/">
+          <span>Discover Panoramic Lifts</span>
+          <Icon size={17} />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="hscroll" data-floor="Services" data-hscroll>
+    <div class="hscroll-sticky">
+      <div class="wrap hscroll-head">
+        <div>
+          <p class="eyebrow light">Our services</p>
+          <h2 class="h-display">
+            From installation to <em class="serif">long-term care.</em>
+          </h2>
+        </div>
+        <div class="hscroll-meta">
+          <p>Complete support for a smooth and reliable vertical mobility experience.</p>
+          <div class="hscroll-bar"><i data-hscroll-bar></i></div>
+        </div>
+      </div>
+      <div class="hscroll-viewport">
+        <div class="hscroll-track" data-hscroll-track>
+          {services.map((s, i) => {
+            const m = media(s.media);
+            return (
+              <article class="service-panel">
+                <img
+                  src={m.src}
+                  srcset={m.srcset}
+                  sizes="(max-width: 700px) 82vw, 420px"
+                  width="600"
+                  height="900"
+                  loading="lazy"
+                  alt={m.alt}
+                />
+                <div class="service-panel-body">
+                  <div class="service-panel-top">
+                    <span class="service-icon">
+                      <Icon name={s.icon} size={26} />
+                    </span>
+                    <span class="service-num">0{i + 1}</span>
+                  </div>
+                  <h3>{s.name}</h3>
+                  <p>{s.description}</p>
+                  <ul>
+                    {s.points.map((pt) => (
+                      <li>{pt}</li>
+                    ))}
+                  </ul>
+                  <a class="link-arrow light" href={`/services/${s.slug}/`}>
+                    Learn more <Icon size={17} />
+                  </a>
+                </div>
+              </article>
+            );
+          })}
+          <div class="service-panel service-end">
+            <p class="eyebrow light">One partner, every stage</p>
+            <h3>Need care for an existing lift?</h3>
+            <p>
+              Talk to us about maintenance, modernization or an Annual
+              Maintenance Contract.
+            </p>
+            <a class="btn btn-primary" href="/services/">
+              <span>All Services</span>
+              <Icon size={17} />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="why section" data-floor="Why LB" data-progress>
+    <div class="why-watermark" aria-hidden="true">LB ELEVATORS</div>
+    <div class="wrap">
+      <div class="section-head center">
+        <p class="eyebrow">Why choose LB Elevators</p>
+        <h2 class="h-display">
+          Built on values that <em class="serif">lift you higher.</em>
+        </h2>
+      </div>
+      <div class="shaft">
+        <div class="shaft-line" aria-hidden="true">
+          <i class="shaft-fill"></i>
+          <span class="shaft-cabin"><Icon name="lift" size={18} /></span>
+        </div>
+        {values.map((v, i) => (
+          <div class:list={['shaft-item reveal', i % 2 ? 'right' : 'left']}>
+            <span class="shaft-dot" aria-hidden="true"></span>
+            <div class="shaft-card">
+              <span class="shaft-icon">
+                <Icon name={v.icon} size={26} />
+              </span>
+              <div>
+                <span class="shaft-floor">Level 0{i + 1}</span>
+                <h3>{v.title}</h3>
+                <p>{v.text}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="doors section" data-floor="Doors">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Elevator door types</p>
+          <h2 class="h-display">
+            The details make <em class="serif">the difference.</em>
+          </h2>
+        </div>
+        <div class="section-head-side">
+          <p>
+            Different door options are available to match your building
+            design, space and budget.
+          </p>
+          <a class="btn btn-outline" href="/elevator-door-types/">
+            <span>View All Door Types</span>
+            <Icon size={17} />
+          </a>
+        </div>
+      </div>
+      <div class="door-selector" data-door-selector>
+        <div class="door-tabs" role="tablist" aria-label="Elevator door types">
+          {doors.map((d, i) => (
+            <button
+              role="tab"
+              id={`door-tab-${i}`}
+              aria-controls="door-stage"
+              aria-selected={i === 1 ? 'true' : 'false'}
+              tabindex={i === 1 ? '0' : '-1'}
+              data-door={i}
+            >
+              <span>0{i + 1}</span>
+              {d.name}
+              <Icon size={16} />
+            </button>
+          ))}
+        </div>
+        <div
+          class="door-stage"
+          id="door-stage"
+          role="tabpanel"
+          aria-labelledby="door-tab-1"
+          aria-live="polite"
+        >
+          <div class="door-frame">
+            <img
+              src={`/images/${doors[1].image}-2x.webp`}
+              width="420"
+              height="300"
+              loading="lazy"
+              alt={`${doors[1].name} — brochure illustration`}
+              data-door-image
+            />
+            <i class="door-leaf l" aria-hidden="true"></i>
+            <i class="door-leaf r" aria-hidden="true"></i>
+          </div>
+          <div class="door-info">
+            <span class="door-count" data-door-count>02 / 08</span>
+            <h3 data-door-name>{doors[1].name}</h3>
+            <p data-door-text>{doors[1].description}</p>
+            <a
+              class="link-arrow"
+              data-door-link
+              href={`/contact-us/?door=${encodeURIComponent(doors[1].name)}#enquiry`}
+            >
+              Enquire about this door <Icon size={17} />
+            </a>
+          </div>
+        </div>
+      </div>
+      <script
+        type="application/json"
+        id="door-data"
+        set:html={JSON.stringify(doors)}
+      />
+    </div>
+  </section>
+
+  <section class="apps section" data-floor="Applications">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Application areas</p>
+          <h2 class="h-display">
+            Built for the places <em class="serif">that matter.</em>
+          </h2>
+        </div>
+        <div class="section-head-side">
+          <p>
+            Our elevator solutions are ideal for a wide range of buildings and
+            industries.
+          </p>
+          <a class="btn btn-outline" href="/applications/">
+            <span>All Applications</span>
+            <Icon size={17} />
+          </a>
+        </div>
+      </div>
+      <div class="bento">
+        {applications.map((a, i) => (
+          <a
+            class="bento-card reveal"
+            style={`--delay:${i * 70}ms`}
+            href={`/applications/#${a.image}`}
+          >
+            <img
+              src={`/images/${a.image}${i === 0 ? '' : '-small'}.webp`}
+              srcset={`/images/${a.image}-small.webp 420w, /images/${a.image}.webp 1200w`}
+              sizes={i === 0 ? '(max-width: 700px) 92vw, 46vw' : '(max-width: 700px) 92vw, 23vw'}
+              width="1200"
+              height="800"
+              loading="lazy"
+              alt={`${a.name} — representative architecture concept`}
+            />
+            <div class="bento-body">
+              <h3>{a.name}</h3>
+              <p>{a.text}</p>
+              <span class="bento-link">
+                Suggested: {appProduct(a.product).name} <Icon size={15} />
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="process" data-floor="Process" data-progress>
+    <img
+      class="process-bg"
+      src={shaft.src}
+      srcset={shaft.srcset}
+      sizes="100vw"
+      width="1600"
+      height="1067"
+      loading="lazy"
+      alt=""
+    />
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow light">How we work</p>
+          <h2 class="h-display">
+            From first call to <em class="serif">every ride after.</em>
+          </h2>
+        </div>
+        <div class="section-head-side">
+          <p>
+            A clear, step-by-step journey — so you always know what happens
+            next.
+          </p>
+        </div>
+      </div>
+      <div class="steps-wrap">
+        <span class="steps-line" aria-hidden="true"><i></i></span>
+        <ol class="steps">
+          {steps.map((s, i) => (
+            <li class="step reveal" style={`--delay:${i * 90}ms`}>
+              <span class="step-num">0{i + 1}</span>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="enquiry section" id="enquiry" data-floor="Contact">
+    <div class="wrap enquiry-grid">
+      <ContactPanel />
+      <div class="form-card reveal">
+        <p class="eyebrow">Get in touch</p>
+        <h2>Send us an enquiry</h2>
+        <p>
+          We are here to help you with the right elevator solution for your
+          building. Fill in the details and our team will get back to you.
+        </p>
+        <EnquiryForm />
+      </div>
+    </div>
+  </section>
+</MainLayout>

@@ -1,0 +1,79 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import InnerHero from '../../components/InnerHero.astro';
+import Icon from '../../components/Icon.astro';
+import { services } from '../../data/site';
+import { media } from '../../data/media';
+---
+
+<MainLayout
+  title="Installation, Maintenance & AMC Services"
+  description="Elevator installation, maintenance, modernization and AMC services from LB Elevators in Siliguri."
+>
+  <InnerHero
+    title="Care at"
+    accent="every stage."
+    eyebrow="Our services"
+    description="From putting a new solution in place to looking after an existing lift — complete support for smooth and reliable vertical mobility."
+    mediaId="service-maintenance"
+    crumb="Services"
+  >
+    <a class="btn btn-primary" href="/request-a-quote/">
+      <span>Discuss Your Requirements</span>
+      <Icon size={17} />
+    </a>
+  </InnerHero>
+
+  <section class="section" data-floor="Services">
+    <div class="wrap app-rows">
+      {
+        services.map((s, i) => {
+          const m = media(s.media);
+          return (
+            <article class:list={['split app-row', i % 2 && 'reverse']} id={s.slug}>
+              <div class="media-frame wide reveal">
+                <img
+                  src={m.src}
+                  srcset={m.srcset}
+                  sizes="(max-width: 1100px) 90vw, 44vw"
+                  width="1000"
+                  height="1500"
+                  loading="lazy"
+                  alt={m.alt}
+                />
+                <span class="frame-icon">
+                  <Icon name={s.icon} size={28} />
+                </span>
+              </div>
+              <div class="copy reveal">
+                <p class="eyebrow">{String(i + 1).padStart(2, '0')} / Elevator services</p>
+                <h2>{s.name}</h2>
+                <p>{s.overview}</p>
+                <ul class="tick-list">
+                  {s.points.map((pt) => (
+                    <li>
+                      <Icon name="check" size={16} />
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+                <div class="actions">
+                  <a class="btn btn-dark" href={`/services/${s.slug}/`}>
+                    <span>Explore {s.name}</span>
+                    <Icon size={17} />
+                  </a>
+                  <a
+                    class="link-arrow"
+                    href={`/request-a-quote/?interest=${encodeURIComponent('Guidance on the right solution')}&service=${encodeURIComponent(s.name)}`}
+                  >
+                    Request this service
+                  </a>
+                </div>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </section>
+</MainLayout>

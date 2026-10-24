@@ -1,0 +1,40 @@
+---
+import { products } from '../data/site';
+import Icon from './Icon.astro';
+interface Props {
+  exclude?: string;
+}
+const items = products.filter((p) => p.slug !== Astro.props.exclude);
+---
+
+<div class="product-grid">
+  {
+    items.map((p, i) => (
+      <a
+        href={`/elevators/${p.slug}/`}
+        class="product-card reveal"
+        style={`--delay:${i * 70}ms`}
+      >
+        <div class="card-image">
+          <img
+            src={`/images/${p.image}-small.webp`}
+            srcset={`/images/${p.image}-small.webp 420w, /images/${p.image}.webp 960w`}
+            sizes="(max-width: 700px) 92vw, (max-width: 1100px) 45vw, 24vw"
+            width="420"
+            height="525"
+            loading="lazy"
+            alt={`${p.name} — representative concept visual`}
+          />
+          <span class="card-number">{String(products.indexOf(p) + 1).padStart(2, '0')}</span>
+        </div>
+        <div class="card-body">
+          <h3>{p.name}</h3>
+          <p>{p.description}</p>
+          <span class="link-arrow">
+            Explore <Icon size={16} />
+          </span>
+        </div>
+      </a>
+    ))
+  }
+</div>
