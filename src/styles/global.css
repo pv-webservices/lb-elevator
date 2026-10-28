@@ -3206,6 +3206,13 @@ h2 .serif {
     background: var(--white);
     color: var(--ink);
   }
+  /* The blur and slide-away transform of the scrolled header would become
+     the containing block of the fixed panel and squash it to header height. */
+  .site-header.menu-open {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    transform: none;
+  }
   .site-header:has(.is-open) .brand-light {
     opacity: 0;
   }

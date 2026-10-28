@@ -16,6 +16,7 @@ function setMenu(open: boolean) {
   menuButton?.setAttribute('aria-expanded', String(open));
   menuButton?.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
   nav?.classList.toggle('is-open', open);
+  header?.classList.toggle('menu-open', open);
   document.documentElement.style.overflow = open ? 'hidden' : '';
   if (!open) closeMenus();
 }
