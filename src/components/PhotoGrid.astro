@@ -1,0 +1,36 @@
+---
+// Grid of supplied photographs, optionally led by a video clip that spans two
+// rows. Each photo links to the gallery for the full set.
+import VideoClip from './VideoClip.astro';
+import type { Photo } from '../data/photos';
+interface Props {
+  photos: Photo[];
+  videoId?: string;
+}
+const { photos, videoId } = Astro.props;
+---
+
+<div class:list={['photo-grid', videoId && 'has-video']}>
+  {videoId && (
+    <div class="photo-grid-video reveal">
+      <VideoClip id={videoId} />
+    </div>
+  )}
+  {photos.map((p, i) => (
+    <a
+      class="photo-grid-item reveal"
+      style={`--delay:${i * 60}ms`}
+      href="/gallery/"
+    >
+      <img
+        src={p.small}
+        srcset={p.srcset}
+        sizes="(max-width: 700px) 46vw, 22vw"
+        width={p.w}
+        height={p.h}
+        loading="lazy"
+        alt={p.alt}
+      />
+    </a>
+  ))}
+</div>

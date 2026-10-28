@@ -132,6 +132,9 @@ export const services = [
   {
     slug: 'elevator-installation',
     media: 'service-installation',
+    // Supplied site video and photographs (src/data/photos.json).
+    video: 'installation-site',
+    photos: ['site-work-03', 'site-work-04', 'site-work-05', 'home-lift-02'],
     name: 'Installation',
     icon: 'tools',
     description: 'Professional installation, planned around your building.',
@@ -151,6 +154,14 @@ export const services = [
   {
     slug: 'elevator-maintenance',
     media: 'service-maintenance',
+    // Supplied site video and photographs (src/data/photos.json).
+    video: 'door-operation',
+    photos: [
+      'steel-cabin-01',
+      'site-work-01',
+      'steel-cabin-04',
+      'site-work-02',
+    ],
     name: 'Maintenance',
     icon: 'gear',
     description: 'Regular care for smooth, dependable operation.',
@@ -170,6 +181,14 @@ export const services = [
   {
     slug: 'elevator-modernization',
     media: 'service-modernization',
+    // Supplied site video and photographs (src/data/photos.json).
+    video: 'finish-details',
+    photos: [
+      'designer-cabin-08',
+      'designer-cabin-05',
+      'designer-cabin-12',
+      'designer-cabin-10',
+    ],
     name: 'Modernization',
     icon: 'chart',
     description: 'A considered upgrade for your existing lift.',
@@ -189,6 +208,14 @@ export const services = [
   {
     slug: 'amc-service',
     media: 'service-amc',
+    // Supplied site video and photographs (src/data/photos.json).
+    video: 'glass-doors',
+    photos: [
+      'steel-cabin-02',
+      'steel-cabin-03',
+      'home-lift-03',
+      'steel-cabin-08',
+    ],
     name: 'AMC / Service',
     icon: 'document',
     description: 'A longer-term approach to elevator care.',

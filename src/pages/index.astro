@@ -13,9 +13,20 @@ import {
   values,
 } from '../data/site';
 import { media } from '../data/media';
+import { photo } from '../data/photos';
+import PhotoGrid from '../components/PhotoGrid.astro';
 const hero = media('hero-lobby');
 const showcase = media('showcase-atrium');
 const shaft = media('process-shaft');
+const aboutPhoto = photo('designer-cabin-01');
+const cabinPhotos = [
+  'designer-cabin-02',
+  'designer-cabin-04',
+  'designer-cabin-03',
+  'steel-cabin-05',
+  'home-lift-01',
+  'designer-cabin-07',
+].map(photo);
 const offerings = [
   ...products.map((p) => p.name),
   ...services.map((s) => s.name),
@@ -125,13 +136,13 @@ const appProduct = (slug: string) => products.find((p) => p.slug === slug)!;
     <div class="wrap statement-grid">
       <div class="statement-visual reveal" data-parallax>
         <img
-          src="/images/panoramic.webp"
-          srcset="/images/panoramic-small.webp 420w, /images/panoramic.webp 960w"
+          src={aboutPhoto.src}
+          srcset={aboutPhoto.srcset}
           sizes="(max-width: 900px) 90vw, 34vw"
-          width="960"
-          height="1200"
+          width={aboutPhoto.w}
+          height={aboutPhoto.h}
           loading="lazy"
-          alt="Representative panoramic glass lift in a contemporary atrium"
+          alt={aboutPhoto.alt}
         />
         <div class="statement-badge">
           <span>Building a</span>
@@ -239,6 +250,30 @@ const appProduct = (slug: string) => products.find((p) => p.slug === slug)!;
           </article>
         ))}
       </div>
+    </div>
+  </section>
+
+  <section class="cabins section soft" data-floor="Cabins">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Cabin designs &amp; finishes</p>
+          <h2 class="h-display">
+            Interiors that <em class="serif">set the tone.</em>
+          </h2>
+        </div>
+        <div class="section-head-side">
+          <p>
+            From mirror-gold etched panels to hairline stainless steel — choose
+            a cabin finish that suits your building and interiors.
+          </p>
+          <a class="btn btn-outline" href="/gallery/">
+            <span>View the Gallery</span>
+            <Icon size={17} />
+          </a>
+        </div>
+      </div>
+      <PhotoGrid photos={cabinPhotos} videoId="cabin-walkthrough" />
     </div>
   </section>
 

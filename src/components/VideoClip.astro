@@ -1,0 +1,26 @@
+---
+// Muted, looping clip. interactions.ts plays it only while on screen and
+// leaves it paused with controls when the visitor prefers reduced motion.
+import { video } from '../data/photos';
+interface Props {
+  id: string;
+  class?: string;
+}
+const { id, class: className } = Astro.props;
+const v = video(id);
+---
+
+<video
+  class:list={['video-clip', className]}
+  width={v.w}
+  height={v.h}
+  poster={v.poster}
+  muted
+  loop
+  playsinline
+  preload="none"
+  aria-label={v.alt}
+  data-autoplay
+>
+  <source src={v.src} type="video/mp4" />
+</video>

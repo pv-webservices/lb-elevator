@@ -4,6 +4,8 @@ import InnerHero from '../components/InnerHero.astro';
 import Icon from '../components/Icon.astro';
 import ProductCards from '../components/ProductCards.astro';
 import { business, values, promises, services } from '../data/site';
+import { photo } from '../data/photos';
+const storyPhoto = photo('site-work-01');
 ---
 
 <MainLayout
@@ -31,13 +33,13 @@ import { business, values, promises, services } from '../data/site';
     <div class="wrap split">
       <div class="media-frame reveal">
         <img
-          src="/images/panoramic.webp"
-          srcset="/images/panoramic-small.webp 420w, /images/panoramic.webp 960w"
+          src={storyPhoto.src}
+          srcset={storyPhoto.srcset}
           sizes="(max-width: 1100px) 90vw, 44vw"
-          width="960"
-          height="1200"
+          width={storyPhoto.w}
+          height={storyPhoto.h}
           loading="lazy"
-          alt="Representative panoramic glass lift in a contemporary atrium"
+          alt={storyPhoto.alt}
         />
         <div class="statement-badge">
           <span>A unit of</span>

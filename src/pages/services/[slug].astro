@@ -5,6 +5,8 @@ import ServiceCards from '../../components/ServiceCards.astro';
 import Icon from '../../components/Icon.astro';
 import { services } from '../../data/site';
 import { media } from '../../data/media';
+import { photo } from '../../data/photos';
+import PhotoGrid from '../../components/PhotoGrid.astro';
 export function getStaticPaths() {
   return services.map((service) => ({
     params: { slug: service.slug },
@@ -84,6 +86,30 @@ const stepText = [
           Request a callback <Icon size={16} />
         </a>
       </aside>
+    </div>
+  </section>
+
+  <section class="section soft" data-floor="On site">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">From the field</p>
+          <h2 class="h-display">
+            Lifts, doors <em class="serif">and the details.</em>
+          </h2>
+        </div>
+        <div class="section-head-side">
+          <p>
+            Photographs and clips of cabins, landing doors and site work
+            supplied by LB Elevators.
+          </p>
+          <a class="btn btn-outline" href="/gallery/">
+            <span>View the Gallery</span>
+            <Icon size={17} />
+          </a>
+        </div>
+      </div>
+      <PhotoGrid photos={s.photos.map(photo)} videoId={s.video} />
     </div>
   </section>
 

@@ -5,6 +5,8 @@ import Icon from '../components/Icon.astro';
 import { products, doors, applications } from '../data/site';
 import manifest from '../data/generated-images.json';
 import { media } from '../data/media';
+import { photos, photoCategories, videos } from '../data/photos';
+import VideoClip from '../components/VideoClip.astro';
 // Generated visuals join the gallery only once they exist.
 const generated = manifest.assets
   .filter((a) => a.alt)
@@ -12,6 +14,15 @@ const generated = manifest.assets
   .filter((a) => a.m.generated)
   .map((a) => ({ name: a.m.alt, src: a.m.src, full: a.m.src, category: 'architecture', door: false, w: 900, h: a.orientation === 'portrait' ? 1350 : 600 }));
 const images = [
+  ...photos.map((p) => ({
+    name: p.alt,
+    src: p.small,
+    full: p.src,
+    category: p.category,
+    door: false,
+    w: p.w,
+    h: p.h,
+  })),
   ...products.map((p) => ({
     name: p.name,
     src: `/images/${p.image}-small.webp`,
@@ -52,6 +63,7 @@ const images = [
 ];
 const filters = [
   { id: 'all', name: 'All Visuals' },
+  ...photoCategories,
   ...products.map((p) => ({ id: p.image, name: p.name })),
   { id: 'doors', name: 'Door Types' },
   { id: 'architecture', name: 'Architecture' },
@@ -60,23 +72,24 @@ const filters = [
 
 <MainLayout
   title="Product & Door Visual Gallery"
-  description="Browse representative elevator and door visuals from the LB Elevators catalogue. These images are not a completed-project portfolio."
+  description="Browse elevator cabin, door and site photographs and videos from LB Elevators, alongside representative product and architecture visuals."
 >
   <InnerHero
     title="A closer look at"
     accent="the possibilities."
     eyebrow="Visual gallery"
-    description="Explore representative solution visuals, from cabin interiors to the finishing details."
+    description="Explore cabin designs, finishes, doors and site work — in photos and video."
     image="panoramic"
     crumb="Gallery"
   />
   <section class="section" data-floor="Gallery">
     <div class="wrap">
       <p class="note">
-        These are representative product and architecture visuals, not verified
-        installations or completed LB Elevators projects. Door images come from
-        the supplied brochure. Elevator category, lobby and architecture images
-        are AI-generated representative concepts.
+        Cabin, door and site photographs and videos were supplied by LB
+        Elevators to show available designs and finishes; they are not a
+        portfolio of specific client projects. Door illustrations come from the
+        supplied brochure. Elevator category, lobby and architecture images are
+        AI-generated representative concepts.
       </p>
       <div class="gallery-filters" aria-label="Filter gallery">
         {
@@ -92,7 +105,7 @@ const filters = [
         }
       </div>
       <p class="gallery-count" data-gallery-count role="status">
-        {images.length} representative visuals
+        {images.length} visuals
       </p>
       <div class="gallery-grid">
         {
@@ -109,6 +122,29 @@ const filters = [
             </button>
           ))
         }
+      </div>
+    </div>
+  </section>
+  <section class="section soft" data-floor="Videos">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Video clips</p>
+          <h2 class="h-display">
+            Cabins and doors <em class="serif">in motion.</em>
+          </h2>
+        </div>
+        <div class="section-head-side">
+          <p>Short clips of cabin interiors, landing doors and site work.</p>
+        </div>
+      </div>
+      <div class="video-grid">
+        {videos.map((v) => (
+          <figure class="video-card reveal">
+            <VideoClip id={v.id} />
+            <figcaption>{v.alt}</figcaption>
+          </figure>
+        ))}
       </div>
     </div>
   </section>

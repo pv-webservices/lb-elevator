@@ -220,6 +220,28 @@ if ('IntersectionObserver' in window && !reduceMotion) {
   document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
 }
 
+/* ---------- Video clips ---------- */
+// Clips play muted only while visible. With reduced motion they stay paused
+// on their poster and offer native controls instead.
+const clips = document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]');
+if (reduceMotion || !('IntersectionObserver' in window)) {
+  clips.forEach((clip) => {
+    clip.controls = true;
+    clip.preload = 'metadata';
+  });
+} else {
+  const clipObserver = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((entry) => {
+        const clip = entry.target as HTMLVideoElement;
+        if (entry.isIntersecting) clip.play().catch(() => (clip.controls = true));
+        else clip.pause();
+      }),
+    { threshold: 0.25 },
+  );
+  clips.forEach((clip) => clipObserver.observe(clip));
+}
+
 /* ---------- Door selector ---------- */
 interface Door {
   name: string;
@@ -357,7 +379,7 @@ document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((button) =
     });
     const count = document.querySelector('[data-gallery-count]');
     if (count)
-      count.textContent = `${document.querySelectorAll('[data-category]:not([hidden])').length} representative visuals`;
+      count.textContent = `${document.querySelectorAll('[data-category]:not([hidden])').length} visuals`;
   });
 });
 const lightbox = document.querySelector<HTMLDialogElement>('.lightbox');

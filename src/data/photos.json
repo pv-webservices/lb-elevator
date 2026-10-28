@@ -1,0 +1,373 @@
+{
+  "$comment": "Supplied photographs and site videos, prepared by scripts/import-site-media.py into public/images/photos/ and public/videos/. `source` is the supplied file name; `crop` is [left, top, right, bottom] in source pixels, or \"trim\" to remove black letterboxing. `products` places a photo on those product pages. Width and height are written by the script.",
+  "categories": [
+    {
+      "id": "designer-cabins",
+      "name": "Designer Cabins"
+    },
+    {
+      "id": "steel-cabins",
+      "name": "Steel Cabins"
+    },
+    {
+      "id": "home-lifts",
+      "name": "Home & Compact Lifts"
+    },
+    {
+      "id": "site-work",
+      "name": "Doors & Site Work"
+    }
+  ],
+  "photos": [
+    {
+      "id": "designer-cabin-01",
+      "source": "image-19.jpeg",
+      "category": "designer-cabins",
+      "products": ["passenger-lifts"],
+      "alt": "Rose-gold elevator cabin with a laser-cut ceiling and mandala floor inlay",
+      "w": 900,
+      "h": 1200
+    },
+    {
+      "id": "designer-cabin-02",
+      "source": "image-33.jpeg",
+      "category": "designer-cabins",
+      "products": ["passenger-lifts"],
+      "alt": "Mirror-gold cabin with etched Greek-key panels and a black marble floor",
+      "w": 900,
+      "h": 1200
+    },
+    {
+      "id": "designer-cabin-03",
+      "source": "image-34.jpeg",
+      "crop": [130, 75, 1320, 1600],
+      "category": "designer-cabins",
+      "products": [],
+      "alt": "Champagne-gold cabin with an etched floral feature panel and lit ceiling",
+      "w": 936,
+      "h": 1200
+    },
+    {
+      "id": "designer-cabin-04",
+      "source": "image-50.jpeg",
+      "category": "designer-cabins",
+      "products": ["passenger-lifts"],
+      "alt": "Champagne cabin with a lotus ceiling light and patterned stone floor",
+      "w": 600,
+      "h": 800
+    },
+    {
+      "id": "designer-cabin-05",
+      "source": "image-21.jpeg",
+      "category": "designer-cabins",
+      "products": [],
+      "alt": "Rose-gold cabin with a lotus floor inlay and slim car operating panel",
+      "w": 900,
+      "h": 1200
+    },
+    {
+      "id": "designer-cabin-06",
+      "source": "image-22.jpeg",
+      "category": "designer-cabins",
+      "products": [],
+      "alt": "Upward view of a rose-gold cabin with a sculpted ceiling",
+      "w": 900,
+      "h": 1200
+    },
+    {
+      "id": "designer-cabin-07",
+      "source": "image-42.jpeg",
+      "category": "designer-cabins",
+      "products": [],
+      "alt": "Gold cabin with vertical line etching and a medallion feature panel",
+      "w": 609,
+      "h": 1200
+    },
+    {
+      "id": "designer-cabin-08",
+      "source": "image-44.jpeg",
+      "category": "designer-cabins",
+      "products": [],
+      "alt": "Mirror-gold cabin with ornamental etched panels and a star-pattern floor",
+      "w": 900,
+      "h": 1200
+    },
+    {
+      "id": "designer-cabin-09",
+      "source": "image-14.jpeg",
+      "category": "designer-cabins",
+      "products": [],
+      "alt": "Bronze-tone cabin with a large etched medallion and ornate ceiling",
+      "w": 536,
+      "h": 1200
+    },
+    {
+      "id": "designer-cabin-10",
+      "source": "image-15.jpeg",
+      "category": "designer-cabins",
+      "products": ["passenger-lifts"],
+      "alt": "Stainless cabin with a starburst ceiling, mirror rear wall and handrail",
+      "w": 720,
+      "h": 960
+    },
+    {
+      "id": "designer-cabin-11",
+      "source": "image-16.jpeg",
+      "category": "designer-cabins",
+      "products": [],
+      "alt": "Hairline steel cabin with a sculpted LED ceiling",
+      "w": 768,
+      "h": 1024
+    },
+    {
+      "id": "designer-cabin-12",
+      "source": "image-4.jpeg",
+      "category": "designer-cabins",
+      "products": [],
+      "alt": "Wood-tone cabin with a lattice feature panel and marble floor border",
+      "w": 720,
+      "h": 902
+    },
+    {
+      "id": "designer-cabin-13",
+      "source": "image-39.jpeg",
+      "category": "designer-cabins",
+      "products": [],
+      "alt": "Stainless cabin with a circular gold ceiling feature",
+      "w": 900,
+      "h": 1200
+    },
+    {
+      "id": "designer-cabin-14",
+      "source": "image-47.jpeg",
+      "category": "designer-cabins",
+      "products": [],
+      "alt": "Champagne cabin with a wall sconce, brass handrail and mirror",
+      "w": 446,
+      "h": 446
+    },
+    {
+      "id": "steel-cabin-01",
+      "source": "image-13.jpeg",
+      "category": "steel-cabins",
+      "products": ["goods-lifts", "hospital-lifts"],
+      "alt": "Spacious stainless steel cabin with textured wall panels",
+      "w": 900,
+      "h": 1200
+    },
+    {
+      "id": "steel-cabin-02",
+      "source": "image-10.jpeg",
+      "category": "steel-cabins",
+      "products": ["hospital-lifts"],
+      "alt": "Brushed stainless cabin with a grid-pattern illuminated ceiling",
+      "w": 780,
+      "h": 1040
+    },
+    {
+      "id": "steel-cabin-03",
+      "source": "image-11.jpeg",
+      "category": "steel-cabins",
+      "products": ["goods-lifts"],
+      "alt": "Hairline stainless cabin with a chequer-plate floor",
+      "w": 720,
+      "h": 960
+    },
+    {
+      "id": "steel-cabin-04",
+      "source": "image-18.jpeg",
+      "category": "steel-cabins",
+      "products": ["passenger-lifts"],
+      "alt": "Stainless cabin with a gold handrail and illuminated push buttons",
+      "w": 640,
+      "h": 960
+    },
+    {
+      "id": "steel-cabin-05",
+      "source": "image-31.jpeg",
+      "category": "steel-cabins",
+      "products": ["hospital-lifts"],
+      "alt": "Copper-tone cabin with a patterned white ceiling and terrazzo floor",
+      "w": 471,
+      "h": 650
+    },
+    {
+      "id": "steel-cabin-06",
+      "source": "image-35.jpeg",
+      "category": "steel-cabins",
+      "products": ["hospital-lifts"],
+      "alt": "Charcoal-finish cabin with linear lighting and a mirror strip",
+      "w": 534,
+      "h": 800
+    },
+    {
+      "id": "steel-cabin-07",
+      "source": "image-41.jpeg",
+      "crop": [0, 240, 540, 960],
+      "category": "steel-cabins",
+      "products": [],
+      "alt": "Stainless cabin with mirror panels and marble flooring",
+      "w": 540,
+      "h": 720
+    },
+    {
+      "id": "steel-cabin-08",
+      "source": "image-46.jpeg",
+      "crop": [0, 224, 738, 1376],
+      "category": "steel-cabins",
+      "products": [],
+      "alt": "Stainless cabin with a ring-light ceiling and patterned marble floor",
+      "w": 738,
+      "h": 1152
+    },
+    {
+      "id": "home-lift-01",
+      "source": "image-7.jpeg",
+      "category": "home-lifts",
+      "products": ["home-lifts"],
+      "alt": "Wood-panel home lift cabin with warm cove lighting",
+      "w": 561,
+      "h": 1200
+    },
+    {
+      "id": "home-lift-02",
+      "source": "image-2.jpeg",
+      "category": "home-lifts",
+      "products": ["home-lifts"],
+      "alt": "Compact home lift cabin with an etched bronze rear panel",
+      "w": 720,
+      "h": 960
+    },
+    {
+      "id": "home-lift-03",
+      "source": "image-20.jpeg",
+      "category": "home-lifts",
+      "products": ["home-lifts", "capsule-panoramic-lifts"],
+      "alt": "Home lift with glass-vision landing doors in a residential lobby",
+      "w": 900,
+      "h": 1200
+    },
+    {
+      "id": "home-lift-04",
+      "source": "image-1.jpeg",
+      "category": "home-lifts",
+      "products": ["home-lifts"],
+      "alt": "Light-grey compact cabin with floral cut-out ceiling lights",
+      "w": 900,
+      "h": 1200
+    },
+    {
+      "id": "home-lift-05",
+      "source": "image-28.jpeg",
+      "category": "home-lifts",
+      "products": ["capsule-panoramic-lifts"],
+      "alt": "Glass lift shaft on the facade of a residential building",
+      "w": 833,
+      "h": 1100
+    },
+    {
+      "id": "site-work-01",
+      "source": "image-27.jpeg",
+      "category": "site-work",
+      "products": ["passenger-lifts"],
+      "alt": "Stainless steel landing doors in a red marble lobby surround",
+      "w": 682,
+      "h": 1200
+    },
+    {
+      "id": "site-work-02",
+      "source": "image-8.jpeg",
+      "crop": [0, 0, 576, 1010],
+      "category": "site-work",
+      "products": [],
+      "alt": "Stainless steel landing doors at a building entrance",
+      "w": 576,
+      "h": 1010
+    },
+    {
+      "id": "site-work-03",
+      "source": "image-3.jpeg",
+      "crop": [0, 75, 500, 440],
+      "category": "site-work",
+      "products": ["goods-lifts"],
+      "alt": "Elevator car frame with sling and safety components ready for installation",
+      "w": 500,
+      "h": 365
+    },
+    {
+      "id": "site-work-04",
+      "source": "image-6.jpeg",
+      "category": "site-work",
+      "products": ["goods-lifts"],
+      "alt": "Elevator landing door panels stacked at the workshop",
+      "w": 720,
+      "h": 540
+    },
+    {
+      "id": "site-work-05",
+      "source": "image-29.jpeg",
+      "crop": [0, 0, 1600, 1204],
+      "category": "site-work",
+      "products": [],
+      "alt": "Steel fabrication work in progress at the workshop",
+      "w": 1595,
+      "h": 1200
+    }
+  ],
+  "videos": [
+    {
+      "id": "cabin-walkthrough",
+      "source": "video-7.mp4",
+      "start": 0,
+      "duration": 14,
+      "alt": "Walk-through of a rose-gold designer cabin with a laser-cut ceiling",
+      "w": 478,
+      "h": 850
+    },
+    {
+      "id": "glass-doors",
+      "source": "video-1.mp4",
+      "start": 2,
+      "duration": 16,
+      "alt": "Stainless steel landing doors with glass vision panels opening",
+      "w": 540,
+      "h": 960
+    },
+    {
+      "id": "door-operation",
+      "source": "video-2.mp4",
+      "start": 4,
+      "duration": 16,
+      "alt": "Stainless steel lift doors opening at a landing",
+      "w": 540,
+      "h": 960
+    },
+    {
+      "id": "finish-details",
+      "source": "video-6.mp4",
+      "start": 0,
+      "duration": 16,
+      "alt": "Glass-vision landing doors opening onto a cabin with cove lighting",
+      "w": 480,
+      "h": 864
+    },
+    {
+      "id": "textured-panels",
+      "source": "video-8.mp4",
+      "start": 0,
+      "duration": 16,
+      "alt": "Textured stone-effect cabin wall panel and marble floor",
+      "w": 472,
+      "h": 850
+    },
+    {
+      "id": "installation-site",
+      "source": "video-10.mp4",
+      "start": 6,
+      "duration": 18,
+      "alt": "Lift installation in progress inside a residential building",
+      "w": 478,
+      "h": 850
+    }
+  ]
+}

@@ -37,3 +37,18 @@ Gallery and applications pages identify representative visuals. No testimonials,
 Created 25 October 2026 with `gpt-image-2.5-sunburst` (hero-lobby, showcase-atrium, service-installation, service-maintenance) and `gpt-image-2.5-flare` (service-modernization, service-amc, process-shaft) through `scripts/images/generate.mjs`. Prompts, placements and alt text are in `src/data/generated-images.json`. Outputs are in `public/images/gen/`; untouched PNG originals are kept in `output/generated-originals/` and are not deployed.
 
 These are representative visuals. They do not depict LB Elevators staff, completed installations, specific equipment models or client buildings. Technician images show anonymous, AI-generated people with faces turned away.
+
+## Supplied photographs and videos (October 2026)
+
+A folder of 50 photographs and 10 phone videos was supplied for site use. `scripts/import-site-media.py "<folder>"` prepares the selected files listed in `src/data/photos.json`: WebP photos in `public/images/photos/` (`<id>.webp` and `<id>-sm.webp`) and muted, trimmed H.264 clips with WebP posters in `public/videos/`. Crops remove phone UI, letterboxing and a camera watermark. Originals are not deployed.
+
+Placements: homepage About image and "Cabin designs & finishes" section, a photo section on each elevator page, a "From the field" section with a clip on each service page, the About Us story image, and new photo filters plus a video section in the gallery. The gallery note describes these as supplied photographs of available designs, finishes and site work, not a portfolio of specific client projects.
+
+Not used, deliberately:
+
+- `image-26`: a stamp-paper legal agreement with personal details. Never publish.
+- `image-9`, `image-12`, `image-38`, `image-37`, `image-40`: carry a cabin supplier's watermark or are photos of a supplier catalogue/PDF.
+- `image-49` (duplicate of `image-47`), `image-36` (188 × 250), `image-5` (small render), `image-45`, `image-48`, `image-17`, `image-23`–`25`, `image-30`, `image-32`, `image-43` (phone screenshots, low quality, near-duplicates, identifiable people or third-party branding).
+- `video-4` (shaky landscape, 3 min), `video-5` (third-party brand signage), `video-3` (short, shop signage), `video-9` (identifiable person on camera).
+
+Confirm with LB Elevators that they hold the rights to publish the selected photographs, several of which appear to be taken at trade exhibitions.
