@@ -1,5 +1,5 @@
 ---
-import { business } from '../data/site';
+import { business, offices } from '../data/site';
 import Icon from './Icon.astro';
 import WhatsAppIcon from './WhatsAppIcon.astro';
 interface Props {
@@ -14,14 +14,36 @@ const tel = (p: string) => `tel:${p.replaceAll(' ', '')}`;
   <h2>
     A conversation is a <em class="serif">good place to start.</em>
   </h2>
+  <p class="contact-company">{business.company}</p>
   <ul class="contact-list">
-    <li>
-      <span class="contact-icon"><Icon name="phone" size={20} /></span>
-      <div>
-        <small>Call us</small>
-        {business.phones.map((p) => <a href={tel(p)}>{p}</a>)}
-      </div>
-    </li>
+    {
+      offices.map((o) => (
+        <li class="contact-office">
+          <span class="contact-icon">
+            <Icon name="pin" size={20} />
+          </span>
+          <div>
+            <small>{o.name}</small>
+            <a
+              class="contact-address"
+              href={o.map}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {o.address}
+            </a>
+            <div class="contact-phones">
+              {o.phones.map((p) => (
+                <a href={tel(p)}>
+                  <Icon name="phone" size={14} />
+                  {p}
+                </a>
+              ))}
+            </div>
+          </div>
+        </li>
+      ))
+    }
     <li>
       <span class="contact-icon wa">
         <WhatsAppIcon size={21} />
@@ -44,33 +66,28 @@ const tel = (p: string) => `tel:${p.replaceAll(' ', '')}`;
         <a href={`mailto:${business.email}`}>{business.email}</a>
       </div>
     </li>
-    <li>
-      <span class="contact-icon"><Icon name="pin" size={20} /></span>
-      <div>
-        <small>Visit</small>
-        <a href={business.map} target="_blank" rel="noopener noreferrer">
-          {business.address}
-        </a>
-      </div>
-    </li>
   </ul>
   {
     map && (
-      <div class="map-frame">
-        <iframe
-          src={business.mapEmbed}
-          title="Map of Champasari Main Road, Siliguri"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        />
-        <a
-          class="map-open"
-          href={business.map}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Open in Google Maps <Icon name="external" size={14} />
-        </a>
+      <div class="map-pair">
+        {offices.map((o) => (
+          <div class="map-frame">
+            <iframe
+              src={o.mapEmbed}
+              title={`Map of the LB Elevators ${o.name}, ${o.city}`}
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            />
+            <a
+              class="map-open"
+              href={o.map}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {o.city} <Icon name="external" size={14} />
+            </a>
+          </div>
+        ))}
       </div>
     )
   }

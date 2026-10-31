@@ -361,7 +361,7 @@ document.querySelectorAll<HTMLFormElement>('[data-enquiry]').forEach((form) => {
         'The enquiry service has accepted your request. For urgent assistance, please call our team.';
     } catch {
       status.textContent =
-        'Your submission could not be confirmed. Please call +91 9679112375 or email liftsbazar2025@gmail.com.';
+        'Your submission could not be confirmed. Please call +91 9102595785 or email liftsbazar2025@gmail.com.';
     } finally {
       button.disabled = false;
     }

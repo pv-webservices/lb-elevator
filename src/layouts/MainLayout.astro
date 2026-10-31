@@ -7,7 +7,7 @@ import '@fontsource/source-sans-3/latin-400.css';
 import '@fontsource/source-sans-3/latin-600.css';
 import '@fontsource/instrument-serif/latin-400-italic.css';
 import '../styles/global.css';
-import { business, products, services } from '../data/site';
+import { business, offices, primaryPhone, products, services } from '../data/site';
 import Icon from '../components/Icon.astro';
 import WhatsAppIcon from '../components/WhatsAppIcon.astro';
 interface Props {
@@ -67,17 +67,13 @@ const schema = {
   name: business.name,
   legalName: 'Lifts Bazar Private Limited',
   description,
-  telephone: business.phones,
+  telephone: offices.flatMap((o) => o.phones),
   email: business.email,
-  address: {
+  address: offices.map((o) => ({
     '@type': 'PostalAddress',
-    streetAddress:
-      'Shivaji Nagar, Champasari Main Road, Near Gulam View Hotel, Behind Bata Showroom',
-    addressLocality: 'Siliguri',
-    addressRegion: 'West Bengal',
-    postalCode: '734003',
+    ...o.postal,
     addressCountry: 'IN',
-  },
+  })),
   ...(origin
     ? { url: origin, image: new URL('/images/hero.webp', origin).href }
     : {}),
@@ -149,20 +145,26 @@ const schema = {
     <header class="site-header" data-header>
       <div class="topbar">
         <div class="wrap topbar-inner">
-          <a
-            class="top-address"
-            href={business.map}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <div class="top-offices">
             <Icon name="pin" size={14} />
-            <span>Champasari Main Road, Siliguri, West Bengal – 734003</span>
-          </a>
+            {offices.map((o) => (
+              <a
+                class="top-address"
+                href={o.map}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={o.address}
+              >
+                {o.city}
+              </a>
+            ))}
+          </div>
           <div class="top-links">
-            {business.phones.map((p) => (
-              <a href={tel(p)}>
+            {offices.map((o) => (
+              <a href={tel(o.phones[0])} aria-label={`Call ${o.name} on ${o.phones[0]}`}>
                 <Icon name="phone" size={13} />
-                {p}
+                <span class="top-office-label">{o.city}:</span>
+                {o.phones[0]}
               </a>
             ))}
             <a class="top-email" href={`mailto:${business.email}`}>
@@ -178,14 +180,14 @@ const schema = {
             class="brand-light"
             src="/images/logo-light.webp"
             width="220"
-            height="70"
+            height="79"
             alt=""
           />
           <img
             class="brand-color"
             src="/images/logo-color.webp"
             width="220"
-            height="70"
+            height="79"
             alt=""
           />
         </a>
@@ -235,11 +237,17 @@ const schema = {
             ))}
           </ul>
           <div class="nav-mobile-contact">
-            {business.phones.map((p) => (
-              <a href={tel(p)}>
-                <Icon name="phone" size={16} />
-                {p}
-              </a>
+            <strong class="nav-mobile-company">{business.company}</strong>
+            {offices.map((o) => (
+              <div class="nav-mobile-office">
+                <small>{o.name}</small>
+                {o.phones.map((p) => (
+                  <a href={tel(p)}>
+                    <Icon name="phone" size={16} />
+                    {p}
+                  </a>
+                ))}
+              </div>
             ))}
             <a href={`mailto:${business.email}`}>
               <Icon name="mail" size={16} />
@@ -285,9 +293,9 @@ const schema = {
             <span>Request a Quote</span>
             <Icon size={18} />
           </a>
-          <a class="btn btn-ghost-light" href={tel(business.phones[0])}>
+          <a class="btn btn-ghost-light" href={tel(primaryPhone)}>
             <Icon name="phone" size={17} />
-            <span>Call {business.phones[0]}</span>
+            <span>Call {primaryPhone}</span>
           </a>
         </div>
       </div>
@@ -297,7 +305,7 @@ const schema = {
             <img
               src="/images/logo-light.webp"
               width="220"
-              height="70"
+              height="79"
               loading="lazy"
               alt=""
             />
@@ -305,7 +313,7 @@ const schema = {
           <p>
             Leading the way in innovative vertical mobility — passenger, goods,
             home, hospital and panoramic lifts with installation, maintenance,
-            modernization and AMC support from Siliguri.
+            modernization and AMC support from Siliguri and New Delhi.
           </p>
           <div class="brand-rule" aria-hidden="true">
             <i></i><i></i><i></i><i></i>
@@ -345,21 +353,27 @@ const schema = {
         </div>
         <div class="footer-contact-col">
           <h2>Get in touch</h2>
-          <div class="footer-contact">
-            <Icon name="phone" size={17} />
-            <div>
-              {business.phones.map((p) => <a href={tel(p)}>{p}</a>)}
+          <p class="footer-company">{business.company}</p>
+          {offices.map((o) => (
+            <div class="footer-office">
+              <h3>{o.name}</h3>
+              <div class="footer-contact">
+                <Icon name="pin" size={17} />
+                <a href={o.map} target="_blank" rel="noopener noreferrer">
+                  {o.address}
+                </a>
+              </div>
+              <div class="footer-contact">
+                <Icon name="phone" size={17} />
+                <div>
+                  {o.phones.map((p) => <a href={tel(p)}>{p}</a>)}
+                </div>
+              </div>
             </div>
-          </div>
+          ))}
           <div class="footer-contact">
             <Icon name="mail" size={17} />
             <a href={`mailto:${business.email}`}>{business.email}</a>
-          </div>
-          <div class="footer-contact">
-            <Icon name="pin" size={17} />
-            <a href={business.map} target="_blank" rel="noopener noreferrer">
-              {business.address}
-            </a>
           </div>
         </div>
       </div>
@@ -377,8 +391,8 @@ const schema = {
     <div class="float-actions">
       <a
         class="float-call"
-        href={tel(business.phones[0])}
-        aria-label={`Call LB Elevators on ${business.phones[0]}`}
+        href={tel(primaryPhone)}
+        aria-label={`Call LB Elevators on ${primaryPhone}`}
       >
         <Icon name="phone" size={20} />
       </a>

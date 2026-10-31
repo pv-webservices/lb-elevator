@@ -4,23 +4,24 @@ import InnerHero from '../components/InnerHero.astro';
 import EnquiryForm from '../components/EnquiryForm.astro';
 import ContactPanel from '../components/ContactPanel.astro';
 import Icon from '../components/Icon.astro';
-import { business } from '../data/site';
+import { business, offices, primaryPhone } from '../data/site';
+const tel = (p: string) => `tel:${p.replaceAll(' ', '')}`;
 ---
 
 <MainLayout
-  title="Contact Our Siliguri Team"
-  description="Contact LB Elevators in Siliguri. Call +91 9679112375 or +91 9102595785, or email liftsbazar2025@gmail.com for lift enquiries."
+  title="Contact Our Siliguri & Delhi Teams"
+  description="Contact LB Elevators in Siliguri (+91 9102595785, +91 7261058943) or New Delhi (+91 9679112375, +91 7078492289), or email liftsbazar2025@gmail.com for lift enquiries."
 >
   <InnerHero
     title="Let’s talk about"
     accent="your building."
     eyebrow="Get in touch"
-    description="A new lift, an upgrade or ongoing care. Start a conversation with our Siliguri team."
+    description="A new lift, an upgrade or ongoing care. Start a conversation with our teams in Siliguri and New Delhi."
     crumb="Contact Us"
   >
-    <a class="btn btn-primary" href={`tel:${business.phones[0].replaceAll(' ', '')}`}>
+    <a class="btn btn-primary" href={tel(primaryPhone)}>
       <Icon name="phone" size={16} />
-      <span>Call {business.phones[0]}</span>
+      <span>Call {primaryPhone}</span>
     </a>
     <a class="btn btn-ghost-light" href="#enquiry">
       <span>Send an Enquiry</span>
@@ -28,7 +29,7 @@ import { business } from '../data/site';
   </InnerHero>
   <section class="section enquiry" id="enquiry" data-floor="Enquiry">
     <div class="wrap contact-layout">
-      <ContactPanel />
+      <ContactPanel map={false} />
       <div class="form-card reveal">
         <p class="eyebrow">Your next level starts here</p>
         <h2>Send us an enquiry</h2>
@@ -37,6 +38,65 @@ import { business } from '../data/site';
           marked with an asterisk.
         </p>
         <EnquiryForm id="contact" />
+      </div>
+    </div>
+  </section>
+  <section class="section" id="offices" data-floor="Offices">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="eyebrow">Our offices</p>
+          <h2 class="h-display">
+            Visit us in <em class="serif">Siliguri or New Delhi.</em>
+          </h2>
+        </div>
+      </div>
+      <div class="office-grid">
+        {
+          offices.map((o) => (
+            <article class="office-card reveal">
+              <div class="office-map">
+                <iframe
+                  src={o.mapEmbed}
+                  title={`Map of the LB Elevators ${o.name}, ${o.city}`}
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                />
+              </div>
+              <div class="office-body">
+                <div>
+                  <p class="office-company">{business.company}</p>
+                  <h3>{o.name}</h3>
+                </div>
+                <p class="office-line">
+                  <Icon name="pin" size={18} />
+                  <span>{o.address}</span>
+                </p>
+                <p class="office-line">
+                  <Icon name="phone" size={18} />
+                  <span class="office-phones">
+                    {o.phones.map((p) => (
+                      <a href={tel(p)}>{p}</a>
+                    ))}
+                  </span>
+                </p>
+                <p class="office-line">
+                  <Icon name="mail" size={18} />
+                  <a href={`mailto:${business.email}`}>{business.email}</a>
+                </p>
+                <a
+                  class="btn btn-primary btn-sm"
+                  href={o.map}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span>Open in Google Maps</span>
+                  <Icon name="external" size={15} />
+                </a>
+              </div>
+            </article>
+          ))
+        }
       </div>
     </div>
   </section>

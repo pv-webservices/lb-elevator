@@ -466,6 +466,22 @@ h2 .serif {
   display: flex;
   gap: 22px;
 }
+.top-offices {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.top-offices > svg {
+  opacity: 0.85;
+}
+.top-offices .top-address + .top-address::before {
+  content: '·';
+  margin-right: 7px;
+  opacity: 0.6;
+}
+.top-office-label {
+  opacity: 0.7;
+}
 .header-inner {
   display: flex;
   align-items: center;
@@ -837,7 +853,9 @@ h2 .serif {
 .hero h1 .line {
   display: block;
   overflow: hidden;
-  padding-bottom: 0.08em;
+  /* Room for descenders (g, y) inside the reveal mask without widening the gap. */
+  padding-bottom: 0.2em;
+  margin-bottom: -0.12em;
 }
 .hero h1 .line > span {
   display: inline-block;
@@ -1937,10 +1955,16 @@ h2 .serif {
 .contact-panel h2 .serif {
   color: var(--yellow);
 }
+.contact-company {
+  margin: 28px 0 0;
+  color: var(--yellow);
+  font: 800 15px/1.4 var(--font-display);
+  letter-spacing: 0.08em;
+}
 .contact-list {
   display: grid;
   gap: 22px;
-  margin: 32px 0;
+  margin: 22px 0 32px;
 }
 .contact-list li {
   display: flex;
@@ -1979,14 +2003,36 @@ h2 .serif {
 .contact-list a:hover {
   color: var(--yellow);
 }
+.contact-address {
+  margin-bottom: 6px;
+}
+.contact-phones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 18px;
+}
+.contact-list .contact-phones a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 600;
+}
+.contact-phones svg {
+  color: var(--yellow);
+}
+.map-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: auto;
+  flex: 1;
+}
 .map-frame {
   position: relative;
   min-height: 220px;
-  margin-top: auto;
   overflow: hidden;
   border-radius: var(--r-md);
   background: var(--navy-900);
-  flex: 1;
 }
 .map-frame iframe {
   position: absolute;
@@ -2009,6 +2055,73 @@ h2 .serif {
   color: var(--navy-900);
   font: 700 13px/1 var(--font-display);
   box-shadow: var(--shadow-md);
+}
+.office-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 2.4vw, 36px);
+}
+.office-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-md);
+}
+.office-map {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--navy-900);
+}
+.office-map iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.office-body {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  padding: clamp(24px, 2.6vw, 36px);
+}
+.office-company {
+  margin: 0 0 4px;
+  color: var(--blue-500);
+  font: 800 12px/1.4 var(--font-display);
+  letter-spacing: 0.14em;
+}
+.office-body h3 {
+  font-size: clamp(22px, 1.8vw, 28px);
+}
+.office-line {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  line-height: 1.5;
+}
+.office-line svg {
+  flex: none;
+  margin-top: 3px;
+  color: var(--blue-500);
+}
+.office-phones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+}
+.office-line a {
+  color: var(--navy-800);
+  font-weight: 600;
+}
+.office-line a:hover {
+  color: var(--blue-500);
+}
+.office-body .btn {
+  margin-top: 6px;
 }
 .form-card {
   padding: clamp(28px, 3.4vw, 52px);
@@ -2245,6 +2358,22 @@ h2 .serif {
 }
 .footer-contact div {
   display: grid;
+}
+.footer-company {
+  margin: -8px 0 18px;
+  color: var(--white);
+  font: 800 14px/1.4 var(--font-display);
+  letter-spacing: 0.06em;
+}
+.footer-office {
+  margin-bottom: 8px;
+}
+.site-footer .footer-office h3 {
+  margin-bottom: 10px;
+  color: var(--yellow);
+  font: 700 12px/1.4 var(--font-display);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 .footer-bottom {
   padding-right: 90px;
@@ -3083,6 +3212,10 @@ h2 .serif {
     grid-column: 1 / -1;
     margin-bottom: 4px;
   }
+  .footer-contact-col .footer-company {
+    grid-column: 1 / -1;
+    margin: 0 0 8px;
+  }
   .hero-card {
     display: none;
   }
@@ -3195,6 +3328,21 @@ h2 .serif {
     border-radius: var(--r-md);
     background: var(--paper);
   }
+  .nav-mobile-company {
+    color: var(--navy-800);
+    font: 800 13px/1.4 var(--font-display);
+    letter-spacing: 0.06em;
+  }
+  .nav-mobile-office {
+    display: grid;
+    gap: 10px;
+  }
+  .nav-mobile-office small {
+    color: var(--muted);
+    font: 700 11px/1.4 var(--font-display);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
   .nav-mobile-contact a {
     display: flex;
     align-items: center;
@@ -3224,6 +3372,7 @@ h2 .serif {
   .split,
   .enquiry-grid,
   .contact-layout,
+  .office-grid,
   .quote-layout,
   .detail-layout {
     grid-template-columns: 1fr;
@@ -3404,6 +3553,9 @@ h2 .serif {
 }
 
 @media (max-width: 700px) {
+  .map-pair {
+    grid-template-columns: 1fr;
+  }
   .hero {
     min-height: max(600px, 100svh);
   }

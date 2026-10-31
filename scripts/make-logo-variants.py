@@ -10,7 +10,13 @@ alpha = np.clip((255 - a.min(axis=2)) / 255 * 1.15, 0, 1)
 safe = np.maximum(alpha, 1e-3)[..., None]
 rgb = np.clip((a - 255 * (1 - safe)) / safe, 0, 255)
 rgba = np.dstack([rgb, alpha * 255]).astype(np.uint8)
-color = Image.fromarray(rgba, 'RGBA')
+# The white disc is taller than the source artwork, so pad top/bottom to keep it whole.
+PAD = 12
+def padded(img):
+    canvas = Image.new('RGBA', (img.width, img.height + 2 * PAD), (0, 0, 0, 0))
+    canvas.paste(img, (0, PAD))
+    return canvas
+color = padded(Image.fromarray(rgba, 'RGBA'))
 mask = alpha > 0.15
 cols = np.where(mask[:, :240].any(axis=0))[0]; rows = np.where(mask[:, :240].any(axis=1))[0]
 x0, x1, y0, y1 = cols.min(), cols.max(), rows.min(), rows.max()
@@ -22,9 +28,9 @@ word = np.zeros_like(mask); word[:, 245:] = True
 band = np.zeros_like(mask); band[136:160, :] = True
 text = word & ~band & (lum < 150)
 light[text, 0:3] = 255
-light_img = Image.fromarray(light, 'RGBA')
+light_img = padded(Image.fromarray(light, 'RGBA'))
 disc = Image.new('RGBA', light_img.size, (0, 0, 0, 0))
-cx, cy, r = (x0 + x1) / 2, (y0 + y1) / 2, max(x1 - x0, y1 - y0) / 2 + 2
+cx, cy, r = (x0 + x1) / 2, (y0 + y1) / 2 + PAD, max(x1 - x0, y1 - y0) / 2 + 2
 ImageDraw.Draw(disc).ellipse([cx - r, cy - r, cx + r, cy + r], fill=(255, 255, 255, 255))
 light_img = Image.alpha_composite(disc, light_img)
 light_img.save('public/images/logo-light.webp', quality=90, method=6)

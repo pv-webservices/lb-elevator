@@ -35,9 +35,9 @@ An approved form provider can be configured with `PUBLIC_FORM_ENDPOINT`. It must
 
 Do not set a provider endpoint without confirming this contract. Activate the recipient, verify provider-side validation/spam controls, and test actual delivery before launch. No live enquiry or email was sent during development. If a provider uses another response shape, adapt and test the handler before enabling it.
 
-WhatsApp: a floating WhatsApp button, a contact-panel link and a "Send via WhatsApp" form option open `wa.me` with a prefilled message for the visitor to review and send. They use the primary phone (+91 9679112375) by default — **confirm it is WhatsApp-enabled**, or set `PUBLIC_WHATSAPP_NUMBER` (international format, digits only) before building. Social links remain omitted because no social profiles were supplied.
+WhatsApp: a floating WhatsApp button, a contact-panel link and a "Send via WhatsApp" form option open `wa.me` with a prefilled message for the visitor to review and send. They use +91 9679112375 (Delhi office) by default — **confirm it is WhatsApp-enabled**, or set `PUBLIC_WHATSAPP_NUMBER` (international format, digits only) before building. Social links remain omitted because no social profiles were supplied.
 
-The contact panel embeds a Google Maps address search for Champasari Main Road, Siliguri, plus an "Open in Google Maps" link. Replace it with a verified place pin when available.
+Office details live in `offices` in `src/data/site.ts` (West Bengal / Siliguri first, as the primary call number, then Delhi). The contact panel and the contact page's office cards embed a Google Maps address search for each office, plus "Open in Google Maps" links. Replace them with verified place pins when available.
 
 ## Image generation (server-side)
 

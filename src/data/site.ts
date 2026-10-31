@@ -1,19 +1,52 @@
 export const business = {
   name: 'LB Elevators',
   legal: 'A Unit of Lifts Bazar Private Limited',
+  company: 'LIFTS BAZAR PRIVATE LIMITED',
   tagline: 'Leading the Way in Innovative Vertical Mobility',
-  phones: ['+91 9679112375', '+91 9102595785'],
   email: 'liftsbazar2025@gmail.com',
-  address:
-    'Shivaji Nagar, Champasari Main Road, Near Gulam View Hotel, Behind Bata Showroom, Siliguri – 734003, West Bengal, India',
   director: 'Binod Yadav',
   website: 'www.liftsbazar.in',
-  // WhatsApp chat uses the primary phone unless an approved number is configured.
+  // WhatsApp chat uses this number unless an approved number is configured.
   whatsapp: (import.meta.env.PUBLIC_WHATSAPP_NUMBER as string) || '919679112375',
-  mapEmbed:
-    'https://maps.google.com/maps?q=Champasari+Main+Road,+Shivaji+Nagar,+Siliguri,+West+Bengal+734003&z=15&output=embed',
-  map: 'https://www.google.com/maps/search/?api=1&query=Shivaji+Nagar+Champasari+Main+Road+Near+Gulam+View+Hotel+Siliguri+734003',
 };
+const mapQuery = (q: string) => encodeURIComponent(q).replaceAll('%20', '+');
+// Each office lists its own phone numbers; the first office is the primary contact.
+export const offices = [
+  {
+    id: 'west-bengal',
+    name: 'West Bengal Office',
+    city: 'Siliguri',
+    phones: ['+91 9102595785', '+91 7261058943'],
+    address:
+      'Shivaji Nagar, Champasari Main Road, Near Gulam View Hotel, Behind Bata Showroom, Siliguri – 734003, West Bengal, India',
+    postal: {
+      streetAddress:
+        'Shivaji Nagar, Champasari Main Road, Near Gulam View Hotel, Behind Bata Showroom',
+      addressLocality: 'Siliguri',
+      addressRegion: 'West Bengal',
+      postalCode: '734003',
+    },
+    mapEmbed: `https://maps.google.com/maps?q=${mapQuery('Champasari Main Road, Shivaji Nagar, Siliguri, West Bengal 734003')}&z=15&output=embed`,
+    map: `https://www.google.com/maps/search/?api=1&query=${mapQuery('Shivaji Nagar Champasari Main Road Near Gulam View Hotel Siliguri 734003')}`,
+  },
+  {
+    id: 'delhi',
+    name: 'Delhi Office',
+    city: 'New Delhi',
+    phones: ['+91 9679112375', '+91 7078492289'],
+    address:
+      'Plot A-1, Sevok Park, Dwarka Mor Metro Station Gate No. 1, New Delhi – 110059, India',
+    postal: {
+      streetAddress: 'Plot A-1, Sevok Park, Dwarka Mor Metro Station Gate No. 1',
+      addressLocality: 'New Delhi',
+      addressRegion: 'Delhi',
+      postalCode: '110059',
+    },
+    mapEmbed: `https://maps.google.com/maps?q=${mapQuery('Sevok Park, Dwarka Mor, New Delhi 110059')}&z=15&output=embed`,
+    map: `https://www.google.com/maps/search/?api=1&query=${mapQuery('Plot A-1 Sevok Park Dwarka Mor Metro Station New Delhi 110059')}`,
+  },
+];
+export const primaryPhone = offices[0].phones[0];
 export const products = [
   {
     slug: 'passenger-lifts',
