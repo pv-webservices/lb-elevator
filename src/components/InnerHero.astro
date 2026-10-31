@@ -1,4 +1,5 @@
 ---
+import SiteImage from './SiteImage.astro';
 import { media } from '../data/media';
 interface Props {
   title: string;
@@ -25,20 +26,20 @@ const {
   crumb,
 } = Astro.props;
 const m = mediaId ? media(mediaId) : undefined;
-const src = m?.src ?? `/images/${image}.webp`;
-const srcset = m?.srcset ?? (image === 'hero' ? '/images/hero-mobile.webp 768w, /images/hero.webp 1536w' : undefined);
+const src = m?.src ?? `/images/${image === 'hero' ? 'illustrations' : 'catalogue'}/${image}.webp`;
 ---
 
 <section class="inner-hero" data-progress data-floor="Intro">
   <div class="inner-hero-media">
-    <img
+    <SiteImage
       src={src}
-      srcset={srcset}
+
       sizes="100vw"
       width="1536"
       height="1024"
       alt={alt}
       fetchpriority="high"
+      loading="eager"
     />
   </div>
   <div class="wrap">

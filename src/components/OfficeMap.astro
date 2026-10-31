@@ -1,0 +1,8 @@
+---
+interface Props { src: string; title: string; href: string; }
+const { src, title, href } = Astro.props;
+---
+<div class="office-map-preview">
+  <button type="button" class="btn btn-primary" aria-label={`Load ${title}`} data-load-map={src} data-map-title={title} hidden>Load map</button>
+  <a href={href} target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a>
+</div>

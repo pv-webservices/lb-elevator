@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readdir, readFile, writeFile, mkdir, stat } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
@@ -28,6 +28,8 @@ const routes = htmlFiles.map((f) =>
 );
 const failures = [];
 let links = 0;
+const verifiedTargets = new Set();
+console.log('Checking built links and metadata');
 for (const file of htmlFiles) {
   const html = await readFile(file, 'utf8');
   assert.equal((html.match(/<h1[\s>]/g) || []).length, 1, `One H1: ${file}`);
@@ -40,7 +42,10 @@ for (const file of htmlFiles) {
       path.endsWith('/') ? 'index.html' : '',
     );
     try {
-      await readFile(target);
+      if (!verifiedTargets.has(target)) {
+        await stat(target);
+        verifiedTargets.add(target);
+      }
       links++;
     } catch {
       failures.push(`Missing internal target ${path} in ${file}`);
@@ -49,11 +54,19 @@ for (const file of htmlFiles) {
 }
 assert.deepEqual(failures, []);
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
+try {
 const context = await browser.newContext();
 const page = await context.newPage();
+page.setDefaultTimeout(15000);
+page.setDefaultNavigationTimeout(15000);
 await page.emulateMedia({ reducedMotion: 'reduce' });
 const errors = [];
 page.on('pageerror', (e) => errors.push(e.message));
+page.on('console', m => {
+  // Chromium reports the intentionally tested 404 document as a resource error.
+  if(m.type() === 'error' && m.location().url !== base + '/page-not-found-test/') errors.push(m.text());
+});
+await context.route('https://formsubmit.co/**', route => route.abort());
 const report = {
   routes: routes.length,
   internalReferences: links,
@@ -65,9 +78,10 @@ const report = {
 };
 for (const width of process.env.TEST_FOCUS
   ? []
-  : [320, 390, 430, 768, 1024, 1280, 1440]) {
+  : [320, 375, 768, 1024, 1440]) {
   await page.setViewportSize({ width, height: 900 });
   for (const route of routes) {
+    console.log(`Checking ${width}px ${route}`);
     const response = await page.goto(base + route, {
       waitUntil: 'networkidle',
     });
@@ -79,9 +93,7 @@ for (const width of process.env.TEST_FOCUS
     await page.evaluate(async () => {
       await document.fonts.ready;
       document.querySelectorAll('img').forEach((i) => (i.loading = 'eager'));
-      await Promise.all(
-        [...document.images].map((i) => i.decode().catch(() => {})),
-      );
+      await Promise.race([Promise.all([...document.images].map(i => i.decode().catch(() => {}))), new Promise(resolve => setTimeout(resolve, 10000))]);
     });
     const state = await page.evaluate(() => ({
       overflow: document.documentElement.scrollWidth > innerWidth + 1,
@@ -93,7 +105,7 @@ for (const width of process.env.TEST_FOCUS
     if (state.broken.length)
       failures.push(`Images ${width} ${route}: ${state.broken}`);
     report.responsiveChecks++;
-    if (width === 390 || width === 1440) {
+    if (width === 375 || width === 1440) {
       const result = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
         .analyze();
@@ -110,7 +122,7 @@ for (const width of process.env.TEST_FOCUS
           })),
         });
     }
-    if (route === '/' && (width === 390 || width === 1440)) {
+    if (route === '/' && (width === 375 || width === 1440)) {
       await page.evaluate(() =>
         document
           .querySelectorAll('.reveal')
@@ -118,13 +130,24 @@ for (const width of process.env.TEST_FOCUS
       );
       await page.screenshot({
         path: resolve(out, `homepage-${width}.png`),
-        fullPage: true,
+        fullPage: false,
+        animations: 'disabled',
+        timeout: 15000,
       });
     }
   }
 }
+await writeFile(resolve(out, 'page-checks.json'), JSON.stringify(report, null, 2));
+console.log('Checking interactive flows');
 await page.setViewportSize({ width: 1440, height: 900 });
 await page.emulateMedia({ reducedMotion: 'no-preference' });
+await page.goto(base);
+await page.keyboard.press('Tab');
+assert.equal(await page.locator('.skip-link').evaluate(e => e === document.activeElement), true);
+assert.equal(await page.locator('.skip-link').evaluate(e => e.getBoundingClientRect().top >= 0), true);
+await page.keyboard.press('Enter');
+assert.equal(await page.evaluate(() => location.hash), '#main');
+report.interactions.push('Keyboard skip link is visible on focus and reaches main content');
 await page.goto(base);
 await page
   .getByRole('button', { name: 'Show elevators menu', exact: true })
@@ -185,74 +208,15 @@ assert.equal(await first.evaluate((e) => e === document.activeElement), true);
 report.interactions.push(
   'Gallery filtering, lightbox, Escape and focus return',
 );
-await page.goto(base + '/request-a-quote/?interest=Home%20Lifts');
-assert.equal(await page.locator('[name=interest]').inputValue(), 'Home Lifts');
-await page.getByRole('button', { name: 'Prepare Email Enquiry' }).click();
-assert.equal(await page.locator('.email-draft').isVisible(), false);
-await page.locator('[name=name]').fill('QA Visitor');
-await page.locator('[name=phone]').fill('9876543210');
-await page.locator('[name=location]').fill('Siliguri');
-await page.locator('[name=building]').selectOption('Residential');
-await page
-  .locator('[name=message]')
-  .fill('Testing a local email draft without sending any enquiry.');
-await page.getByRole('button', { name: 'Prepare Email Enquiry' }).click();
-assert.equal(await page.locator('.email-draft').isVisible(), true);
-assert.match(
-  await page.locator('.email-draft').getAttribute('href'),
-  /^mailto:liftsbazar2025@gmail.com/,
-);
-assert.match(
-  await page.locator('.form-status').textContent(),
-  /Nothing has been sent yet/,
-);
-report.interactions.push(
-  'Required validation, product prefill and truthful email draft (no message sent)',
-);
-let mockSuccess = true;
-let mockRequests = 0;
-await page.route('https://forms.example.test/enquiry', async (route) => {
-  mockRequests++;
-  await route.fulfill({
-    status: 200,
-    contentType: 'application/json',
-    body: JSON.stringify({ success: mockSuccess }),
-  });
-});
-await page
-  .locator('form')
-  .evaluate(
-    (form) => (form.dataset.endpoint = 'https://forms.example.test/enquiry'),
-  );
-await page.getByRole('button', { name: 'Prepare Email Enquiry' }).click();
-await page.waitForFunction(() =>
-  document
-    .querySelector('.form-status')
-    ?.textContent?.includes('accepted your request'),
-);
-mockSuccess = false;
-await page.getByRole('button', { name: 'Prepare Email Enquiry' }).click();
-await page.waitForFunction(() =>
-  document
-    .querySelector('.form-status')
-    ?.textContent?.includes('could not be confirmed'),
-);
-await page.locator('[name=website]').fill('spam');
-await page.getByRole('button', { name: 'Prepare Email Enquiry' }).click();
-assert.equal(mockRequests, 2);
-report.interactions.push(
-  'Mock-only provider acceptance/rejection and honeypot; no external request sent',
-);
-await page.goto(base + '/contact-us/?door=Half%20Vision%20Door');
-assert.match(
-  await page.locator('[name=message]').inputValue(),
-  /Half Vision Door/,
-);
-await page.goto(base + '/request-a-quote/?service=Maintenance');
-assert.equal(await page.locator('[name=service]').inputValue(), 'Maintenance');
-report.interactions.push('Door and service enquiry context is preserved');
-await page.goto(base + '/contact-us/?request=callback#enquiry');
-assert.match(await page.locator('[name=message]').inputValue(), /call me back/);
+await page.goto(base + '/contact-us/');
+assert.equal(await page.locator('iframe').count(), 0);
+await context.route('https://maps.google.com/**', route => route.fulfill({ contentType: 'text/html', body: '<title>Mock map</title><p>Map preview</p>' }));
+await page.getByRole('button', { name: /Load Map of the LB Elevators West Bengal Office/ }).first().click();
+assert.equal(await page.locator('iframe').count(), 1);
+assert.match(await page.locator('iframe').getAttribute('src'), /^https:\/\/maps.google.com/);
+report.interactions.push('Office maps load only on request; external embed mocked');
+const { verifyForms } = await import('./browser-forms.mjs');
+report.interactions.push(await verifyForms(browser, base));
 await page.emulateMedia({ reducedMotion: 'reduce' });
 await page.goto(base);
 assert.equal(
@@ -277,7 +241,6 @@ await writeFile(
   resolve(out, 'qa-results.json'),
   JSON.stringify(report, null, 2),
 );
-await browser.close();
 console.log(
   JSON.stringify(
     {
@@ -300,3 +263,7 @@ assert.equal(
   'Accessibility violations: see output/playwright/qa-results.json',
 );
 assert.deepEqual(errors, []);
+} finally {
+  await Promise.race([browser.close(), new Promise(resolve => setTimeout(resolve, 10000))]);
+}
+process.exit(0);

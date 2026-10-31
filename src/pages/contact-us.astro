@@ -1,4 +1,5 @@
 ---
+import OfficeMap from '../components/OfficeMap.astro';
 import MainLayout from '../layouts/MainLayout.astro';
 import InnerHero from '../components/InnerHero.astro';
 import EnquiryForm from '../components/EnquiryForm.astro';
@@ -56,12 +57,7 @@ const tel = (p: string) => `tel:${p.replaceAll(' ', '')}`;
           offices.map((o) => (
             <article class="office-card reveal">
               <div class="office-map">
-                <iframe
-                  src={o.mapEmbed}
-                  title={`Map of the LB Elevators ${o.name}, ${o.city}`}
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                />
+                <OfficeMap src={o.mapEmbed} title={`Map of the LB Elevators ${o.name}, ${o.city}`} href={o.map} />
               </div>
               <div class="office-body">
                 <div>

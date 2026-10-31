@@ -1,4 +1,5 @@
 ---
+import SiteImage from '../../components/SiteImage.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import InnerHero from '../../components/InnerHero.astro';
 import Icon from '../../components/Icon.astro';
@@ -32,9 +33,9 @@ import { media } from '../../data/media';
           return (
             <article class:list={['split app-row', i % 2 && 'reverse']} id={s.slug}>
               <div class="media-frame wide reveal">
-                <img
+                <SiteImage
                   src={m.src}
-                  srcset={m.srcset}
+
                   sizes="(max-width: 1100px) 90vw, 44vw"
                   width="1000"
                   height="1500"

@@ -1,6 +1,6 @@
 from PIL import Image, ImageOps
 from pathlib import Path
-p=Path('public/images')
+p=Path('public/images/catalogue')
 g=Path(r'C:\Users\hp\.codex\generated_images\01a16edd-c2d6-7c30-96ef-76cf952a7162')
 assets={
 'residential':'exec-4588281e-3ee8-4e4e-941e-76da134f170e.png',
@@ -11,7 +11,7 @@ assets={
 'industrial':'exec-f7ef65cb-5462-4206-9163-5eef2cbdd30f.png',
 }
 for name,source in assets.items():
- original=p/(name+'.webp'); brochure=p/(name+'-brochure.webp')
+ original=p/(name+'.webp'); brochure=Path('source-files/brochures')/(name+'-brochure.webp')
  if not brochure.exists(): original.rename(brochure)
  im=ImageOps.fit(Image.open(g/source),(1200,800))
  im.save(original,quality=84)

@@ -1,20 +1,29 @@
 ---
 import { business, products, services } from '../data/site';
 import WhatsAppIcon from './WhatsAppIcon.astro';
+import { SITE_URL } from '../data/config';
 interface Props {
   quote?: boolean;
   id?: string;
 }
 const { quote = false, id = 'enquiry' } = Astro.props;
-const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || '';
+const endpoint = `https://formsubmit.co/ajax/${business.email}`;
 ---
 
 <form
   class="enquiry-form"
+  action={`https://formsubmit.co/${business.email}`}
+  method="POST"
   data-enquiry
   data-endpoint={endpoint}
   data-whatsapp={business.whatsapp}
 >
+  <input type="hidden" name="_next" value={`${SITE_URL}/thank-you/`} />
+  <input type="hidden" name="_subject" value={`New LB Elevators ${quote ? 'quotation request' : 'enquiry'}`} />
+  <input type="hidden" name="_template" value="table" />
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="form-type" value={quote ? 'Quotation request' : 'Enquiry'} />
+  <input type="hidden" name="source-page" value={new URL(Astro.url.pathname, SITE_URL).href} />
   <div class="form-grid">
     <label for={`${id}-name`}>
       Full name <span>*</span>
@@ -36,18 +45,19 @@ const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || '';
         type="tel"
         autocomplete="tel"
         required
-        pattern="[+0-9\s()-]{10,20}"
+        pattern="\+?(?:[\s\(\)\-]*[0-9]){10,15}[\s\(\)\-]*"
         maxlength="20"
-        title="Enter 10–20 characters using digits, spaces, +, brackets or hyphens."
+        title="Enter 10–15 digits, optionally separated by spaces, brackets or hyphens."
         placeholder="Your phone number"
       />
     </label>
     <label class:list={[!quote && 'full']} for={`${id}-email`}>
-      Email address <small>(optional)</small>
+      Email address <span>*</span>
       <input
         id={`${id}-email`}
         name="email"
         type="email"
+        required
         autocomplete="email"
         maxlength="150"
         placeholder="you@example.com"
@@ -130,32 +140,31 @@ const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || '';
   <div class="honeypot" aria-hidden="true">
     <label>
       Leave this empty
-      <input name="website" tabindex="-1" autocomplete="off" />
+      <input name="_honey" tabindex="-1" autocomplete="off" />
     </label>
   </div>
+  <div class="consent-field">
+    <input id={`${id}-consent`} type="checkbox" name="consent" value="Agreed to enquiry processing" required />
+    <label for={`${id}-consent`}>I agree to my details being used to respond to this enquiry, as described in the <a href="/privacy-policy/">privacy policy</a>.</label>
+  </div>
   <p class="form-note">
-    {endpoint
-      ? 'Send your details to our enquiry service.'
-      : 'Choose email or WhatsApp — your message opens ready to review and send. You can also call us directly.'}
+    Your enquiry is sent through FormSubmit to liftsbazar2025@gmail.com.
   </p>
   <div class="form-actions">
     <button class="btn btn-primary" type="submit" data-channel="email">
-      <span>{endpoint ? 'Send Enquiry' : 'Prepare Email Enquiry'}</span>
+      <span>Send Enquiry</span>
       <span aria-hidden="true">→</span>
     </button>
-    <button class="btn btn-whatsapp" type="submit" data-channel="whatsapp">
+    <button class="btn btn-whatsapp" type="submit" data-channel="whatsapp" data-whatsapp-button hidden>
       <WhatsAppIcon size={19} />
       <span>Send via WhatsApp</span>
     </button>
   </div>
   <p class="form-status" role="status" aria-live="polite"></p>
-  <a class="email-draft" hidden>
-    Email draft ready — open your email app ↗
-  </a>
+  <p class="form-note">You can also <a href="tel:+919679112375">call +91 9679112375</a> or <a href="mailto:liftsbazar2025@gmail.com">email our team</a>.</p>
   <noscript>
     <p>
-      Please enable JavaScript to prepare a structured enquiry, or email{' '}
-      <a href="mailto:liftsbazar2025@gmail.com">liftsbazar2025@gmail.com</a>.
+      Your browser will submit securely through FormSubmit and return to our thank-you page. Use Back to return to your details if delivery fails.
     </p>
   </noscript>
 </form>

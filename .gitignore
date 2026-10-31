@@ -7,3 +7,7 @@ dist/
 output/
 .playwright-cli/
 new images & videos/
+
+# Large local masters are retained for editing, never shipped.
+source-files/client-media/
+source-files/generated-originals/

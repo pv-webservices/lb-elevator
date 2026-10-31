@@ -1,64 +1,71 @@
 # LB Elevators
 
-Static Astro business website based on the supplied LB Elevators homepage mockup and brochure. Includes 20 public pages and a branded 404, five product detail pages, four service detail pages, an eight-door catalogue, gallery, enquiry and quotation flows.
+Static Astro 7 website for https://www.lbelevators.com/, deployed through Git to Vercel. DNS is managed in Hostinger. The audit confirmed Vercel response headers, Hostinger nameservers and a Vercel www CNAME; access to the Vercel dashboard/connected production branch was not available.
 
-## Local development
+## Develop and verify
 
-Use a current Node version supported by Astro 7 (this build was verified on Node 24.19.0).
+Use Node 24 and npm. `npm ci` installs the locked dependencies. No email credentials are needed.
 
-```powershell
-npm ci
-npm run dev
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Local development at the URL Astro prints |
+| `npm run check` | Astro and TypeScript checks |
+| `npm run build` | Generate static `dist/` |
+| `npm test` | Form validation unit tests |
+| `npm run audit` | Audit all built pages, metadata, schemas, links, images and sitemap |
+| `npm run preview -- --port 4321` | Serve the production build locally |
+| `npm run test:browser` | All pages at 320, 375, 768, 1024 and 1440px; axe, interactions and mocked form tests; requires preview and installed Google Chrome |
+| `npm run perf` | Mobile Lighthouse on homepage and Home Lifts; requires preview and Chrome |
+| `npm run verify:live` | Read-only checks of production release fingerprint, headers, redirects, 404, sitemap, icons and form configuration; FormSubmit OPTIONS only, never submits email |
+| `npm run assets` | Rebuild responsive WebPs, image dimensions manifest, sharing card and favicon family; Python/Pillow required |
+| `npm run images:plan` | Show existing optional image-generation routing without API calls |
+
+Evidence is saved under `output/audit/`, `output/playwright/` and `output/lighthouse/`. These folders are ignored by Git. Tests intercept the entire FormSubmit origin before form interaction. A mocked acceptance is not proof of activation, inbox delivery or reply behaviour.
+
+## Structure
+
+```text
+src/components/       Shared Astro components, including forms and responsive images
+src/data/             Business data, media manifests, canonical origin and content date
+src/layouts/          Shared metadata, navigation, footer and structured data
+src/pages/            18 indexable routes, legal/utility pages, robots and sitemaps
+src/scripts/          Navigation, motion, maps, gallery, form validation and delivery
+src/styles/           Site styles and accessibility states
+public/images/brand/          Logos and 1200x630 sharing card
+public/images/catalogue/      Elevator, door and application visuals
+public/images/illustrations/  Representative architectural/service imagery
+public/images/photos/         Supplied cabin and site photographs
+public/videos/                Compressed website clips and posters
+public/                       Favicon family, manifest and font licences
+source-files/                 Brochures and editable masters, outside dist
+source-files/client-media/    Local original photos/videos (Git ignored)
+source-files/generated-originals/  Local generated PNG masters (Git ignored)
+scripts/              QA and asset preparation tools
+docs/                 Search Console guide, audit report and design/provenance notes
+vercel.json           Build, redirects, slash policy, security headers, hashed asset cache
 ```
 
-The local URL is printed by Astro. For production output:
+The asset inventory was checked for exact duplicates using SHA-256. Original camera files and brochure source scans are outside `public/`. Some master-to-web copies are intentionally retained for future editing. `SiteImage.astro` supplies measured intrinsic dimensions and responsive WebP candidates. Run `npm run assets`, build and audit after changing imagery. Existing one-time source-import scripts are authoring tools and are never shipped to visitors; review their input locations before use.
 
-```powershell
-npm run check
-npm run build
-npm run preview
-```
+## Production deployment
 
-Upload the contents of `dist/` to static hosting. Configure directory index handling and the host's custom 404 handler to serve `404.html` with HTTP 404. The project does not need a database or a Node process in production. No deployment has been performed.
+1. Review the changes and launch decisions in `docs/AUDIT-REPORT.md`. Do not treat local QA as deployment or live email acceptance.
+2. In the existing Vercel project, confirm this Git repository and the intended production branch. Framework: Astro; build: `npm run build`; output: `dist`; Node: 24. No functions, database, SMTP or mail server are used.
+3. Set the Vercel production domain to `www.lbelevators.com`, retaining the existing non-www-to-www redirect and platform HTTP-to-HTTPS redirect. Keep Hostinger's DNS records pointed at Vercel; do not upload the site to Hostinger Apache hosting.
+4. Canonical origin is fixed in `astro.config.mjs` and `src/data/config.ts`; stale `PUBLIC_SITE_URL` and `PUBLIC_FORM_ENDPOINT` environment variables are no longer used. Vercel previews should retain Vercel's automatic noindex response header.
+5. Only after permission to commit/push, let Git deployment publish the reviewed build. This audit does not commit, push, deploy or change remote settings.
+6. Run `npm run verify:live` against the approved build. Then follow `docs/GOOGLE-SEARCH-CONSOLE.md` for indexing.
 
-## Production configuration
+The sitemap index is `/sitemap-index.xml`; its child `/sitemap.xml` contains exactly 18 indexable URLs. Privacy, terms, thank-you and 404 are `noindex, follow`, have no canonical and are excluded. They remain crawlable. Update `CONTENT_MODIFIED` in `src/data/config.ts` on substantive published content changes; it deliberately does not change on every build.
 
-Copy `.env.example` to `.env` and set `PUBLIC_SITE_URL` to the approved HTTPS origin before building. Without an origin, pages are noindex, robots blocks crawling and sitemap contains no URLs. With an origin, canonicals, social metadata and sitemap use that exact origin. Legal review pages remain noindex. The generated sitemap is `/sitemap.xml`.
+## FormSubmit delivery and activation
 
-The existing domain in the brief is `https://www.liftsbazar.in/`; it was not assumed to be the deployment origin. Its current page content could not be fetched during this run. Audit existing URLs and configure server-side 301 redirects before replacing an existing site.
+All three forms (homepage, contact and quotation) POST only to `https://formsubmit.co/liftsbazar2025@gmail.com`. JavaScript enhances this with the FormSubmit AJAX endpoint, inline validation, consent, honeypot, a short bot timer, loading state and a 20-second timeout. Errors retain the controls' values. Back/pageshow restores enabled buttons. The no-JavaScript fallback uses browser validation and the normal provider POST with `_next` pointing to our `/thank-you/` page. FormSubmit uses the named `email` field for Reply-To; AJAX also supplies `_replyto` explicitly.
 
-## Enquiries and quotes
+`_captcha=false` avoids the provider's visible CAPTCHA page; the compatible `_honey` field remains active. This trades CAPTCHA protection for the requested website experience. Client-side checks/timer can be bypassed, so they are not a server-side security guarantee. FormSubmit controls its own service filtering. Additional activation/provider error pages may still appear during native no-JS delivery; the configured `_next` applies after successful acceptance. Server errors during no-JS navigation require the browser Back button to return to entered details.
 
-By default, forms validate locally and prepare an explicitly labelled email draft. The visitor clicks the resulting link, reviews the email in their own email app and sends it. The site never reports this as sent. Direct email and telephone links are available. A configured email application is needed for mailto links.
+**Activation is pending verification.** Ask for permission before the first real activation/test submission. The client must open the FormSubmit activation message in Inbox or Spam and approve it. If it supplies an alias, replace both form action and AJAX endpoint consistently, retaining the same sole recipient, then update and rerun tests. Do not invent an alias or request a Gmail password. After activation, one separately approved real enquiry must verify Inbox/Spam, subject, all submitted fields, Reply-To, reply behaviour and thank-you redirect. Inbox placement cannot be guaranteed by frontend code.
 
-An approved form provider can be configured with `PUBLIC_FORM_ENDPOINT`. It must accept HTTPS cross-origin `multipart/form-data` POST requests and return JSON `{ "success": true }` only after acceptance. The frontend handles pending, rejection, timeout, malformed response and network failure. Endpoint validation, sanitization, rate limits, honeypot enforcement, spam protection, privacy handling and email delivery must be supplied by that provider/server. The client-side honeypot is an enhancement, not server-side spam protection.
+No email was sent during this audit. The WhatsApp option only opens a prefilled message for the visitor to review and send to +91 9679112375. The privacy page explains FormSubmit/Gmail processing but still requires business/legal approval.
 
-Do not set a provider endpoint without confirming this contract. Activate the recipient, verify provider-side validation/spam controls, and test actual delivery before launch. No live enquiry or email was sent during development. If a provider uses another response shape, adapt and test the handler before enabling it.
-
-WhatsApp: a floating WhatsApp button, a contact-panel link and a "Send via WhatsApp" form option open `wa.me` with a prefilled message for the visitor to review and send. They use +91 9679112375 (Delhi office) by default — **confirm it is WhatsApp-enabled**, or set `PUBLIC_WHATSAPP_NUMBER` (international format, digits only) before building. Social links remain omitted because no social profiles were supplied.
-
-Office details live in `offices` in `src/data/site.ts` (West Bengal / Siliguri first, as the primary call number, then Delhi). The contact panel and the contact page's office cards embed a Google Maps address search for each office, plus "Open in Google Maps" links. Replace them with verified place pins when available.
-
-## Image generation (server-side)
-
-New hero, showcase, service and process imagery is generated with the OpenAI Image API by `npm run images` (Node only; the key stays in `OPENAI_API_KEY` and is never shipped to the browser). Model routing, quality, sizes and prompts are configured in `scripts/images/config.mjs` and `src/data/generated-images.json`; see `IMAGE-PROMPTS.md`. Until assets exist in `public/images/gen/`, every placement falls back to an existing project image. Rebuild after generating.
-
-## Content and assets
-
-Repeated business, product, service and application content lives in `src/data/site.ts`. See `DESIGN.md` for the design system and scroll interactions and `ASSET-SOURCES.md` for provenance and image limitations. No project counts, certifications, capacities, speeds, pricing or response guarantees are asserted.
-
-Privacy and terms pages clearly state that approved legal copy is pending. Complete their review before public launch.
-
-## Verification
-
-```powershell
-npm run check
-npm run build
-npm test
-```
-
-`npm test` requires a running local server on port 4321 (override with `TEST_URL`) and an installed Google Chrome. It checks static internal references, metadata and heading structure, then uses real Chromium for route/viewport, image, axe and interaction checks. It does not send messages or test live delivery. Evidence is written to `output/playwright/`. See `QA.md` for the final run and limits.
-
-## Reference documentation
-
-The industry presentation was reviewed at [Hybon Elevators](https://www.hybonelevators.com/). No Hybon branding, claims or assets were copied. Astro's [static routing](https://docs.astro.build/en/guides/routing/) and [configuration reference](https://docs.astro.build/en/reference/configuration-reference/) informed implementation.
+Optional image generation remains a local authoring tool. Its key is read only from the ignored `.env` or process environment and is never included in the website. Do not place credentials in Git.

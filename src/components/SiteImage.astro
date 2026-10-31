@@ -1,0 +1,12 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import imageSizes from '../data/image-sizes.json';
+interface Props extends HTMLAttributes<'img'> { src: string; alt: string; }
+const { src, alt, sizes, srcset: suppliedSet, loading, width, height, decoding, ...attrs } = Astro.props;
+const data = (imageSizes as Record<string, { width: number; height: number; srcset: string }>)[src];
+const priority = attrs.fetchpriority === 'high';
+const brand = src.includes('/brand/');
+---
+<img {...attrs} src={src} alt={alt} width={data?.width ?? width} height={data?.height ?? height}
+  srcset={data?.srcset ?? suppliedSet} sizes={sizes ?? (brand ? '(max-width: 1100px) 168px, 220px' : '(max-width: 768px) 90vw, 50vw')}
+  loading={loading ?? (priority || brand ? 'eager' : 'lazy')} decoding={decoding ?? 'async'} />

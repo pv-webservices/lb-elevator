@@ -1,9 +1,10 @@
 // Resolves generated imagery at build time. A generated WebP is used once it
-// exists in public/images/gen/; otherwise the existing project image is used,
+// exists in public/images/illustrations/; otherwise the existing project image is used,
 // so no section ever renders an empty or placeholder image.
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import manifest from './generated-images.json';
+import imageSizes from './image-sizes.json';
 
 export interface Media {
   src: string;
@@ -12,33 +13,21 @@ export interface Media {
   generated: boolean;
 }
 
-// Responsive widths of the existing (fallback) assets in public/images/.
-const fallbackSets: Record<string, string> = {
-  hero: '/images/hero-mobile.webp 768w, /images/hero.webp 1536w',
-};
-
 export function media(id: string): Media {
   const asset = manifest.assets.find((a) => a.id === id);
   if (!asset) throw new Error(`Unknown media id: ${id}`);
-  const large = `/images/gen/${id}.webp`;
+  const large = `/images/illustrations/${id}.webp`;
   // Matches imageConfig.output.widths in scripts/images/config.mjs.
   const sizes = asset.orientation === 'landscape' ? [900, 1536] : [600, 1000];
   if (existsSync(resolve('public', large.slice(1)))) {
     return {
       src: large,
-      srcset: `/images/gen/${id}-sm.webp ${sizes[0]}w, ${large} ${sizes[1]}w`,
+      srcset: (imageSizes as Record<string, { srcset: string }>)[large]?.srcset ?? `${large} ${sizes[1]}w`,
       alt: asset.alt,
       generated: true,
     };
   }
   const fb = asset.fallback;
-  const small = existsSync(resolve('public/images', `${fb}-small.webp`))
-    ? `/images/${fb}-small.webp 420w, `
-    : '';
-  return {
-    src: `/images/${fb}.webp`,
-    srcset: fallbackSets[fb] || `${small}/images/${fb}.webp 960w`,
-    alt: asset.alt,
-    generated: false,
-  };
+  const src = `/images/${fb === 'hero' ? 'illustrations' : 'catalogue'}/${fb}.webp`;
+  return { src, srcset: (imageSizes as Record<string, { srcset: string }>)[src].srcset, alt: asset.alt, generated: false };
 }

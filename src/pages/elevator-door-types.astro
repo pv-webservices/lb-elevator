@@ -1,4 +1,5 @@
 ---
+import SiteImage from '../components/SiteImage.astro';
 import MainLayout from '../layouts/MainLayout.astro';
 import InnerHero from '../components/InnerHero.astro';
 import Icon from '../components/Icon.astro';
@@ -29,8 +30,8 @@ import { doors } from '../data/site';
           doors.map((d, i) => (
             <article class="door-card reveal" style={`--delay:${(i % 3) * 70}ms`}>
               <div class="door-card-media">
-                <img
-                  src={`/images/${d.image}-2x.webp`}
+                <SiteImage
+                  src={`/images/catalogue/${d.image}-2x.webp`}
                   width="336"
                   height="232"
                   loading="lazy"

@@ -1,7 +1,8 @@
 import type { APIRoute } from 'astro';
 import { products, services } from '../data/site';
+import { SITE_URL, CONTENT_MODIFIED } from '../data/config';
 export const GET: APIRoute = () => {
-  const origin = import.meta.env.PUBLIC_SITE_URL;
+  const origin = SITE_URL;
   const paths = [
     '/',
     '/about-us/',
@@ -19,7 +20,7 @@ export const GET: APIRoute = () => {
     ? paths
         .map(
           (path) =>
-            `<url><loc>${new URL(path, origin).href.replaceAll('&', '&amp;')}</loc></url>`,
+            `<url><loc>${new URL(path, origin).href.replaceAll('&', '&amp;')}</loc><lastmod>${CONTENT_MODIFIED}</lastmod></url>`,
         )
         .join('')
     : '';

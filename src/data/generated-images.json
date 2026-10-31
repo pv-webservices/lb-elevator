@@ -1,5 +1,5 @@
 {
-  "$comment": "Assets created by scripts/images/generate.mjs. Each has one placement. Until a generated file exists in public/images/gen/, the site uses `fallback` (an existing project image).",
+  "$comment": "Assets created by scripts/images/generate.mjs. Each has one placement. Until a generated file exists in public/images/illustrations/, the site uses `fallback` (an existing project image).",
   "style": "Premium architectural photography for an Indian elevator company website. Realistic materials, believable elevator proportions, straight verticals, deep navy blue and warm brushed-steel palette with a restrained warm golden-yellow accent light. No text, no letters, no numbers, no logos, no signage, no watermark, no collage, no frames.",
   "assets": [
     {

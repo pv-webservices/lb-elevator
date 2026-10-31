@@ -55,14 +55,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-/* ---------- Intro floor counter ---------- */
-const introFloor = document.querySelector('[data-intro-floor]');
-if (introFloor && document.documentElement.classList.contains('has-intro')) {
-  ['1', '2', '3', '4', '5'].forEach((f, i) =>
-    window.setTimeout(() => (introFloor.textContent = f), 150 + i * 150),
-  );
-}
-
 /* ---------- Word-by-word statement ---------- */
 const wordBlocks = Array.from(document.querySelectorAll<HTMLElement>('[data-words]'));
 wordBlocks.forEach((block) => {
@@ -88,6 +80,10 @@ const hTrack = hscroll?.querySelector<HTMLElement>('[data-hscroll-track]');
 const floorTrack = document.querySelector<HTMLElement>('[data-floor-progress]');
 const hPin = matchMedia('(min-width: 901px)');
 let hDistance = 0;
+const geometryEls = [...new Set([
+  ...progressEls, ...parallaxEls, ...wordBlocks, ...stackCards,
+  ...(shaft ? [shaft] : []), ...(hscroll ? [hscroll] : []),
+])];
 
 function layoutHScroll() {
   if (!hscroll || !hTrack) return;
@@ -107,15 +103,18 @@ function layoutHScroll() {
 function update() {
   const vh = window.innerHeight;
   const y = window.scrollY;
+  const max = document.documentElement.scrollHeight - vh;
+  // Read geometry together before style writes to avoid repeated forced layouts.
+  const rects = new Map<HTMLElement, DOMRect>();
+  if (!reduceMotion) geometryEls.forEach(el => rects.set(el, el.getBoundingClientRect()));
   header?.classList.toggle('is-solid', y > 40);
   if (floorTrack) {
-    const max = document.documentElement.scrollHeight - vh;
     floorTrack.style.setProperty('--page', String(max > 0 ? clamp(y / max) : 0));
   }
   if (reduceMotion) return;
 
   for (const el of progressEls) {
-    const r = el.getBoundingClientRect();
+    const r = rects.get(el)!;
     if (r.bottom < -vh || r.top > vh * 2) continue;
     el.style.setProperty('--p', (clamp((vh - r.top) / (vh + r.height))).toFixed(4));
     // Pinned sections run over their extra height; viewport-high ones over their own height.
@@ -123,23 +122,23 @@ function update() {
     el.style.setProperty('--pin', clamp(-r.top / span).toFixed(4));
   }
   for (const el of parallaxEls) {
-    const r = el.getBoundingClientRect();
+    const r = rects.get(el)!;
     if (r.bottom < 0 || r.top > vh) continue;
     el.style.setProperty('--py', clamp((vh - r.top) / (vh + r.height)).toFixed(4));
   }
   if (shaft) {
-    const r = shaft.getBoundingClientRect();
+    const r = rects.get(shaft)!;
     shaft.style.setProperty('--mid', clamp((vh * 0.55 - r.top) / r.height).toFixed(4));
   }
   wordBlocks.forEach((block) => {
-    const r = block.getBoundingClientRect();
+    const r = rects.get(block)!;
     const words = block.querySelectorAll('.w');
     const t = clamp((vh * 0.85 - r.top) / (r.height + vh * 0.35));
     const lit = Math.round(t * words.length);
     words.forEach((w, i) => w.classList.toggle('on', i < lit));
   });
   if (hscroll && hTrack && hDistance) {
-    const r = hscroll.getBoundingClientRect();
+    const r = rects.get(hscroll)!;
     const t = clamp(-r.top / hDistance);
     hTrack.style.transform = `translate3d(${-t * hDistance}px,0,0)`;
     hscroll.style.setProperty('--pin', t.toFixed(4));
@@ -147,10 +146,10 @@ function update() {
   let active = 0;
   stackCards.forEach((card, i) => {
     const next = stackCards[i + 1];
-    const r = card.getBoundingClientRect();
+    const r = rects.get(card)!;
     if (r.top < vh * 0.5) active = i;
     if (!next) return;
-    const gap = next.getBoundingClientRect().top - r.top;
+    const gap = rects.get(next)!.top - r.top;
     card.style.setProperty('--cover', clamp(1 - gap / r.height).toFixed(4));
   });
   stackLinks.forEach((link, i) => link.classList.toggle('active', i === active));
@@ -228,7 +227,6 @@ const clips = document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]'
 if (reduceMotion || !('IntersectionObserver' in window)) {
   clips.forEach((clip) => {
     clip.controls = true;
-    clip.preload = 'metadata';
   });
 } else {
   const clipObserver = new IntersectionObserver(
@@ -265,7 +263,8 @@ if (doorSelector && doorDataEl) {
     });
     stage.setAttribute('aria-labelledby', tabs[index].id);
     const apply = () => {
-      img.src = `/images/${door.image}-2x.webp`;
+      img.removeAttribute('srcset');
+      img.src = `/images/catalogue/${door.image}-2x.webp`;
       img.alt = `${door.name} — brochure illustration`;
       stage.querySelector('[data-door-name]')!.textContent = door.name;
       stage.querySelector('[data-door-text]')!.textContent = door.description;
@@ -295,78 +294,7 @@ if (doorSelector && doorDataEl) {
   });
 }
 
-/* ---------- Enquiry forms ---------- */
-const params = new URLSearchParams(location.search);
-document.querySelectorAll<HTMLFormElement>('[data-enquiry]').forEach((form) => {
-  const field = <T extends Element>(name: string) => form.elements.namedItem(name) as T | null;
-  const interest = field<HTMLSelectElement>('interest');
-  if (params.has('interest') && interest) interest.value = params.get('interest') || '';
-  const service = field<HTMLSelectElement>('service');
-  if (params.has('service') && service) service.value = params.get('service') || '';
-  const message = field<HTMLTextAreaElement>('message');
-  if (params.has('door') && message)
-    message.value = `I would like to enquire about the ${params.get('door')}.`;
-  if (params.get('request') === 'callback' && message)
-    message.value = 'Please call me back to discuss my elevator requirements.';
-
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    if (!form.reportValidity()) return;
-    const data = new FormData(form);
-    if (data.get('website')) return;
-    const status = form.querySelector<HTMLElement>('.form-status')!;
-    const draft = form.querySelector<HTMLAnchorElement>('.email-draft')!;
-    const submitter = (event as SubmitEvent).submitter as HTMLButtonElement | null;
-    const summary = Array.from(data.entries())
-      .filter(([key, value]) => key !== 'website' && String(value).trim())
-      .map(([key, value]) => `${key[0].toUpperCase()}${key.slice(1)}: ${value}`)
-      .join('\n');
-
-    if (submitter?.dataset.channel === 'whatsapp') {
-      const text = `Hello LB Elevators, I have an enquiry.\n\n${summary}`;
-      window.open(
-        `https://wa.me/${form.dataset.whatsapp}?text=${encodeURIComponent(text)}`,
-        '_blank',
-        'noopener',
-      );
-      status.textContent =
-        'WhatsApp has opened with your enquiry. Review the message and press send to reach our team.';
-      return;
-    }
-    const endpoint = form.dataset.endpoint;
-    if (!endpoint) {
-      draft.href = `mailto:liftsbazar2025@gmail.com?subject=${encodeURIComponent('LB Elevators — ' + data.get('interest') + ' enquiry')}&body=${encodeURIComponent(summary)}`;
-      draft.hidden = false;
-      status.textContent =
-        'Your email draft is ready. Open it below, review the details and send it from your email app. Nothing has been sent yet.';
-      draft.focus();
-      return;
-    }
-    const button = submitter || form.querySelector<HTMLButtonElement>('[type=submit]')!;
-    button.disabled = true;
-    status.textContent = 'Submitting your enquiry…';
-    try {
-      const url = new URL(endpoint);
-      if (url.protocol !== 'https:') throw new Error('HTTPS endpoint required');
-      const response = await fetch(url, {
-        method: 'POST',
-        body: data,
-        headers: { Accept: 'application/json' },
-        signal: AbortSignal.timeout(20000),
-      });
-      if (!response.ok) throw new Error('Submission failed');
-      const result = await response.json();
-      if (result.success !== true) throw new Error('Unconfirmed submission');
-      status.textContent =
-        'The enquiry service has accepted your request. For urgent assistance, please call our team.';
-    } catch {
-      status.textContent =
-        'Your submission could not be confirmed. Please call +91 9102595785 or email liftsbazar2025@gmail.com.';
-    } finally {
-      button.disabled = false;
-    }
-  });
-});
+import './forms';
 
 /* ---------- Gallery filter & lightbox ---------- */
 document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((button) => {
@@ -390,6 +318,7 @@ document.querySelectorAll<HTMLButtonElement>('[data-lightbox]').forEach((button)
     if (!lightbox) return;
     const image = button.querySelector('img')!;
     const target = lightbox.querySelector('img')!;
+    target.removeAttribute('srcset');
     target.src = button.dataset.full || image.src;
     target.alt = image.alt;
     lightbox.querySelector('.lightbox-caption')!.textContent = image.alt;
@@ -402,3 +331,16 @@ lightbox?.addEventListener('click', (event) => {
   if (event.target === lightbox) lightbox.close();
 });
 lightbox?.addEventListener('close', () => galleryOpener?.focus());
+
+/* Maps load only after a visitor requests one. */
+document.querySelectorAll<HTMLButtonElement>('[data-load-map]').forEach(button => {
+  button.hidden = false;
+  button.addEventListener('click', () => {
+    const frame = document.createElement('iframe');
+    frame.src = button.dataset.loadMap!;
+    frame.title = button.dataset.mapTitle!;
+    frame.referrerPolicy = 'no-referrer';
+    frame.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0';
+    button.parentElement!.replaceChildren(frame);
+  });
+});

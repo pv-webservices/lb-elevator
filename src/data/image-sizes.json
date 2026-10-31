@@ -1,0 +1,317 @@
+{
+  "/images/brand/logo-color.webp": {
+    "width": 440,
+    "height": 157,
+    "srcset": "/images/brand/logo-color-responsive-220.webp 220w, /images/brand/logo-color-responsive-336.webp 336w, /images/brand/logo-color.webp 440w"
+  },
+  "/images/brand/logo-light.webp": {
+    "width": 440,
+    "height": 157,
+    "srcset": "/images/brand/logo-light-responsive-220.webp 220w, /images/brand/logo-light-responsive-336.webp 336w, /images/brand/logo-light.webp 440w"
+  },
+  "/images/brand/logo-mark.webp": {
+    "width": 160,
+    "height": 160,
+    "srcset": "/images/brand/logo-mark.webp 160w"
+  },
+  "/images/catalogue/commercial.webp": {
+    "width": 1200,
+    "height": 800,
+    "srcset": "/images/catalogue/commercial-responsive-320.webp 320w, /images/catalogue/commercial-responsive-640.webp 640w, /images/catalogue/commercial-responsive-960.webp 960w, /images/catalogue/commercial.webp 1200w"
+  },
+  "/images/catalogue/door-auto-2x.webp": {
+    "width": 338,
+    "height": 232,
+    "srcset": "/images/catalogue/door-auto-2x-responsive-320.webp 320w, /images/catalogue/door-auto-2x.webp 338w"
+  },
+  "/images/catalogue/door-collapsible-2x.webp": {
+    "width": 336,
+    "height": 224,
+    "srcset": "/images/catalogue/door-collapsible-2x-responsive-320.webp 320w, /images/catalogue/door-collapsible-2x.webp 336w"
+  },
+  "/images/catalogue/door-full-2x.webp": {
+    "width": 334,
+    "height": 232,
+    "srcset": "/images/catalogue/door-full-2x-responsive-320.webp 320w, /images/catalogue/door-full-2x.webp 334w"
+  },
+  "/images/catalogue/door-half-2x.webp": {
+    "width": 336,
+    "height": 232,
+    "srcset": "/images/catalogue/door-half-2x-responsive-320.webp 320w, /images/catalogue/door-half-2x.webp 336w"
+  },
+  "/images/catalogue/door-ifd-2x.webp": {
+    "width": 338,
+    "height": 224,
+    "srcset": "/images/catalogue/door-ifd-2x-responsive-320.webp 320w, /images/catalogue/door-ifd-2x.webp 338w"
+  },
+  "/images/catalogue/door-solid-2x.webp": {
+    "width": 336,
+    "height": 232,
+    "srcset": "/images/catalogue/door-solid-2x-responsive-320.webp 320w, /images/catalogue/door-solid-2x.webp 336w"
+  },
+  "/images/catalogue/door-swing-2x.webp": {
+    "width": 334,
+    "height": 224,
+    "srcset": "/images/catalogue/door-swing-2x-responsive-320.webp 320w, /images/catalogue/door-swing-2x.webp 334w"
+  },
+  "/images/catalogue/door-telescopic-2x.webp": {
+    "width": 336,
+    "height": 224,
+    "srcset": "/images/catalogue/door-telescopic-2x-responsive-320.webp 320w, /images/catalogue/door-telescopic-2x.webp 336w"
+  },
+  "/images/catalogue/education.webp": {
+    "width": 1200,
+    "height": 800,
+    "srcset": "/images/catalogue/education-responsive-320.webp 320w, /images/catalogue/education-responsive-640.webp 640w, /images/catalogue/education-responsive-960.webp 960w, /images/catalogue/education.webp 1200w"
+  },
+  "/images/catalogue/goods.webp": {
+    "width": 960,
+    "height": 1200,
+    "srcset": "/images/catalogue/goods-responsive-320.webp 320w, /images/catalogue/goods-responsive-640.webp 640w, /images/catalogue/goods.webp 960w"
+  },
+  "/images/catalogue/healthcare.webp": {
+    "width": 1200,
+    "height": 800,
+    "srcset": "/images/catalogue/healthcare-responsive-320.webp 320w, /images/catalogue/healthcare-responsive-640.webp 640w, /images/catalogue/healthcare-responsive-960.webp 960w, /images/catalogue/healthcare.webp 1200w"
+  },
+  "/images/catalogue/home.webp": {
+    "width": 960,
+    "height": 1200,
+    "srcset": "/images/catalogue/home-responsive-320.webp 320w, /images/catalogue/home-responsive-640.webp 640w, /images/catalogue/home.webp 960w"
+  },
+  "/images/catalogue/hospital.webp": {
+    "width": 960,
+    "height": 1200,
+    "srcset": "/images/catalogue/hospital-responsive-320.webp 320w, /images/catalogue/hospital-responsive-640.webp 640w, /images/catalogue/hospital.webp 960w"
+  },
+  "/images/catalogue/hotel.webp": {
+    "width": 1200,
+    "height": 800,
+    "srcset": "/images/catalogue/hotel-responsive-320.webp 320w, /images/catalogue/hotel-responsive-640.webp 640w, /images/catalogue/hotel-responsive-960.webp 960w, /images/catalogue/hotel.webp 1200w"
+  },
+  "/images/catalogue/industrial.webp": {
+    "width": 1200,
+    "height": 800,
+    "srcset": "/images/catalogue/industrial-responsive-320.webp 320w, /images/catalogue/industrial-responsive-640.webp 640w, /images/catalogue/industrial-responsive-960.webp 960w, /images/catalogue/industrial.webp 1200w"
+  },
+  "/images/catalogue/panoramic.webp": {
+    "width": 960,
+    "height": 1200,
+    "srcset": "/images/catalogue/panoramic-responsive-320.webp 320w, /images/catalogue/panoramic-responsive-640.webp 640w, /images/catalogue/panoramic.webp 960w"
+  },
+  "/images/catalogue/passenger.webp": {
+    "width": 960,
+    "height": 1200,
+    "srcset": "/images/catalogue/passenger-responsive-320.webp 320w, /images/catalogue/passenger-responsive-640.webp 640w, /images/catalogue/passenger.webp 960w"
+  },
+  "/images/catalogue/residential.webp": {
+    "width": 1200,
+    "height": 800,
+    "srcset": "/images/catalogue/residential-responsive-320.webp 320w, /images/catalogue/residential-responsive-640.webp 640w, /images/catalogue/residential-responsive-960.webp 960w, /images/catalogue/residential.webp 1200w"
+  },
+  "/images/illustrations/hero-lobby.webp": {
+    "width": 1536,
+    "height": 1024,
+    "srcset": "/images/illustrations/hero-lobby-responsive-320.webp 320w, /images/illustrations/hero-lobby-responsive-640.webp 640w, /images/illustrations/hero-lobby-responsive-960.webp 960w, /images/illustrations/hero-lobby.webp 1536w"
+  },
+  "/images/illustrations/hero-mobile.webp": {
+    "width": 768,
+    "height": 512,
+    "srcset": "/images/illustrations/hero-mobile-responsive-320.webp 320w, /images/illustrations/hero-mobile-responsive-640.webp 640w, /images/illustrations/hero-mobile.webp 768w"
+  },
+  "/images/illustrations/hero.webp": {
+    "width": 1536,
+    "height": 1024,
+    "srcset": "/images/illustrations/hero-responsive-320.webp 320w, /images/illustrations/hero-responsive-640.webp 640w, /images/illustrations/hero-responsive-960.webp 960w, /images/illustrations/hero.webp 1536w"
+  },
+  "/images/illustrations/process-shaft.webp": {
+    "width": 1536,
+    "height": 1024,
+    "srcset": "/images/illustrations/process-shaft-responsive-320.webp 320w, /images/illustrations/process-shaft-responsive-640.webp 640w, /images/illustrations/process-shaft-responsive-960.webp 960w, /images/illustrations/process-shaft.webp 1536w"
+  },
+  "/images/illustrations/service-amc.webp": {
+    "width": 1000,
+    "height": 1500,
+    "srcset": "/images/illustrations/service-amc-responsive-320.webp 320w, /images/illustrations/service-amc-responsive-640.webp 640w, /images/illustrations/service-amc-responsive-960.webp 960w, /images/illustrations/service-amc.webp 1000w"
+  },
+  "/images/illustrations/service-installation.webp": {
+    "width": 1000,
+    "height": 1500,
+    "srcset": "/images/illustrations/service-installation-responsive-320.webp 320w, /images/illustrations/service-installation-responsive-640.webp 640w, /images/illustrations/service-installation-responsive-960.webp 960w, /images/illustrations/service-installation.webp 1000w"
+  },
+  "/images/illustrations/service-maintenance.webp": {
+    "width": 1000,
+    "height": 1500,
+    "srcset": "/images/illustrations/service-maintenance-responsive-320.webp 320w, /images/illustrations/service-maintenance-responsive-640.webp 640w, /images/illustrations/service-maintenance-responsive-960.webp 960w, /images/illustrations/service-maintenance.webp 1000w"
+  },
+  "/images/illustrations/service-modernization.webp": {
+    "width": 1000,
+    "height": 1500,
+    "srcset": "/images/illustrations/service-modernization-responsive-320.webp 320w, /images/illustrations/service-modernization-responsive-640.webp 640w, /images/illustrations/service-modernization-responsive-960.webp 960w, /images/illustrations/service-modernization.webp 1000w"
+  },
+  "/images/illustrations/showcase-atrium.webp": {
+    "width": 1536,
+    "height": 1024,
+    "srcset": "/images/illustrations/showcase-atrium-responsive-320.webp 320w, /images/illustrations/showcase-atrium-responsive-640.webp 640w, /images/illustrations/showcase-atrium-responsive-960.webp 960w, /images/illustrations/showcase-atrium.webp 1536w"
+  },
+  "/images/photos/designer-cabin-01.webp": {
+    "width": 900,
+    "height": 1200,
+    "srcset": "/images/photos/designer-cabin-01-responsive-320.webp 320w, /images/photos/designer-cabin-01-responsive-640.webp 640w, /images/photos/designer-cabin-01.webp 900w"
+  },
+  "/images/photos/designer-cabin-02.webp": {
+    "width": 900,
+    "height": 1200,
+    "srcset": "/images/photos/designer-cabin-02-responsive-320.webp 320w, /images/photos/designer-cabin-02-responsive-640.webp 640w, /images/photos/designer-cabin-02.webp 900w"
+  },
+  "/images/photos/designer-cabin-03.webp": {
+    "width": 936,
+    "height": 1200,
+    "srcset": "/images/photos/designer-cabin-03-responsive-320.webp 320w, /images/photos/designer-cabin-03-responsive-640.webp 640w, /images/photos/designer-cabin-03.webp 936w"
+  },
+  "/images/photos/designer-cabin-04.webp": {
+    "width": 600,
+    "height": 800,
+    "srcset": "/images/photos/designer-cabin-04-responsive-320.webp 320w, /images/photos/designer-cabin-04.webp 600w"
+  },
+  "/images/photos/designer-cabin-05.webp": {
+    "width": 900,
+    "height": 1200,
+    "srcset": "/images/photos/designer-cabin-05-responsive-320.webp 320w, /images/photos/designer-cabin-05-responsive-640.webp 640w, /images/photos/designer-cabin-05.webp 900w"
+  },
+  "/images/photos/designer-cabin-06.webp": {
+    "width": 900,
+    "height": 1200,
+    "srcset": "/images/photos/designer-cabin-06-responsive-320.webp 320w, /images/photos/designer-cabin-06-responsive-640.webp 640w, /images/photos/designer-cabin-06.webp 900w"
+  },
+  "/images/photos/designer-cabin-07.webp": {
+    "width": 609,
+    "height": 1200,
+    "srcset": "/images/photos/designer-cabin-07-responsive-320.webp 320w, /images/photos/designer-cabin-07.webp 609w"
+  },
+  "/images/photos/designer-cabin-08.webp": {
+    "width": 900,
+    "height": 1200,
+    "srcset": "/images/photos/designer-cabin-08-responsive-320.webp 320w, /images/photos/designer-cabin-08-responsive-640.webp 640w, /images/photos/designer-cabin-08.webp 900w"
+  },
+  "/images/photos/designer-cabin-09.webp": {
+    "width": 536,
+    "height": 1200,
+    "srcset": "/images/photos/designer-cabin-09-responsive-320.webp 320w, /images/photos/designer-cabin-09.webp 536w"
+  },
+  "/images/photos/designer-cabin-10.webp": {
+    "width": 720,
+    "height": 960,
+    "srcset": "/images/photos/designer-cabin-10-responsive-320.webp 320w, /images/photos/designer-cabin-10-responsive-640.webp 640w, /images/photos/designer-cabin-10.webp 720w"
+  },
+  "/images/photos/designer-cabin-11.webp": {
+    "width": 768,
+    "height": 1024,
+    "srcset": "/images/photos/designer-cabin-11-responsive-320.webp 320w, /images/photos/designer-cabin-11-responsive-640.webp 640w, /images/photos/designer-cabin-11.webp 768w"
+  },
+  "/images/photos/designer-cabin-12.webp": {
+    "width": 720,
+    "height": 902,
+    "srcset": "/images/photos/designer-cabin-12-responsive-320.webp 320w, /images/photos/designer-cabin-12-responsive-640.webp 640w, /images/photos/designer-cabin-12.webp 720w"
+  },
+  "/images/photos/designer-cabin-13.webp": {
+    "width": 900,
+    "height": 1200,
+    "srcset": "/images/photos/designer-cabin-13-responsive-320.webp 320w, /images/photos/designer-cabin-13-responsive-640.webp 640w, /images/photos/designer-cabin-13.webp 900w"
+  },
+  "/images/photos/designer-cabin-14.webp": {
+    "width": 446,
+    "height": 446,
+    "srcset": "/images/photos/designer-cabin-14-responsive-320.webp 320w, /images/photos/designer-cabin-14.webp 446w"
+  },
+  "/images/photos/home-lift-01.webp": {
+    "width": 561,
+    "height": 1200,
+    "srcset": "/images/photos/home-lift-01-responsive-320.webp 320w, /images/photos/home-lift-01.webp 561w"
+  },
+  "/images/photos/home-lift-02.webp": {
+    "width": 720,
+    "height": 960,
+    "srcset": "/images/photos/home-lift-02-responsive-320.webp 320w, /images/photos/home-lift-02-responsive-640.webp 640w, /images/photos/home-lift-02.webp 720w"
+  },
+  "/images/photos/home-lift-03.webp": {
+    "width": 900,
+    "height": 1200,
+    "srcset": "/images/photos/home-lift-03-responsive-320.webp 320w, /images/photos/home-lift-03-responsive-640.webp 640w, /images/photos/home-lift-03.webp 900w"
+  },
+  "/images/photos/home-lift-04.webp": {
+    "width": 900,
+    "height": 1200,
+    "srcset": "/images/photos/home-lift-04-responsive-320.webp 320w, /images/photos/home-lift-04-responsive-640.webp 640w, /images/photos/home-lift-04.webp 900w"
+  },
+  "/images/photos/home-lift-05.webp": {
+    "width": 833,
+    "height": 1100,
+    "srcset": "/images/photos/home-lift-05-responsive-320.webp 320w, /images/photos/home-lift-05-responsive-640.webp 640w, /images/photos/home-lift-05.webp 833w"
+  },
+  "/images/photos/site-work-01.webp": {
+    "width": 682,
+    "height": 1200,
+    "srcset": "/images/photos/site-work-01-responsive-320.webp 320w, /images/photos/site-work-01-responsive-640.webp 640w, /images/photos/site-work-01.webp 682w"
+  },
+  "/images/photos/site-work-02.webp": {
+    "width": 576,
+    "height": 1010,
+    "srcset": "/images/photos/site-work-02-responsive-320.webp 320w, /images/photos/site-work-02.webp 576w"
+  },
+  "/images/photos/site-work-03.webp": {
+    "width": 500,
+    "height": 365,
+    "srcset": "/images/photos/site-work-03-responsive-320.webp 320w, /images/photos/site-work-03.webp 500w"
+  },
+  "/images/photos/site-work-04.webp": {
+    "width": 720,
+    "height": 540,
+    "srcset": "/images/photos/site-work-04-responsive-320.webp 320w, /images/photos/site-work-04-responsive-640.webp 640w, /images/photos/site-work-04.webp 720w"
+  },
+  "/images/photos/site-work-05.webp": {
+    "width": 1536,
+    "height": 1156,
+    "srcset": "/images/photos/site-work-05-responsive-320.webp 320w, /images/photos/site-work-05-responsive-640.webp 640w, /images/photos/site-work-05-responsive-960.webp 960w, /images/photos/site-work-05.webp 1536w"
+  },
+  "/images/photos/steel-cabin-01.webp": {
+    "width": 900,
+    "height": 1200,
+    "srcset": "/images/photos/steel-cabin-01-responsive-320.webp 320w, /images/photos/steel-cabin-01-responsive-640.webp 640w, /images/photos/steel-cabin-01.webp 900w"
+  },
+  "/images/photos/steel-cabin-02.webp": {
+    "width": 780,
+    "height": 1040,
+    "srcset": "/images/photos/steel-cabin-02-responsive-320.webp 320w, /images/photos/steel-cabin-02-responsive-640.webp 640w, /images/photos/steel-cabin-02.webp 780w"
+  },
+  "/images/photos/steel-cabin-03.webp": {
+    "width": 720,
+    "height": 960,
+    "srcset": "/images/photos/steel-cabin-03-responsive-320.webp 320w, /images/photos/steel-cabin-03-responsive-640.webp 640w, /images/photos/steel-cabin-03.webp 720w"
+  },
+  "/images/photos/steel-cabin-04.webp": {
+    "width": 640,
+    "height": 960,
+    "srcset": "/images/photos/steel-cabin-04-responsive-320.webp 320w, /images/photos/steel-cabin-04.webp 640w"
+  },
+  "/images/photos/steel-cabin-05.webp": {
+    "width": 471,
+    "height": 650,
+    "srcset": "/images/photos/steel-cabin-05-responsive-320.webp 320w, /images/photos/steel-cabin-05.webp 471w"
+  },
+  "/images/photos/steel-cabin-06.webp": {
+    "width": 534,
+    "height": 800,
+    "srcset": "/images/photos/steel-cabin-06-responsive-320.webp 320w, /images/photos/steel-cabin-06.webp 534w"
+  },
+  "/images/photos/steel-cabin-07.webp": {
+    "width": 540,
+    "height": 720,
+    "srcset": "/images/photos/steel-cabin-07-responsive-320.webp 320w, /images/photos/steel-cabin-07.webp 540w"
+  },
+  "/images/photos/steel-cabin-08.webp": {
+    "width": 738,
+    "height": 1152,
+    "srcset": "/images/photos/steel-cabin-08-responsive-320.webp 320w, /images/photos/steel-cabin-08-responsive-640.webp 640w, /images/photos/steel-cabin-08.webp 738w"
+  }
+}

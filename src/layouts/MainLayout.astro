@@ -1,5 +1,5 @@
 ---
-import '@fontsource/manrope/latin-400.css';
+import SiteImage from '../components/SiteImage.astro';
 import '@fontsource/manrope/latin-600.css';
 import '@fontsource/manrope/latin-700.css';
 import '@fontsource/manrope/latin-800.css';
@@ -7,9 +7,13 @@ import '@fontsource/source-sans-3/latin-400.css';
 import '@fontsource/source-sans-3/latin-600.css';
 import '@fontsource/instrument-serif/latin-400-italic.css';
 import '../styles/global.css';
+import bodyFont from '@fontsource/source-sans-3/files/source-sans-3-latin-400-normal.woff2?url';
+import displayFont from '@fontsource/manrope/files/manrope-latin-800-normal.woff2?url';
 import { business, offices, primaryPhone, products, services } from '../data/site';
 import Icon from '../components/Icon.astro';
 import WhatsAppIcon from '../components/WhatsAppIcon.astro';
+import { SITE_URL } from '../data/config';
+import { release } from '../data/release';
 interface Props {
   title?: string;
   description?: string;
@@ -23,8 +27,9 @@ const {
   preload,
 } = Astro.props;
 const path = Astro.url.pathname;
-const origin = import.meta.env.PUBLIC_SITE_URL;
-const canonical = origin ? new URL(path, origin).href : undefined;
+const origin = SITE_URL;
+const pageUrl = new URL(path, origin).href;
+const canonical = noindex ? undefined : pageUrl;
 const tel = (p: string) => `tel:${p.replaceAll(' ', '')}`;
 const whatsapp = `https://wa.me/${business.whatsapp}?text=${encodeURIComponent('Hello LB Elevators, I would like to discuss a lift requirement.')}`;
 const nav = [
@@ -64,49 +69,78 @@ const active = (href: string) =>
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
+  '@id': `${origin}/#organization`,
   name: business.name,
   legalName: 'Lifts Bazar Private Limited',
   description,
   telephone: offices.flatMap((o) => o.phones),
   email: business.email,
+  logo: new URL('/images/brand/logo-color.webp', origin).href,
   address: offices.map((o) => ({
     '@type': 'PostalAddress',
     ...o.postal,
     addressCountry: 'IN',
   })),
   ...(origin
-    ? { url: origin, image: new URL('/images/hero.webp', origin).href }
+    ? { url: origin, image: new URL('/images/illustrations/hero.webp', origin).href }
     : {}),
 };
+const crumbs = [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${origin}/` }];
+if (path.startsWith('/elevators/') && path !== '/elevators/') crumbs.push({ '@type': 'ListItem', position: 2, name: 'Elevators', item: `${origin}/elevators/` });
+if (path.startsWith('/services/') && path !== '/services/') crumbs.push({ '@type': 'ListItem', position: 2, name: 'Services', item: `${origin}/services/` });
+if (path !== '/') crumbs.push({ '@type': 'ListItem', position: crumbs.length + 1, name: title, item: pageUrl });
+const graph = { '@context': 'https://schema.org', '@graph': [schema,
+  { '@type': 'WebSite', '@id': `${origin}/#website`, url: `${origin}/`, name: business.name, publisher: { '@id': `${origin}/#organization` } },
+  ...(path === '/about-us/' ? [{ '@type': 'Person', '@id': `${origin}/about-us/#binod-yadav`, name: business.director, jobTitle: 'Managing Director', worksFor: { '@id': `${origin}/#organization` } }] : []),
+  ...(path !== '/' && path !== '/404.html' ? [{ '@type': 'BreadcrumbList', itemListElement: crumbs }] : []),
+] };
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="lb-release" content={release} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#041634" />
     <title>{title} | LB Elevators</title>
     <meta name="description" content={description} />
     <meta
       name="robots"
-      content={noindex || !origin ? 'noindex, nofollow' : 'index, follow'}
+      content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}
     />
     {canonical && <link rel="canonical" href={canonical} />}
     <meta property="og:title" content={`${title} | LB Elevators`} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="LB Elevators" />
-    {canonical && (
+    {origin && (
       <>
-        <meta property="og:url" content={canonical} />
+        <meta property="og:url" content={pageUrl} />
         <meta
           property="og:image"
-          content={new URL('/images/hero.webp', origin).href}
+          content={new URL('/images/brand/og-image.png', origin).href}
         />
       </>
     )}
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="LB Elevators — a unit of Lifts Bazar Private Limited" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} | LB Elevators`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${origin}/images/brand/og-image.png`} />
+    <meta name="twitter:image:alt" content="LB Elevators logo on a navy background" />
+    <link rel="preload" href={bodyFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon-48x48.png" sizes="48x48" type="image/png" />
+    <link rel="icon" href="/favicon-96x96.png" sizes="96x96" type="image/png" />
+    <link rel="icon" href="/favicon-192x192.png" sizes="192x192" type="image/png" />
+    <link rel="icon" href="/favicon-512x512.png" sizes="512x512" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
     {preload && (
       <link
         rel="preload"
@@ -118,29 +152,11 @@ const schema = {
       />
     )}
     <script is:inline>
-      // Show the brief door-opening intro once per session, never for reduced motion.
-      try {
-        if (
-          !sessionStorage.getItem('lb-intro') &&
-          !matchMedia('(prefers-reduced-motion: reduce)').matches
-        ) {
-          document.documentElement.classList.add('has-intro');
-          sessionStorage.setItem('lb-intro', '1');
-        }
-      } catch (e) {}
       document.documentElement.classList.add('js');
     </script>
-    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(graph).replaceAll('<', '\\u003c')} />
   </head>
   <body>
-    <div class="intro" aria-hidden="true">
-      <div class="intro-door left"></div>
-      <div class="intro-door right"></div>
-      <div class="intro-core">
-        <img src="/images/logo-mark.webp" width="80" height="80" alt="" />
-        <div class="intro-floor"><span>▲</span><b data-intro-floor>G</b></div>
-      </div>
-    </div>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header" data-header>
       <div class="topbar">
@@ -176,16 +192,16 @@ const schema = {
       </div>
       <div class="wrap header-inner">
         <a class="brand" href="/" aria-label="LB Elevators home">
-          <img
+          <SiteImage
             class="brand-light"
-            src="/images/logo-light.webp"
+            src="/images/brand/logo-light.webp"
             width="220"
             height="79"
             alt=""
           />
-          <img
+          <SiteImage
             class="brand-color"
-            src="/images/logo-color.webp"
+            src="/images/brand/logo-color.webp"
             width="220"
             height="79"
             alt=""
@@ -302,8 +318,8 @@ const schema = {
       <div class="wrap footer-grid">
         <div class="footer-brand">
           <a href="/" aria-label="LB Elevators home">
-            <img
-              src="/images/logo-light.webp"
+            <SiteImage
+              src="/images/brand/logo-light.webp"
               width="220"
               height="79"
               loading="lazy"

@@ -1,4 +1,5 @@
 ---
+import SiteImage from '../../components/SiteImage.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import InnerHero from '../../components/InnerHero.astro';
 import Icon from '../../components/Icon.astro';
@@ -53,9 +54,9 @@ import { products, doors } from '../../data/site';
                 tabindex="-1"
                 aria-hidden="true"
               >
-                <img
-                  src={`/images/${p.image}.webp`}
-                  srcset={`/images/${p.image}-small.webp 420w, /images/${p.image}.webp 960w`}
+                <SiteImage
+                  src={`/images/catalogue/${p.image}.webp`}
+
                   sizes="(max-width: 1100px) 90vw, 44vw"
                   width="960"
                   height="1200"
@@ -117,8 +118,8 @@ import { products, doors } from '../../data/site';
       <div class="door-mosaic reveal">
         {
           doors.slice(0, 4).map((d) => (
-            <img
-              src={`/images/${d.image}-2x.webp`}
+            <SiteImage
+              src={`/images/catalogue/${d.image}-2x.webp`}
               width="336"
               height="232"
               loading="lazy"

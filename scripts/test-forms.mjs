@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import { fieldError } from '../src/scripts/form-validation.ts';
+const test = (overrides) => fieldError({ name: 'name', value: 'Valid', type: 'text', required: true, ...overrides }, '2026-10-31');
+assert.ok(test({ value: ' ' }));
+assert.ok(test({ value: 'A', minLength: 2 }));
+assert.ok(test({ value: 'a'.repeat(101), maxLength: 100 }));
+assert.ok(test({ name: 'email', type: 'email', value: 'x@' }));
+assert.equal(test({ name: 'email', type: 'email', value: 'visitor@example.com' }), '');
+for (const value of ['123456789', '1'.repeat(16), '1234letters567890']) assert.ok(test({ name: 'phone', value }));
+assert.equal(test({ name: 'phone', value: '+91 9679112375' }), '');
+assert.ok(test({ type: 'checkbox', checked: false }));
+assert.equal(test({ type: 'checkbox', checked: true }), '');
+assert.ok(test({ type: 'date', value: '2026-10-30' }));
+assert.equal(test({ type: 'date', value: '2026-10-31' }), '');
+assert.ok(test({ value: 'injected', allowedValues: ['Residential'] }));
+assert.equal(test({ value: '', required: false }), '');
+console.log('Form validation unit checks passed.');

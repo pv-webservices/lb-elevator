@@ -1,4 +1,5 @@
 ---
+import SiteImage from '../components/SiteImage.astro';
 import MainLayout from '../layouts/MainLayout.astro';
 import Icon from '../components/Icon.astro';
 import EnquiryForm from '../components/EnquiryForm.astro';
@@ -60,13 +61,14 @@ const appProduct = (slug: string) => products.find((p) => p.slug === slug)!;
 <MainLayout preload={{ src: hero.src, srcset: hero.srcset }}>
   <section class="hero" data-floor="Lobby" data-progress>
     <div class="hero-media">
-      <img
+      <SiteImage
         src={hero.src}
-        srcset={hero.srcset}
+
         sizes="100vw"
         width="1536"
         height="1024"
         fetchpriority="high"
+        loading="eager"
         alt={hero.alt}
       />
     </div>
@@ -106,7 +108,7 @@ const appProduct = (slug: string) => products.find((p) => p.slug === slug)!;
       </ul>
     </div>
     <div class="hero-card hero-anim" style="--i:6">
-      <img src="/images/logo-mark.webp" width="48" height="48" alt="" />
+      <SiteImage src="/images/brand/logo-mark.webp" width="48" height="48" alt="" />
       <div>
         <strong>A unit of Lifts Bazar Private Limited</strong>
         <span>Sales · Installation · Service · AMC · Modernization</span>
@@ -135,9 +137,9 @@ const appProduct = (slug: string) => products.find((p) => p.slug === slug)!;
   <section class="statement section" id="about" data-floor="About">
     <div class="wrap statement-grid">
       <div class="statement-visual reveal" data-parallax>
-        <img
+        <SiteImage
           src={aboutPhoto.src}
-          srcset={aboutPhoto.srcset}
+
           sizes="(max-width: 900px) 90vw, 34vw"
           width={aboutPhoto.w}
           height={aboutPhoto.h}
@@ -152,7 +154,7 @@ const appProduct = (slug: string) => products.find((p) => p.slug === slug)!;
       <div class="statement-copy">
         <p class="eyebrow">About LB Elevators</p>
         <p class="statement-text" data-words>
-          LB Elevators, a unit of Lifts Bazar Private Limited, is a trusted name
+          LB Elevators, a unit of Lifts Bazar Private Limited, provides lift solutions
           in vertical mobility — providing innovative, safe and reliable lift
           solutions for residential, commercial, industrial and institutional
           buildings.
@@ -209,9 +211,9 @@ const appProduct = (slug: string) => products.find((p) => p.slug === slug)!;
             data-stack-card={i}
           >
             <a class="stack-media" href={`/elevators/${p.slug}/`} tabindex="-1">
-              <img
-                src={`/images/${p.image}-small.webp`}
-                srcset={`/images/${p.image}-small.webp 420w, /images/${p.image}.webp 960w`}
+              <SiteImage
+                src={`/images/catalogue/${p.image}.webp`}
+
                 sizes="(max-width: 700px) 92vw, (max-width: 1100px) 40vw, 26vw"
                 width="960"
                 height="1200"
@@ -280,9 +282,9 @@ const appProduct = (slug: string) => products.find((p) => p.slug === slug)!;
   <section class="showcase" data-floor="Panoramic" data-progress>
     <div class="showcase-sticky">
       <div class="showcase-media">
-        <img
+        <SiteImage
           src={showcase.src}
-          srcset={showcase.srcset}
+
           sizes="100vw"
           width="1600"
           height="1067"
@@ -327,9 +329,9 @@ const appProduct = (slug: string) => products.find((p) => p.slug === slug)!;
             const m = media(s.media);
             return (
               <article class="service-panel">
-                <img
+                <SiteImage
                   src={m.src}
-                  srcset={m.srcset}
+
                   sizes="(max-width: 700px) 82vw, 420px"
                   width="600"
                   height="900"
@@ -452,8 +454,8 @@ const appProduct = (slug: string) => products.find((p) => p.slug === slug)!;
           aria-live="polite"
         >
           <div class="door-frame">
-            <img
-              src={`/images/${doors[1].image}-2x.webp`}
+            <SiteImage
+              src={`/images/catalogue/${doors[1].image}-2x.webp`}
               width="420"
               height="300"
               loading="lazy"
@@ -512,9 +514,9 @@ const appProduct = (slug: string) => products.find((p) => p.slug === slug)!;
             style={`--delay:${i * 70}ms`}
             href={`/applications/#${a.image}`}
           >
-            <img
-              src={`/images/${a.image}${i === 0 ? '' : '-small'}.webp`}
-              srcset={`/images/${a.image}-small.webp 420w, /images/${a.image}.webp 1200w`}
+            <SiteImage
+              src={`/images/catalogue/${a.image}.webp`}
+
               sizes={i === 0 ? '(max-width: 700px) 92vw, 46vw' : '(max-width: 700px) 92vw, 23vw'}
               width="1200"
               height="800"
@@ -535,10 +537,10 @@ const appProduct = (slug: string) => products.find((p) => p.slug === slug)!;
   </section>
 
   <section class="process" data-floor="Process" data-progress>
-    <img
+    <SiteImage
       class="process-bg"
       src={shaft.src}
-      srcset={shaft.srcset}
+
       sizes="100vw"
       width="1600"
       height="1067"

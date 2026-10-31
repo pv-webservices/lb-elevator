@@ -1,4 +1,5 @@
 ---
+import SiteImage from '../../components/SiteImage.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import InnerHero from '../../components/InnerHero.astro';
 import ProductCards from '../../components/ProductCards.astro';
@@ -47,9 +48,9 @@ const shortTail = words.slice(-2).join(' ');
   <section class="section" data-floor="Overview">
     <div class="wrap split">
       <div class="media-frame reveal">
-        <img
-          src={`/images/${p.image}.webp`}
-          srcset={`/images/${p.image}-small.webp 420w, /images/${p.image}.webp 960w`}
+        <SiteImage
+          src={`/images/catalogue/${p.image}.webp`}
+
           sizes="(max-width: 1100px) 90vw, 44vw"
           width="960"
           height="1200"
@@ -186,8 +187,8 @@ const shortTail = words.slice(-2).join(' ');
               style={`--delay:${i * 50}ms`}
               href="/elevator-door-types/"
             >
-              <img
-                src={`/images/${d.image}-2x.webp`}
+              <SiteImage
+                src={`/images/catalogue/${d.image}-2x.webp`}
                 width="336"
                 height="232"
                 loading="lazy"

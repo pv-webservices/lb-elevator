@@ -21,7 +21,7 @@ export const imageConfig = {
     portrait: env.OPENAI_IMAGE_SIZE_PORTRAIT || '1024x1536',
   },
   output: {
-    dir: 'public/images/gen',
+    dir: 'public/images/illustrations',
     // Responsive widths written for every generated asset (largest first).
     widths: { landscape: [1536, 900], portrait: [1000, 600], square: [1000, 600] },
     webpQuality: Number(env.IMAGE_WEBP_QUALITY || 80),

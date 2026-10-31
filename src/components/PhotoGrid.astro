@@ -1,4 +1,5 @@
 ---
+import SiteImage from './SiteImage.astro';
 // Grid of supplied photographs, optionally led by a video clip that spans two
 // rows. Each photo links to the gallery for the full set.
 import VideoClip from './VideoClip.astro';
@@ -22,9 +23,9 @@ const { photos, videoId } = Astro.props;
       style={`--delay:${i * 60}ms`}
       href="/gallery/"
     >
-      <img
-        src={p.small}
-        srcset={p.srcset}
+      <SiteImage
+        src={p.src}
+
         sizes="(max-width: 700px) 46vw, 22vw"
         width={p.w}
         height={p.h}

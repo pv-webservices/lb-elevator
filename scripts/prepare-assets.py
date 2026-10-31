@@ -1,7 +1,7 @@
 from PIL import Image
 from pathlib import Path
-p=Path('public/images'); p.mkdir(exist_ok=True)
-a=Image.open('public/image-1.jpeg')
+p=Path('source-files/brochures'); p.mkdir(exist_ok=True)
+a=Image.open('source-files/brochures/image-1.jpeg')
 boxes={
 'passenger':(802,563,931,687),'goods':(939,563,1065,687),'home':(1075,563,1201,687),'hospital':(1210,563,1337,687),'panoramic':(1346,563,1502,687),
 'about':(782,292,1210,469),

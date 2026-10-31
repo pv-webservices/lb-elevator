@@ -7,8 +7,6 @@ export interface Photo {
   category: string;
   products: string[];
   src: string;
-  small: string;
-  srcset: string;
   w: number;
   h: number;
 }
@@ -30,8 +28,6 @@ export const photos: Photo[] = manifest.photos.map((p) => ({
   category: p.category,
   products: p.products,
   src: `/images/photos/${p.id}.webp`,
-  small: `/images/photos/${p.id}-sm.webp`,
-  srcset: `/images/photos/${p.id}-sm.webp 480w, /images/photos/${p.id}.webp ${p.w}w`,
   w: p.w,
   h: p.h,
 }));

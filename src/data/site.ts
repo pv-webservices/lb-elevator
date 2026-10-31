@@ -5,7 +5,7 @@ export const business = {
   tagline: 'Leading the Way in Innovative Vertical Mobility',
   email: 'liftsbazar2025@gmail.com',
   director: 'Binod Yadav',
-  website: 'www.liftsbazar.in',
+  website: 'www.lbelevators.com',
   // WhatsApp chat uses this number unless an approved number is configured.
   whatsapp: (import.meta.env.PUBLIC_WHATSAPP_NUMBER as string) || '919679112375',
 };

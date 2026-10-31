@@ -7,7 +7,7 @@
 //   node scripts/images/generate.mjs --force         regenerate existing files
 //   node scripts/images/generate.mjs --upgrade=id    redo an asset on Sunburst
 //   node scripts/images/generate.mjs --reoptimize    rebuild WebPs from saved originals (no API calls)
-import { readFile, writeFile, mkdir, access } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, access, copyFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import sharp from 'sharp';
 import { imageConfig, routeImage } from './config.mjs';
@@ -63,18 +63,21 @@ async function generate(asset, route, key) {
 async function optimize(asset, buffer) {
   await mkdir(outDir, { recursive: true });
   // Keep the untouched original out of public/ so it is never deployed.
-  await mkdir(resolve('output/generated-originals'), { recursive: true });
-  await writeFile(resolve('output/generated-originals', `${asset.id}.png`), buffer);
-  const [large, small] = imageConfig.output.widths[asset.orientation];
+  await mkdir(resolve('source-files/generated-originals'), { recursive: true });
+  await writeFile(resolve('source-files/generated-originals', `${asset.id}.png`), buffer);
+  const [large] = imageConfig.output.widths[asset.orientation];
   const quality = imageConfig.output.webpQuality;
-  await sharp(buffer).resize({ width: large, withoutEnlargement: true }).webp({ quality }).toFile(resolve(outDir, `${asset.id}.webp`));
-  await sharp(buffer).resize({ width: small }).webp({ quality: quality - 2 }).toFile(resolve(outDir, `${asset.id}-sm.webp`));
+  const masterDir = resolve('source-files/web-masters/illustrations');
+  await mkdir(masterDir, { recursive: true });
+  const master = resolve(masterDir, `${asset.id}.webp`);
+  await sharp(buffer).resize({ width: large, withoutEnlargement: true }).webp({ quality }).toFile(master);
+  await copyFile(master, resolve(outDir, `${asset.id}.webp`));
 }
 
 if (args.reoptimize) {
   for (const asset of manifest.assets) {
     if (only && !only.has(asset.id)) continue;
-    const original = resolve('output/generated-originals', `${asset.id}.png`);
+    const original = resolve('source-files/generated-originals', `${asset.id}.png`);
     if (!(await exists(original))) continue;
     await optimize(asset, await readFile(original));
     console.log(`reoptimized ${asset.id}`);
